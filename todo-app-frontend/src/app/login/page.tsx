@@ -14,7 +14,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3001/login/', {
+      const response = await fetch('http://localhost:3002/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,38 +55,38 @@ function Login() {
   };
 
   return (
-    <section className='flex'>
+    <section className='flex bg-login-up-bg bg-cover bg-center h-screen'>
 
-      <div>
+      {/* <div>
         <Image src={loginImg} alt="Imagem da tela de login" />
-      </div>
+      </div> */}
 
       <div className='flex items-center justify-center flex-1 flex-col'>
 
-        <form className='flex flex-col items-center text-lg'>
+        <form className='flex flex-col items-center text-lg text-white bg-black rounded-2xl px-24 py-12 bg-opacity-85'>
 
           <p className='text-xl mb-3'>Bem vindo de volta!</p>
 
           <h2 className='font-semibold text-4xl mb-10'>Faça login na sua conta</h2>
 
           <label className='flex flex-col gap-3 w-full' htmlFor="email">Email:
-            <input onChange={handleEmail} value={email} className='p-4 shadow-lg bg-slate-200 outline-none mb-8 rounded-md' type="email" name="email" id="email" placeholder='example@email.com' />
+            <input onChange={handleEmail} value={email} className='p-4 shadow-lg bg-slate-200  placeholder:text-gray-500 outline-none mb-8 rounded-md' type="email" name="email" id="email" placeholder='example@email.com' />
           </label>
 
           <label className='flex flex-col gap-3 w-full' htmlFor="password">Senha:
-            <input onChange={handlePassword} value={password} className='p-4 shadow-lg bg-slate-200 outline-none mb-8 rounded-md' type="password" name="password" id="password" placeholder='your secret pass' />
+            <input onChange={handlePassword} value={password} className='p-4 shadow-lg bg-slate-200  placeholder:text-gray-500 outline-none mb-8 rounded-md' type="password" name="password" id="password" placeholder='your secret pass' />
           </label>
 
           <button onClick={handleSubmit} className='font-semibold mt-4 shadow-lg text-white hover:bg-emerald-700 transition-all bg-emerald-600 py-4 px-8 rounded-md w-full' type="button">Entrar na conta</button>
           
-        </form>
-
         <div className='flex mt-14 gap-1'>
           <p>Não tem uma conta?</p>
           <button>
             <a className='text-emerald-600' href="/register">Cadastre-se!</a>
           </button>
         </div>
+        </form>
+
 
       </div>
 
