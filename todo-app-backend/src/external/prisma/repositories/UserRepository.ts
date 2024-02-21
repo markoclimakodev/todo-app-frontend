@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { IUser } from '../../../core/interfaces/User/IUser'
 import { IUserRepository } from '../../../core/repositories/IUserRepository'
+import { IRegister } from '../../../core/interfaces/User/IRegister'
 
 export class UserRepository implements IUserRepository {
 	protected prisma : PrismaClient
@@ -16,6 +17,12 @@ export class UserRepository implements IUserRepository {
 		})
 
 		return foundUser ? foundUser : null
+	}
+
+	async registerUser ( registerData: IRegister ): Promise<void> {
+		await this.prisma.users.create({
+			data : registerData
+		})
 	}
 }
 
