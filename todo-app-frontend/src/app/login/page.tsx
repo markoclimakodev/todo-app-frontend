@@ -1,29 +1,34 @@
 'use client'
 
-import Image from 'next/image'
-import loginImg from '../../../public/loginImg.svg'
-import { ChangeEvent, FormEvent, useState } from 'react'
 import { useRouter, } from 'next/navigation'
 import { useAuth } from '@/hooks/useToken'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CreateLoginSchema, LoginSchema, initialFormValues } from '@/validations/validateLoginForm';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { saveAuth } = useAuth()
   const router = useRouter()
+  const {register, handleSubmit, formState} = useForm<CreateLoginSchema>({
+    resolver: zodResolver(LoginSchema),
+    mode: 'onSubmit',
+    defaultValues: initialFormValues
+  })
 
-  const handleLogin = async () => {
+  const handleLogin = async ({email, password}: CreateLoginSchema) => {
+    
     try {
       const response = await fetch('http://localhost:3002/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({email, password}),
       });
-
+      
       if (!response.ok) {
-        throw new Error('arrumo depois');
+        alert('Email/Password incorretos!')
+        return
       }
 
       const responseData = await response.json();
@@ -33,51 +38,56 @@ function Login() {
 
       saveAuth(token, userId);
       router.push(`/home/${userId}`);
+
     } catch (error) {
       if (error instanceof Error) {
         console.error('Error:', error.message);
-
       }
     }
   };
-
-  const handleEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await handleLogin();
-  };
-
+  
   return (
     <section className='flex bg-login-up-bg bg-cover bg-center h-screen'>
 
-      {/* <div>
-        <Image src={loginImg} alt="Imagem da tela de login" />
-      </div> */}
-
       <div className='flex items-center justify-center flex-1 flex-col'>
 
-        <form className='flex flex-col items-center text-lg text-white bg-black rounded-2xl px-24 py-12 bg-opacity-85'>
+        <form onSubmit={handleSubmit(handleLogin)} className='flex flex-col items-center text-lg text-white bg-black rounded-2xl px-24 py-12 bg-opacity-85'>
 
           <p className='text-xl mb-3'>Bem vindo de volta!</p>
 
           <h2 className='font-semibold text-4xl mb-10'>Faça login na sua conta</h2>
 
           <label className='flex flex-col gap-3 w-full' htmlFor="email">Email:
-            <input onChange={handleEmail} value={email} className='p-4 shadow-lg bg-slate-200  placeholder:text-gray-500 outline-none mb-8 rounded-md' type="email" name="email" id="email" placeholder='example@email.com' />
+            <input 
+              {...register('email')}
+              className='p-4 shadow-lg bg-slate-200  text-black placeholder:text-gray-500 outline-none rounded-md'
+              name="email" 
+              id="email"
+              placeholder='example@email.com'
+            />
           </label>
 
-          <label className='flex flex-col gap-3 w-full' htmlFor="password">Senha:
-            <input onChange={handlePassword} value={password} className='p-4 shadow-lg bg-slate-200  placeholder:text-gray-500 outline-none mb-8 rounded-md' type="password" name="password" id="password" placeholder='your secret pass' />
+          <label className='flex flex-col gap-3 w-full mt-8' htmlFor="password">Senha:
+            <input
+              {...register('password')}
+              className='p-4 shadow-lg bg-slate-200 text-black placeholder:text-gray-500 outline-none rounded-md' 
+              type="password" 
+              name="password" 
+              id="password" 
+              placeholder='your secret pass'
+            />
           </label>
 
-          <button onClick={handleSubmit} className='font-semibold mt-4 shadow-lg text-white hover:bg-emerald-700 transition-all bg-emerald-600 py-4 px-8 rounded-md w-full' type="button">Entrar na conta</button>
+          <button
+            disabled= {!formState.isValid}
+            className='font-semibold mt-12 shadow-lg text-white hover:bg-emerald-700 transition-all bg-emerald-600 py-4 px-8 rounded-md w-full disabled:bg-emerald-300 '
+            type="submit">
+            Entrar na conta
+          </button>
+
+          {formState.errors && (
+                <p className='text-sm text-red-400 mt-4'>{formState.errors.password?.message || formState.errors.email?.message}</p>
+              )}
           
         <div className='flex mt-14 gap-1'>
           <p>Não tem uma conta?</p>
@@ -86,7 +96,6 @@ function Login() {
           </button>
         </div>
         </form>
-
 
       </div>
 
