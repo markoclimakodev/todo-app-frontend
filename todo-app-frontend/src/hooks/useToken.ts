@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react"
 
-
 export const useAuth = () => {
-    const [token,setToken] = useState('')
-    const [userId,setUserId] = useState('')
+    const [token, setToken] = useState('')
+    const [userId, setUserId] = useState('')
 
-    useEffect(()=>{
+    useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        const storedUserId = localStorage.getItem('userId');
+        const storedUserId = localStorage.getItem('userID');
 
-        if(storedToken && storedUserId) {
+        if (storedToken && storedUserId) {
             setToken(storedToken)
             setUserId(storedUserId)
         }
-    },[])  
+    }, [])
 
-    const saveAuth = (newToken:string, newUserID:string) => {
+    const saveAuth = (newToken: string, newUserID: string) => {
         localStorage.setItem('token', newToken)
         localStorage.setItem('userID', newUserID)
 
@@ -31,5 +30,5 @@ export const useAuth = () => {
         setUserId('')
     }
 
-    return {token, userId,saveAuth,clearAuth}
+    return { token, userId, saveAuth, clearAuth }
 }
