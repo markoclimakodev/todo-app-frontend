@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const initialFormValues = {
+export const initialLoginFormValues = {
   email: '',
   password: ''
 }

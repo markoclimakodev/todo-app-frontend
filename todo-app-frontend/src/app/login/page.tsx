@@ -3,7 +3,7 @@ import { useRouter, } from 'next/navigation'
 import { useAuth } from '@/hooks/useToken'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateLoginSchema, LoginSchema, initialFormValues } from '@/validations/validateLoginForm';
+import { CreateLoginSchema, LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
 import { useTodoApi } from '@/hooks/useTodoApi';
 import { useEffect } from 'react';
 
@@ -13,7 +13,7 @@ function Login() {
   const { register, handleSubmit, formState } = useForm<CreateLoginSchema>({
     resolver: zodResolver(LoginSchema),
     mode: 'onSubmit',
-    defaultValues: initialFormValues
+    defaultValues: initialLoginFormValues
   })
 
   const { apiResponse, todoTask } = useTodoApi('http://localhost:3002/')
@@ -33,8 +33,6 @@ function Login() {
       endpoint: 'login',
       reqData: { email, password }, method: 'POST',
       token: '',
-      query: '',
-      value: ''
     })
   };
 
