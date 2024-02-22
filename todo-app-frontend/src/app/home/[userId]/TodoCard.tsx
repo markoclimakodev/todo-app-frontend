@@ -1,9 +1,11 @@
 import { ITodo } from "@/interface/ITodo"
-import {  MdBookmark } from "react-icons/md"
+import { MdBookmark } from "react-icons/md"
 import { useState } from "react";
 import TodoAction from "./TodoActions";
 import { actionButtons } from "./data";
 import { formatDateTime } from "@/helpers/formatDateTime";
+import { extractStringsWithPosition } from "@/helpers/extractStringsWithPosition";
+import TodoDescription from "./TodoDescription";
 
 
 interface TodoCardProps {
@@ -18,6 +20,10 @@ function TodoCard({ todo }: TodoCardProps) {
     setOpenTodo(!openTodo)
   }
 
+  const descriptionParts = extractStringsWithPosition(description)
+
+
+
   return (
     <section className="flex flex-col bg-white p-2 rounded-md py-5 px-8 gap-4 mt-5 hover:bg-blue-100 transition-all cursor-pointer" key={id} id={id} >
 
@@ -28,19 +34,18 @@ function TodoCard({ todo }: TodoCardProps) {
         </section>
         <section className="flex items-center gap-1">
           {
-            actionButtons.map((action) => <TodoAction icon={action.icon} key={action.id} id={action.id}/>)
+            actionButtons.map((action) => <TodoAction icon={action.icon} key={action.id} id={action.id} />)
           }
         </section>
 
       </section>
 
-      <section className={openTodo ? 'transition ease-out duration-300 transform flex flex-col gap-4' : 'hidden'}>
+      <section className={openTodo ? 'transition ease-out duration-300 transform flex flex-col gap-4' : 'hidden'} onClick={handleTodo}>
 
-        <p className="px-3 w-2/3 text-gray-700">{description}</p>
-
-        <footer className=" px-3 flex flex-col text-[10px] text-gray-600 text-start">
-          <span >Criado em: {formatDateTime(String(createdAt))}</span>
-          <span>Atualizado em: {formatDateTime(String(updatedAt))}</span>
+    <TodoDescription descriptionParts={descriptionParts} description={description} />
+        <footer className="px-3  pt-3 flex w-fit flex-col text-[10px] text-gray-600 text-start">
+            <span >Criado em: {formatDateTime(String(createdAt))}</span>
+            <span>Atualizado em: {formatDateTime(String(updatedAt))}</span>
         </footer>
       </section>
 
