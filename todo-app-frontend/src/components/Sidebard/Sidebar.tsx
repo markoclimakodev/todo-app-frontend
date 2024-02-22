@@ -24,11 +24,9 @@ function Sidebar() {
       <ul className='flex flex-col gap-5 w-80'>
         {todoList.map((item) => <Icons icon={item.icon} title={item.title} key={item.title} />)}
       </ul>
-
       <hr />
-
       <ul className='flex flex-col gap-5 w-80'>
-        <li className='flex justify-between items-center text-blue-500 cursor-pointer  hover:bg-blue-100 p-4 rounded-md transition-all hover:text-xl'><span className='flex gap-4 items-center'><MdAdd size={24} />Nova Lista</span><MdEditNote size={24}/></li>
+        <li className='flex justify-between items-center text-blue-500 cursor-pointer  hover:bg-blue-100 p-4 rounded-md transition-all hover:text-xl h-14'><span className='flex gap-4 items-center'><MdAdd size={24} />Nova Lista</span><MdEditNote size={24}/></li>
       </ul>
 
     </aside>

@@ -7,7 +7,7 @@ interface IconsProps {
 
 function Icons({title, icon}: IconsProps) {
   return (
-    <li className='flex gap-4 items-center cursor-pointer hover:bg-slate-100 p-4 rounded-md transition-all hover:text-xl'> {icon} {title}</li>
+    <li className='flex gap-4 items-center cursor-pointer hover:bg-slate-100 p-4 rounded-md transition-all hover:text-xl h-14'> {icon} {title}</li>
   )
 }
 
