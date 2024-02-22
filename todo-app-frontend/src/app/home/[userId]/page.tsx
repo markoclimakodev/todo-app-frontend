@@ -6,14 +6,14 @@ import { useTodoApi } from "@/hooks/useTodoApi"
 import Sidebar from "@/components/Sidebard/Sidebar"
 import TodoCard from "./TodoCard"
 import CreateTodo from "./CreateTodo"
-import { Todo } from "@/interface/ITodo"
+import { ITodo } from "@/interface/ITodo"
 import { useAuth } from "@/hooks/useToken"
 
 export default function Todos() {
     const endpoint = usePathname()
     const { apiResponse, todoTask } = useTodoApi('http://localhost:3002')
-    const [todos, setTodos] = useState<Todo[]>([])
-    const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
+    const [todos, setTodos] = useState<ITodo[]>([])
+    const [completedTodos, setCompletedTodos] = useState<ITodo[]>([])
     const { token } = useAuth()
 
     const fetchTodos = useCallback(async () => {
@@ -25,7 +25,7 @@ export default function Todos() {
             });
 
             if (apiResponse && apiResponse.data) {
-                const allTodos = apiResponse.data as Todo[];
+                const allTodos = apiResponse.data as ITodo[];
                 const pendingTodos = allTodos.filter((todo) => !todo.completed);
                 const completedTodos = allTodos.filter((todo) => todo.completed);
 

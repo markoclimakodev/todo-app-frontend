@@ -1,49 +1,48 @@
-import { Todo } from "@/interface/Todo"
-import { MdStarBorder, MdBookmark, MdEditNote } from "react-icons/md"
-import { FaRegTrashAlt } from "react-icons/fa";
+import { ITodo } from "@/interface/ITodo"
+import {  MdBookmark } from "react-icons/md"
 import { useState } from "react";
+import TodoAction from "./TodoActions";
+import { actionButtons } from "./data";
+import { formatDateTime } from "@/helpers/formatDateTime";
 
 
 interface TodoCardProps {
-  todo: Todo,
+  todo: ITodo,
 }
 
-function TodoCard({ todo}: TodoCardProps) {
+function TodoCard({ todo }: TodoCardProps) {
   const { id, title, description, createdAt, updatedAt } = todo
-  const [ openTodo, setOpenTodo] = useState(false)
+  const [openTodo, setOpenTodo] = useState(false)
 
   const handleTodo = () => {
     setOpenTodo(!openTodo)
   }
 
-
   return (
-    <section className="flex flex-col bg-white p-2 rounded-md py-5 px-8 gap-4 mt-5 hover:bg-blue-100 transition-all cursor-pointer" key={id} id={id} onClick={handleTodo}>
+    <section className="flex flex-col bg-white p-2 rounded-md py-5 px-8 gap-4 mt-5 hover:bg-blue-100 transition-all cursor-pointer" key={id} id={id} >
 
       <section className="text-lg text-gray-700 flex w-full justify-between pl-1 ">
-        <span className="flex items-center gap-4">
+        <section className="flex items-center w-full" onClick={handleTodo}>
           <MdBookmark />
-          <label className="cursor-pointer" htmlFor="selectedTask">{title}</label>
-        </span>
-        <section className="flex items-center gap-1">
-          <button>
-            <MdEditNote title="Editar Tarefa" className="cursor-pointer size-6 hover:scale-150 transition-all" color="rgb(59 130 246)" />
-          </button>
-          <button>
-            <MdStarBorder title="Adicionar à lista de importantes" className="cursor-pointer size-6 hover:scale-150 transition-all" color="rgb(59 130 246)" />
-          </button>
-          <button>
-            <FaRegTrashAlt title="Excluir Tarefa" className="cursor-pointer size-4 hover:scale-150 transition-all" color="rgb(59 130 246)" />
-          </button>
+          <span className="cursor-pointer">{title}</span>
         </section>
+        <section className="flex items-center gap-1">
+          {
+            actionButtons.map((action) => <TodoAction icon={action.icon} key={action.id} id={action.id}/>)
+          }
+        </section>
+
       </section>
 
-    <section className={openTodo ? 'transition ease-out duration-300 transform' : 'hidden'}>
- 
-          <p>{description}</p>
-      
-  
-    </section>
+      <section className={openTodo ? 'transition ease-out duration-300 transform flex flex-col gap-4' : 'hidden'}>
+
+        <p className="px-3 w-2/3 text-gray-700">{description}</p>
+
+        <footer className=" px-3 flex flex-col text-[10px] text-gray-600 text-start">
+          <span >Criado em: {formatDateTime(String(createdAt))}</span>
+          <span>Atualizado em: {formatDateTime(String(updatedAt))}</span>
+        </footer>
+      </section>
 
     </section>
   )
