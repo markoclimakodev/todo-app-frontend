@@ -1,7 +1,7 @@
 import { ICreateTodo } from "./ICreateTodo"
 import { ILogin } from "./ILogin"
 import { IRegister } from "./IRegister"
-import { Todo } from "./ITodo"
+import { ITodo } from "./ITodo"
 
 export type Method = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 export type ReqData = IRegister | ILogin | ICreateTodo
@@ -22,6 +22,6 @@ export interface LoginResponse {
 
 export interface ApiResponse {
     success: boolean;
-    data: LoginResponse | Todo[];
+    data: LoginResponse | ITodo[];
     error?: string | undefined;
 }
