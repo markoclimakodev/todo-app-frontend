@@ -17,7 +17,7 @@ const todoList = [{
 
 function Sidebar() {
   return (
-    <aside className='p-10 shadow-2xl h-screen text-gray-700 flex flex-col gap-10 text-base font-light'>
+    <aside className='p-10 shadow-2xl  text-gray-700 flex flex-col gap-10 text-base font-light'>
 
       <header><MdOutlineMenu className='cursor-pointer hover:scale-125 transition-all' size={24} /></header>
 

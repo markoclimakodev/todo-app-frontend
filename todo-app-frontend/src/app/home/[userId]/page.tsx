@@ -47,13 +47,13 @@ export default function Todos() {
 
             <Sidebar />
 
-            <section className="bg-slate-100 w-full p-5">
+            <section className="bg-slate-100 w-full p-5 h-screen overflow-auto">
 
-                <header className="flex gap-2 items-center ml-6 mt-10 mb-8 text-blue-500 font-bold text-2xl"><MdOutlineHome size={28} />Tarefas</header>
+                <header className="flex gap-2 items-center ml-6 mt-10 mb-8 text-blue-500 font-bold text-2xl  "><MdOutlineHome size={28} />Tarefas</header>
 
                 <CreateTodo />
 
-                <section className="w-full flex flex-col px-8">
+                <section className="w-full flex flex-col px-8 ">
                     {
                         todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
                     }
