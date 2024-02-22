@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useTodoApi } from "@/hooks/useTodoApi";
 import { useRouter, } from 'next/navigation'
-import { CreateRegisterSchema, RegisterSchema, initialFormValues } from "@/validations/validateRegisterForm";
+import { CreateRegisterSchema, RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signInSVG from '../../../public/sign-in.svg'
 
@@ -12,7 +12,7 @@ function Register() {
   const { register, handleSubmit, formState } = useForm<CreateRegisterSchema>({
     resolver: zodResolver(RegisterSchema),
     mode: 'onSubmit',
-    defaultValues: initialFormValues
+    defaultValues: initialRegisterFormValues
   })
   const router = useRouter()
 
