@@ -1,21 +1,22 @@
 'use client'
-import Sidebar from "@/components/Sidebard/Sidebar"
 import { usePathname } from "next/navigation"
 import { MdOutlineHome, } from "react-icons/md"
+import { useCallback, useEffect, useState } from "react"
+import { useTodoApi } from "@/hooks/useTodoApi"
+import Sidebar from "@/components/Sidebard/Sidebar"
 import TodoCard from "./TodoCard"
 import CreateTodo from "./CreateTodo"
-import { useTodoApi } from "@/hooks/useTodoApi"
-import { useCallback, useEffect, useState } from "react"
 import { Todo } from "@/interface/ITodo"
+import { useAuth } from "@/hooks/useToken"
 
 export default function Todos() {
-    const token = localStorage.getItem('token') || ''
     const endpoint = usePathname()
     const { apiResponse, todoTask } = useTodoApi('http://localhost:3002')
     const [todos, setTodos] = useState<Todo[]>([])
     const [completedTodos, setCompletedTodos] = useState<Todo[]>([])
+    const { token } = useAuth()
 
-    const fetchTodos = useCallback( async () => {
+    const fetchTodos = useCallback(async () => {
         try {
             await todoTask({
                 endpoint,
@@ -27,19 +28,19 @@ export default function Todos() {
                 const allTodos = apiResponse.data as Todo[];
                 const pendingTodos = allTodos.filter((todo) => !todo.completed);
                 const completedTodos = allTodos.filter((todo) => todo.completed);
-        
+
                 setTodos(pendingTodos);
                 setCompletedTodos(completedTodos);
             }
         } catch (error) {
             console.error("Error fetching todos:", error);
         }
-    },[apiResponse, endpoint, todoTask, token])
+    }, [apiResponse, endpoint, todoTask, token])
 
 
     useEffect(() => {
         fetchTodos();
-    }, [fetchTodos]); 
+    }, [fetchTodos]);
 
     return (
         <main className="flex">
@@ -62,9 +63,9 @@ export default function Todos() {
                     <details>
                         <summary className="list-outside ml-7 pl-2 hover:cursor-pointer">Concluídas</summary>
                         <ul>
-                        {
-                        completedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
-                    }
+                            {
+                                completedTodos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+                            }
                         </ul>
                     </details>
                 </section>
