@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useTodoApi } from "@/hooks/useTodoApi";
+import { useFetch } from "@/hooks/useTodoApi";
 import { useRouter, } from 'next/navigation'
 import { CreateRegisterSchema, RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ function Register() {
   })
   const router = useRouter()
 
-  const { todoTask } = useTodoApi('http://localhost:3002/')
+  const { todoTask } = useFetch('http://localhost:3002/')
 
   const handleRegister = async ({ name, email, password }: CreateRegisterSchema) => {
     await todoTask({

@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation"
 import { MdOutlineHome, } from "react-icons/md"
 import { useCallback, useEffect, useState } from "react"
-import { useTodoApi } from "@/hooks/useTodoApi"
+import { useFetch } from "@/hooks/useFetch"
 import Sidebar from "@/components/Sidebard/Sidebar"
 import TodoCard from "./TodoCard"
 import CreateTodo from "./CreateTodo"
@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useToken"
 
 export default function Todos() {
     const endpoint = usePathname()
-    const { apiResponse, todoTask } = useTodoApi('http://localhost:3002')
+    const { apiResponse, todoTask } = useFetch('http://localhost:3002')
     const [todos, setTodos] = useState<ITodo[]>([])
     const [completedTodos, setCompletedTodos] = useState<ITodo[]>([])
     const { token } = useAuth()

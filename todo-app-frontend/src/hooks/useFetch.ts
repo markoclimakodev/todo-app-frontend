@@ -1,7 +1,7 @@
-import { ApiResponse, TodoTaskParams } from "@/interface/UseToDoApi.type";
+import { ApiResponse, TodoTaskParams } from "@/interface/UseFetch.type";
 import { useState } from "react";
 
-export const useTodoApi = (baseUrl: string) => {
+export const useFetch = (baseUrl: string) => {
     const [apiResponse, setAPiResponse] = useState<ApiResponse>()
 
     const todoTask = async (params: TodoTaskParams) => {

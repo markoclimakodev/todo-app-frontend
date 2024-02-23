@@ -1,4 +1,4 @@
-import { useTodoApi } from "@/hooks/useTodoApi";
+import { useFetch } from "@/hooks/useFetch";
 import { useAuth } from "@/hooks/useToken";
 import { CreateSchema, CreateTodoSchema, initialCreateTodoFormValues } from "@/validations/validateCreateTodoForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,12 +13,13 @@ function CreateTodo() {
   })
   const { token, userId } = useAuth()
 
-  const { todoTask } = useTodoApi('http://localhost:3002/')
+  const { todoTask } = useFetch('http://localhost:3002/')
 
   const handleCreateTodo = async ({ title, description }: CreateTodoSchema) => {
     await todoTask({
       endpoint: `home/${userId}`,
-      reqData: { title, description }, method: 'POST',
+      reqData: { title, description }, 
+      method: 'POST',
       token,
     })
     reset()

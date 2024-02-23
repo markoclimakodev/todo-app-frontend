@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useToken'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreateLoginSchema, LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
-import { useTodoApi } from '@/hooks/useTodoApi';
+import { useFetch } from '@/hooks/useTodoApi';
 import { useEffect } from 'react';
 
 function Login() {
@@ -16,7 +16,7 @@ function Login() {
     defaultValues: initialLoginFormValues
   })
 
-  const { apiResponse, todoTask } = useTodoApi('http://localhost:3002/')
+  const { apiResponse, todoTask } = useFetch('http://localhost:3002/')
 
   useEffect(() => {
     if (apiResponse?.success && 'authResponse' in apiResponse.data) {
