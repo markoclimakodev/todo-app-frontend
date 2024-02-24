@@ -8,7 +8,7 @@ function TodoDescription({ descriptionParts, description }: TodoDescriptionParam
         <>
             {descriptionParts ? (
                 descriptionParts.map((desc, index) => (
-                    <p key={index} className="px-3 w-2/3 text-gray-700">
+                    <section key={index} className="px-3 w-2/3 text-gray-700">
                         {desc.string.includes('*') && desc.string.includes('.') ? (
                             <ul className="px-10 w-2/3 list-disc">
                                 <li className="mt-0 text-gray-700">{desc.string.replace('*', '')}</li>
@@ -16,7 +16,7 @@ function TodoDescription({ descriptionParts, description }: TodoDescriptionParam
                         ) : (
                             desc.string
                         )}
-                    </p>
+                    </section>
                 ))
             ) : (
                 <p className="px-3 w-2/3 text-gray-700">{description}</p>

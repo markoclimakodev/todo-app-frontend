@@ -8,6 +8,7 @@ import UpdateTodoModal from "./UpdateTodoModal";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useFetch } from "@/hooks/useFetch";
 import { useAuth } from "@/hooks/useToken";
+import Icon from "@/components/Icon";
 
 
 interface TodoCardProps {
@@ -48,21 +49,24 @@ function TodoCard({ todo }: TodoCardProps) {
 
       <section className="text-lg text-gray-700 flex w-full justify-between pl-1 ">
 
-        <section className="flex items-center w-full" onClick={handleOpenTodo}>
-          <MdBookmark />
+        <section className="flex items-center w-full gap-2" onClick={handleOpenTodo}>
+        <Icon iconName="Bookmark" className="fill-[#374151]" size={20}/>
+
           <span className="cursor-pointer">{title}</span>
         </section>
 
-        <section className="flex items-center gap-1">
+        <section className="flex items-center gap-2">
 
           <button onClick={handleOpenUpdateModal}>
-            <MdEditNote  title="Editar Tarefa" className="cursor-pointer size-6 hover:scale-150 transition-all" color="rgb(59 130 246)" />
+          <Icon iconName='FilePenLine' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
+
           </button>
           <button>
-            <MdStarBorder title="Adicionar à lista de importantes" color="rgb(59 130 246)" className="cursor-pointer size-6 hover:scale-150 transition-all" />
+            <Icon iconName='Star' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
           </button>
           <button onClick={handleDeleteTodo}>
-            <FaRegTrashAlt title="Excluir Tarefa"  className="cursor-pointer size-4 hover:scale-150 transition-all" color="rgb(59 130 246)" />
+          <Icon iconName='Trash2' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
+
           </button>
 
         </section>

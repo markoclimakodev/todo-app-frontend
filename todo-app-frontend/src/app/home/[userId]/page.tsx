@@ -1,6 +1,5 @@
 'use client'
 import { usePathname } from "next/navigation"
-import { MdOutlineHome, } from "react-icons/md"
 import { useCallback, useEffect, useState } from "react"
 import { useFetch } from "@/hooks/useFetch"
 import Sidebar from "@/components/Sidebard/Sidebar"
@@ -8,6 +7,7 @@ import TodoCard from "./TodoCard"
 import CreateTodo from "./CreateTodo"
 import { ITodo } from "@/interface/ITodo"
 import { useAuth } from "@/hooks/useToken"
+import Icon from "@/components/Icon"
 
 export default function Todos() {
     const endpoint = usePathname()
@@ -43,23 +43,22 @@ export default function Todos() {
     }, [fetchTodos]);
 
     return (
-        <main className="flex">
-
+        <main className="flex ">
             <Sidebar />
-
-            <section className="bg-slate-100 w-full p-5 h-screen overflow-auto">
-
-                <header className="flex gap-2 items-center ml-6 mt-10 mb-8 text-blue-500 font-bold text-2xl  "><MdOutlineHome size={28} />Tarefas</header>
+            <section className="flex flex-col bg-slate-100   w-full h-screen overflow-auto">
+                <header className="flex gap-2 items-center p-10 text-blue-500 font-bold text-2xl ">
+                    <Icon iconName="ListTodo" size={28} />Tarefas
+                </header>
 
                 <CreateTodo />
 
-                <section className="w-full flex flex-col px-8 ">
+                <section className="w-full flex flex-col p-10">
                     {
                         todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
                     }
                 </section>
 
-                <section className="p-8 text-xl font-bold text-gray-700">
+                {/* <section className="p-8 text-xl font-bold text-gray-700">
                     <details>
                         <summary className="list-outside ml-7 pl-2 hover:cursor-pointer">Concluídas</summary>
                         <ul>
@@ -68,7 +67,7 @@ export default function Todos() {
                             }
                         </ul>
                     </details>
-                </section>
+                </section> */}
 
             </section>
         </main>
