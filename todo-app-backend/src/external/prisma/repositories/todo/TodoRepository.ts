@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { ITodoRepository } from '../../../core/repositories/ITodoRepository'
-import { ITodo } from '../../../core/interfaces/Todo/ITodo'
-import { IInfoToUpdate } from '../../../core/interfaces/Todo/IInfoToUpdate'
+import { ITodoRepository } from '../../../../core/repositories/todo/ITodoRepository'
+import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
+import { IInfoToUpdate } from '../../../../core/interfaces/Todo/IInfoToUpdate'
 
 export class TodoRepository implements ITodoRepository {
 	protected prisma : PrismaClient

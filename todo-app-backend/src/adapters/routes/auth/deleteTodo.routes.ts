@@ -1,5 +1,5 @@
 import { Router , Request , Response } from 'express'
-import { todoRepository } from '../../../external/prisma/repositories/TodoRepository'
+import { todoRepository } from '../../../external/prisma/repositories/todo/TodoRepository'
 import { DeleteTodoService } from '../../../core/services/Todo/deleteTodoService'
 import { DeleteTodoController } from '../../controllers/Todo/deleteTodoController'
 

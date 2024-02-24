@@ -1,4 +1,4 @@
-import { ITodoRepository } from '../../repositories/ITodoRepository'
+import { ITodoRepository } from '../../repositories/todo/ITodoRepository'
 import { UseCase } from '../../useCases/useCase'
 
 export class DeleteTodoService implements UseCase<string , void> {

@@ -1,6 +1,6 @@
 import { PasswordHash } from '../../../utils/passwordHash'
 import { IRegister } from '../../interfaces/User/IRegister'
-import { IUserRepository } from '../../repositories/IUserRepository'
+import { IUserRepository } from '../../repositories/user/IUserRepository'
 import { UseCase } from '../../useCases/useCase'
 
 export class RegisterService implements UseCase<IRegister , void> {

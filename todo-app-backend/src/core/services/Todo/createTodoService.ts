@@ -1,5 +1,5 @@
 import { ITodo } from '../../interfaces/Todo/ITodo'
-import { ITodoRepository } from '../../repositories/ITodoRepository'
+import { ITodoRepository } from '../../repositories/todo/ITodoRepository'
 import { UseCase } from '../../useCases/useCase'
 
 export class CreateTodoService implements UseCase<ITodo , void> {

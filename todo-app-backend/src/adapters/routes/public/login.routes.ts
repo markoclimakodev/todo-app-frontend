@@ -1,7 +1,7 @@
 import { Router , Request , Response } from 'express'
 import { LoginService } from '../../../core/services/User/LoginService'
 import { LoginController } from '../../controllers/User/loginController'
-import { userRepository } from '../../../external/prisma/repositories/UserRepository'
+import { userRepository } from '../../../external/prisma/repositories/user/UserRepository'
 
 const loginRoutes = Router()
 

@@ -1,5 +1,5 @@
 import { Router , Request , Response } from 'express'
-import { userRepository } from '../../../external/prisma/repositories/UserRepository'
+import { userRepository } from '../../../external/prisma/repositories/user/UserRepository'
 import { RegisterService } from '../../../core/services/User/RegisterService'
 import { RegisterController } from '../../controllers/User/registerController'
 

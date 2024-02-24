@@ -1,5 +1,5 @@
 import { IInfoToUpdate } from '../../interfaces/Todo/IInfoToUpdate'
-import { ITodoRepository } from '../../repositories/ITodoRepository'
+import { ITodoRepository } from '../../repositories/todo/ITodoRepository'
 import { UseCase } from '../../useCases/useCase'
 
 export class UpdateTodoService implements UseCase<IInfoToUpdate , void> {

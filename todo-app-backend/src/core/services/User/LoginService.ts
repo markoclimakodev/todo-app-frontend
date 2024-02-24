@@ -2,7 +2,7 @@ import { BadRequestError } from '../../../helpers/ApiError/BadRequestError'
 import { PasswordHash } from '../../../utils/passwordHash'
 import { handleGenerator } from '../../../utils/handleToken'
 import { ILogin , ILoginResponse } from '../../interfaces/User/ILogin'
-import { IUserRepository } from '../../repositories/IUserRepository'
+import { IUserRepository } from '../../repositories/user/IUserRepository'
 import { UseCase } from '../../useCases/useCase'
 
 export class LoginService implements UseCase<ILogin , ILoginResponse | null> {
