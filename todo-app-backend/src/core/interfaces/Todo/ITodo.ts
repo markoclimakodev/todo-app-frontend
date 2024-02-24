@@ -6,4 +6,5 @@ export interface ITodo {
     createdAt : Date
     updatedAt: Date
     completed: boolean
+    categories: string
 }
