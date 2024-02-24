@@ -3,6 +3,7 @@ import { ITodoRepository } from '../../../../core/repositories/todo/ITodoReposit
 import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
 import { IGetTodo } from '../../../../core/interfaces/Todo/IGetTodo'
+import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
 
 export class TodoRepository implements ITodoRepository {
 	protected prisma : PrismaClient
@@ -10,7 +11,7 @@ export class TodoRepository implements ITodoRepository {
 		this.prisma = new PrismaClient()
 	}
 
-	async createTodo ( todoData: ITodo ): Promise<void> {
+	async createTodo ( todoData: ICreateTodo ): Promise<void> {
 		await this.prisma.todos.create({
 			data : todoData ,
 		})
@@ -21,8 +22,8 @@ export class TodoRepository implements ITodoRepository {
 
 		const todos = await this.prisma.todos.findMany({
 			where : {
-				userId     : id ,
-				categories : {
+				userId   : id ,
+				category : {
 					contains : category
 				}
 			}
