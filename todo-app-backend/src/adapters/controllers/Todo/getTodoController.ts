@@ -6,11 +6,13 @@ export class GetTodoController {
 
 	public async getTodos ( req: Request , res: Response ) {
 		const { userId } = req.body
-		const { taskType } = req.query
+		const { tasktype } = req.query
+
+		console.log( tasktype )
 
 		const todos = await this.useCase.execute({
 			userId ,
-			taskType : String( taskType )
+			tasktype : String( tasktype )
 		})
 
 		res.status( 200 ).json( todos )

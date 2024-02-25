@@ -28,15 +28,12 @@ export class TodoRepository implements ITodoRepository {
 	}
 
 	async getTodos ( params: IGetTodo ): Promise<ITodo[]> {
-		const { userId , taskType } = params
+		const { userId , tasktype } = params
 
 		const todos = await this.prisma.todos.findMany({
 			where : {
 				userId ,
-				taskType : {
-					contains : taskType ,
-					mode     : 'insensitive'
-				}
+				taskType : tasktype
 			}
 		})
 

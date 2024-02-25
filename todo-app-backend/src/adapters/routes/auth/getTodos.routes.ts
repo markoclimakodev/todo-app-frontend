@@ -7,7 +7,7 @@ const getTodosService = new GetTodoService( todoRepository )
 const getTodosController = new GetTodoController( getTodosService )
 const getTodosRoutes = Router()
 
-getTodosRoutes.get( '/tasktype' ,
+getTodosRoutes.get( '/' ,
 	( req:Request , res:Response ) => getTodosController.getTodos( req , res ) )
 
 export { getTodosRoutes }
