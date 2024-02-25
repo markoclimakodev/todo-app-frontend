@@ -28,7 +28,8 @@ model Todos {
     createdAt   DateTime @default(now()) @map(name: "created_at")
     updatedAt   DateTime @updatedAt @map(name: "updated_at")
     completed   Boolean  @default(false)
-    category  String   @default("todo")
+    important   Boolean  @default(false)
+    taskType    String   @default("todo")  @map(name: "task_type")
 
     @@map("todos")
 }
