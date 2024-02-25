@@ -9,6 +9,6 @@ router.use( '/login' , loginRoutes )
 
 router.use( '/register' , registerRoutes )
 
-router.use( '/home' , todoRoutes )
+router.use( '/todo' , todoRoutes )
 
 export default router

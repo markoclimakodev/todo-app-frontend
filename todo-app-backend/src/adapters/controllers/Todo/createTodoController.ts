@@ -5,12 +5,13 @@ export class CreateTodoController {
 	constructor ( private useCase: CreateTodoService ) {}
 
 	public async createTodo ( req: Request , res: Response ) {
-		const user = req.params
-		const todoData = req.body
+		const { title , description , taskType , userId } = req.body
 
 		await this.useCase.execute({
-			...todoData ,
-			userId : user.id
+			userId ,
+			title ,
+			description ,
+			taskType
 		})
 
 		res.status( 201 ).end()

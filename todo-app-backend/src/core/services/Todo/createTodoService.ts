@@ -1,11 +1,18 @@
-import { ITodo } from '../../interfaces/Todo/ITodo'
+import { ICreateTodo } from '../../interfaces/Todo/ICreateTodo'
 import { ITodoRepository } from '../../repositories/todo/ITodoRepository'
 import { UseCase } from '../../useCases/useCase'
 
-export class CreateTodoService implements UseCase<ITodo , void> {
+export class CreateTodoService implements UseCase<ICreateTodo , void> {
 	constructor ( private readonly todoRepository: ITodoRepository ) {}
 
-	async execute ( todoData: ITodo ): Promise<void> {
-		await this.todoRepository.createTodo( todoData )
+	async execute ( params: ICreateTodo ): Promise<void> {
+		const { userId , title , description , taskType } = params
+
+		await this.todoRepository.createTodo({
+			userId ,
+			title ,
+			description ,
+			taskType
+		})
 	}
 }

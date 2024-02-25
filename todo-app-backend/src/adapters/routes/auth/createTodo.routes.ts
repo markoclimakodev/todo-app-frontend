@@ -7,7 +7,7 @@ const createTodoService = new CreateTodoService( todoRepository )
 const createTodoController = new CreateTodoController( createTodoService )
 const createTodoRoutes = Router()
 
-createTodoRoutes.post( '/:id' ,
+createTodoRoutes.post( '/' ,
 	( req:Request , res:Response ) => createTodoController.createTodo( req , res ) )
 
 export { createTodoRoutes }

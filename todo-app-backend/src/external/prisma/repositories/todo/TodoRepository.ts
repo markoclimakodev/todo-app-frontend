@@ -10,21 +10,32 @@ export class TodoRepository implements ITodoRepository {
 	constructor () {
 		this.prisma = new PrismaClient()
 	}
+	async createTodo ( params: ICreateTodo ): Promise<void> {
+		const { userId , title , description , taskType } = params
 
-	async createTodo ( todoData: ICreateTodo ): Promise<void> {
 		await this.prisma.todos.create({
-			data : todoData ,
+			data : {
+				title ,
+				description ,
+				taskType ,
+				user : {
+					connect : {
+						id : userId ,
+					} ,
+				} ,
+			} ,
 		})
 	}
 
 	async getTodos ( params: IGetTodo ): Promise<ITodo[]> {
-		const { id , category } = params
+		const { userId , taskType } = params
 
 		const todos = await this.prisma.todos.findMany({
 			where : {
-				userId   : id ,
-				category : {
-					contains : category
+				userId ,
+				taskType : {
+					contains : taskType ,
+					mode     : 'insensitive'
 				}
 			}
 		})
@@ -33,15 +44,17 @@ export class TodoRepository implements ITodoRepository {
 	}
 
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {
-		const { id , updateInfo } = params
+		const { id , title , description , taskType } = params
 
 		await this.prisma.todos.update({
 			where : {
-				id
+				id : id
 			} ,
 			data : {
-				...updateInfo
-			}
+				title ,
+				description ,
+				taskType ,
+			} ,
 		})
 	}
 

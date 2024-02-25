@@ -1,6 +1,6 @@
-import { ICreateTodo } from './ICreateTodo'
-
 export interface IUpdateTodo {
-    updateInfo: Partial<ICreateTodo> ,
+    title: string
+    description: string
+    taskType: string
     id: string
 }

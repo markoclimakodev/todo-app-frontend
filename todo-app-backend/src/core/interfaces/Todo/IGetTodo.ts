@@ -1,4 +1,4 @@
 export interface IGetTodo {
-    id:string ,
-    category: string
+    userId:string ,
+    taskType: string
 }

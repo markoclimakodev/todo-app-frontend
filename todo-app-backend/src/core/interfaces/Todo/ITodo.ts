@@ -6,5 +6,6 @@ export interface ITodo {
     createdAt : Date
     updatedAt: Date
     completed: boolean
-    category: string
+    important: boolean
+    taskType: string
 }

@@ -8,12 +8,14 @@ import { deleteTodoRoutes } from './deleteTodo.routes'
 const todoRoutes = Router()
 const authenticateToken = AuthenticationMiddleware.authenticateToken
 
-todoRoutes.use( '/' , authenticateToken , createTodoRoutes )
+todoRoutes.use( authenticateToken )
 
-todoRoutes.use( '/' , authenticateToken , getTodosRoutes )
+todoRoutes.use( '/create' , createTodoRoutes )
 
-todoRoutes.use( '/:userId/' , authenticateToken , updateTodoRoutes )
+todoRoutes.use( '/get' , getTodosRoutes )
 
-todoRoutes.use( '/:userId/' , authenticateToken , deleteTodoRoutes )
+todoRoutes.use( '/update' , updateTodoRoutes )
+
+todoRoutes.use( '/delete' , deleteTodoRoutes )
 
 export default todoRoutes

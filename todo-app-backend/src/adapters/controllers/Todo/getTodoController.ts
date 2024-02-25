@@ -5,12 +5,12 @@ export class GetTodoController {
 	constructor ( private useCase: GetTodoService ) { }
 
 	public async getTodos ( req: Request , res: Response ) {
-		const { id } = req.params
-		const { category } = req.query
+		const { userId } = req.body
+		const { taskType } = req.query
 
 		const todos = await this.useCase.execute({
-			id ,
-			category : String( category )
+			userId ,
+			taskType : String( taskType )
 		})
 
 		res.status( 200 ).json( todos )

@@ -6,11 +6,14 @@ export class UpdateTodoController {
 
 	public async updateTodo ( req: Request , res: Response ) {
 		const { id } = req.params
-		const updateInfo = req.body
+
+		const { title , description , taskType } = req.body
 
 		await this.useCase.execute({
-			updateInfo ,
-			id
+			id ,
+			title ,
+			description ,
+			taskType ,
 		})
 
 		res.status( 204 ).end()
