@@ -1,65 +1,60 @@
 'use client'
 import NavigationLink from './NavigationLink'
 import Icon from '../Icon'
-import { useState, useCallback } from 'react'
-
-const todoList = [{
-  title: 'O Meu Dia',
-  icon: 'Sun'
-},
-{
-  title: 'Importantes',
-  icon: 'Star'
-}
-  , {
-  title: 'Tarefas',
-  icon: 'ListTodo'
-},
-{
-  title: 'Concluídas',
-  icon: 'ListChecks'
-}
-]
+import { useToggle } from '@/hooks/useToggle'
+import { useAuth } from '@/hooks/useAuth'
+import { todoListCategories } from './data/todoListCategories'
 
 function Sidebar() {
-  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false)
-
-  const handleSidebarCollapse = useCallback(() => {
-    setSidebarCollapsed(!isSidebarCollapsed)
-  }, [isSidebarCollapsed])
+  const { isOpen, toggle } = useToggle(false);
+  const {clearAuth} = useAuth()
 
   return (
-    <aside
-      className={`p-10 shadow-2xl text-gray-700 flex flex-col gap-10 text-base font-light relative transition-px duration-500 ${isSidebarCollapsed ? 'px-3' : 'px-[3%]'
-        }`}
+    <nav
+
+      className={` p-10  shadow-2xl text-gray-700 flex flex-col gap-8 text-base font-light relative transition-px duration-500 
+    ${isOpen ? 'px-1 items-center' : 'px-[3%]'}`}
+      aria-label="Main Navigation"
     >
 
-      <header className='pl-4 flex justify-between items-center'>
-        {isSidebarCollapsed ? '' : <p className='text-lg'>Minhas listas</p>}
-        <button onClick={handleSidebarCollapse} type='button'>
-          <Icon iconName={isSidebarCollapsed ? 'ChevronsRight' : 'ChevronsLeft'} size={20} className='cursor-pointer hover:scale-125 transition-all' />
+      <header className={`flex items-center ${isOpen ? '' : 'justify-between  pl-4'}`}>
+        {isOpen ? '' : <p className='text-lg'>Minhas listas</p>}
+        <button onClick={toggle} type='button'>
+          <Icon iconname={isOpen ? 'ChevronsRight' : 'ChevronsLeft'} size={20} className='cursor-pointer hover:scale-125 transition-all' />
         </button>
       </header>
 
-      <ul className={`flex flex-col gap-5  ${isSidebarCollapsed ? 'w-fit' : ' w-[200px]'
-        }`}>
-        {todoList.map((item) => <NavigationLink icoName={item.icon} title={item.title} key={item.title} isSidebarCollapsed={isSidebarCollapsed} />)}
-      </ul>
+      <nav className={`flex flex-col gap-2 ${isOpen ? 'w-fit' : ' w-[200px]'}
+        `}>
+        {todoListCategories.map((item) => <NavigationLink icoName={item.icon} title={item.title} key={item.title} isSidebarCollapsed={isOpen} />)}
+      </nav>
       <hr />
-      <ul className='flex flex-col gap-5'>
-        <li className='flex justify-between items-center text-blue-500 cursor-pointer  hover:bg-blue-100 p-4 rounded-md transition-all hover:text-xl h-14'>
-          <span className='flex gap-4 items-center'>
-            <Icon iconName='Plus' size={24} className='cursor-pointer hover:scale-125 transition-all' />
-            {isSidebarCollapsed ? '' : 'Nova Lista'}
-          </span>
-          {isSidebarCollapsed ? '' :
-            <Icon iconName='Edit' size={20} className='cursor-pointer hover:scale-125 transition-all' />
+      <section   className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit' : ' w-[200px]'}
+        `}>
 
-          }
-        </li>
-      </ul>
+      <button className='flex gap-4 text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
+        <Icon iconname='Plus' size={24} className='transition-all' />
 
-    </aside>
+        <span className='hover:text-xl transition-all'>
+          {isOpen ? '' : 'Nova Lista'}
+        </span>
+
+      </button>
+
+      <button className='flex gap-4  hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '
+      onClick={clearAuth}
+      >
+        <Icon iconname='LogOut' size={24} className='transition-all' />
+
+        <span className='hover:text-xl transition-all'>
+          {isOpen ? '' : 'Sair'}
+        </span>
+
+      </button>
+      
+      </section>
+  
+    </nav>
   )
 }
 
