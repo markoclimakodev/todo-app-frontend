@@ -5,9 +5,7 @@ export class UpdateTodoController {
 	constructor ( private useCase: UpdateTodoService ) {}
 
 	public async updateTodo ( req: Request , res: Response ) {
-		const { id } = req.params
-
-		const { title , description , taskType } = req.body
+		const { title , description , taskType , id } = req.body
 
 		await this.useCase.execute({
 			id ,

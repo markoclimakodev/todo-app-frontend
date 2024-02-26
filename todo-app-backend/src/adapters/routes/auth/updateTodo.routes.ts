@@ -7,7 +7,7 @@ const updateTodoService = new UpdateTodoService( todoRepository )
 const updateTodoController = new UpdateTodoController( updateTodoService )
 const updateTodoRoutes = Router()
 
-updateTodoRoutes.patch( '/:id' ,
+updateTodoRoutes.patch( '/' ,
 	( req:Request , res:Response ) => updateTodoController.updateTodo( req , res ) )
 
 export { updateTodoRoutes }

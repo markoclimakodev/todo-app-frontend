@@ -7,7 +7,7 @@ const deleteTodoService = new DeleteTodoService( todoRepository )
 const deleteTodoController = new DeleteTodoController( deleteTodoService )
 const deleteTodoRoutes = Router()
 
-deleteTodoRoutes.delete( '/:id' ,
+deleteTodoRoutes.delete( '/' ,
 	( req:Request , res:Response ) => deleteTodoController.deleteTodo( req , res ) )
 
 export { deleteTodoRoutes }

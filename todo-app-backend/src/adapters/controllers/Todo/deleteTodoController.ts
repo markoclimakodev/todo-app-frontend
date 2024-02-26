@@ -5,7 +5,7 @@ export class DeleteTodoController {
 	constructor ( private useCase: DeleteTodoService ) {}
 
 	public async deleteTodo ( req: Request , res: Response ) {
-		const { id } = req.params
+		const { id } = req.body
 
 		await this.useCase.execute( id )
 
