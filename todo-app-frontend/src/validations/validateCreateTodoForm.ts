@@ -2,12 +2,13 @@ import { z } from 'zod'
 
 export const initialCreateTodoFormValues = {
     title: '',
-    description: ''
+    description: '',
+    taskType: 'casa'
 }
 
-export const CreateSchema = z.object({
+export const CreateTodoSchema = z.object({
     title: z.string().min(4),
     description: z.string().min(8),
+    taskType: z.string(),
+    userId: z.string()
 })
-
-export type CreateTodoSchema = z.infer<typeof CreateSchema>

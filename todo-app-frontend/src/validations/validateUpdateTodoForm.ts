@@ -5,9 +5,8 @@ export const initialUpdateTodoFormValues = {
     description: ''
 }
 
-export const UpdateSchema = z.object({
+export const UpdateTodoSchema = z.object({
     title: z.string().min(4),
     description: z.string().min(8),
+    taskType: z.string()
 })
-
-export type UpdateTodoSchema = z.infer<typeof UpdateSchema>
