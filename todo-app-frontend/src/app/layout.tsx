@@ -9,10 +9,12 @@ export const metadata: Metadata = {
   description: "Welcome to your best Todo List",
 };
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-      <body className={archivo.className}>{children}</body>
+      <body className={archivo.className}>
+          {children}
+      </body>
     </html>
   );
 }

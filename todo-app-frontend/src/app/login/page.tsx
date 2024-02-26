@@ -1,37 +1,37 @@
 'use client'
-import { useRouter, } from 'next/navigation'
-import { useAuth } from '@/hooks/useToken'
+import { useAuth } from '@/hooks/useAuth'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreateLoginSchema, LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
-import { useFetch } from '@/hooks/useFetch';
 import { useEffect } from 'react';
+import { useFetch } from '@/hooks/useFetch';
+import { ILogin } from '@/interface/ILogin';
+import { LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
 
 function Login() {
   const { saveAuth } = useAuth()
-  const router = useRouter()
-  const { register, handleSubmit, formState } = useForm<CreateLoginSchema>({
+  const { register, handleSubmit, formState } = useForm<ILogin>({
     resolver: zodResolver(LoginSchema),
     mode: 'onSubmit',
     defaultValues: initialLoginFormValues
   })
 
-  const { apiResponse, todoTask } = useFetch('http://localhost:3002/')
+  const { apiData, createRequest } = useFetch()
 
   useEffect(() => {
-    if (apiResponse?.success && 'authResponse' in apiResponse.data) {
-      const { data } = apiResponse;
-          const { authResponse } = data;
-          const { token, userId } = authResponse;
-          saveAuth(token, userId);
-          router.push(`/home/${userId}`);
+    if (apiData?.data && 'authResponse' in apiData.data) {
+      const { data } = apiData;
+      const { authResponse } = data;
+      const { token, userId } = authResponse;
+      saveAuth(token, userId);
     }
-  }, [apiResponse,router,saveAuth]); 
+  }, [apiData, saveAuth]);
 
-  const handleLogin = async ({ email, password }: CreateLoginSchema) => {
-    await todoTask({
+  const handleLogin = async ({ email, password }: ILogin) => {
+    await createRequest({
+      baseUrl: 'http://localhost:3002/',
       endpoint: 'login',
-      reqData: { email, password }, method: 'POST',
+      resquestData: { email, password },
+      method: 'POST',
       token: '',
     })
   };
