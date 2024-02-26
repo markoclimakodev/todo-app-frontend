@@ -1,34 +1,38 @@
-import { ApiResponse, TodoTaskParams } from "@/interface/UseFetch.type";
-import { useState } from "react";
+import { ApiResponse, FetchRequestOptions, UseFetchHookReturnType } from '@/interface/hooks/UseFetch.types';
+import { useState } from 'react';
 
-export const useFetch = (baseUrl: string) => {
-    const [apiResponse, setAPiResponse] = useState<ApiResponse>()
 
-    const todoTask = async (params: TodoTaskParams) => {
-        const { endpoint, method, token, reqData } = params
+
+export const useFetch = (): UseFetchHookReturnType => {
+    const [apiData, setApiData] = useState<ApiResponse>()
+    const createRequest = async (options: FetchRequestOptions) => {
+        const { baseUrl, method, endpoint, token, resquestData = {}, queryValue = "" } = options
+        const fullEndpoint = method === 'GET' ? `${baseUrl}${endpoint}${queryValue}` : `${baseUrl}${endpoint}`;
 
         try {
-            const response = await fetch(`${baseUrl}${endpoint}`, {
+            const response = await fetch(fullEndpoint, {
                 method,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: method !== 'GET' && reqData ? JSON.stringify(reqData) : undefined,
-            });
+                body: method !== "GET" && resquestData ? JSON.stringify(resquestData) : undefined,
 
-            if (!response.ok) {
-                throw new Error("Erro");
-            }
-            const fetchedData = await response.json();
-            const apiData: ApiResponse = { success: true, data: fetchedData, error: undefined }
-            setAPiResponse(apiData)
-        } catch (error) {
-            if (error instanceof Error) {
-                return { success: false, data: undefined, error: error.message };
-            }
+            })
+
+            if(!response.ok) throw new Error('API request failed!')
+
+            const data = await response.json()
+            setApiData({success: true,data,error: undefined})
+
         }
-    };
+        catch (error) {
+            if(error instanceof Error) setApiData({success: false, data: undefined, error: error.message})
+        }
 
-    return { apiResponse, todoTask }
+    }
+
+
+    return {apiData, createRequest}
+
 }
