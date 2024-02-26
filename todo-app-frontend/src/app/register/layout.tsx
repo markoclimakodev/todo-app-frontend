@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import Transition from "../transition";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['300', '400', '500', '700', '900'] });
 
@@ -15,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <Transition>
+        {children}
+        </Transition>
+        </body>
     </html>
   );
 }

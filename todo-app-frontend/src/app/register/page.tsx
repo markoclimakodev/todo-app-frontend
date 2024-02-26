@@ -1,29 +1,33 @@
 'use client'
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useFetch } from "@/hooks/useFetch";
-import { useRouter, } from 'next/navigation'
-import { CreateRegisterSchema, RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
+import {  RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signInSVG from '../../../public/sign-in.svg'
+import { useFetch } from "@/hooks/useFetch";
+import useNavigateTo from "@/hooks/useNavigateTo";
+import { IRegister } from "@/interface/IRegister";
 
 
 function Register() {
-  const { register, handleSubmit, formState } = useForm<CreateRegisterSchema>({
+  const { register, handleSubmit, formState } = useForm<IRegister>({
     resolver: zodResolver(RegisterSchema),
     mode: 'onSubmit',
     defaultValues: initialRegisterFormValues
   })
-  const router = useRouter()
+  const navigateTo = useNavigateTo();
 
-  const { todoTask } = useFetch('http://localhost:3002/')
 
-  const handleRegister = async ({ name, email, password }: CreateRegisterSchema) => {
-    await todoTask({
+  const { createRequest } = useFetch()
+
+  const handleRegister = async ({ name, email, password }: IRegister) => {
+    await createRequest({
+      baseUrl: 'http://localhost:3002/',
       endpoint: 'register',
-      reqData: { name, email, password }, method: 'POST',
+      resquestData: { name, email, password },
+      method: 'POST',
     })
-    router.push(`/login`);
+    navigateTo(`/login`);
   };
 
   return (
