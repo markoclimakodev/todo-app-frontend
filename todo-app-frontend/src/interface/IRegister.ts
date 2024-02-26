@@ -1,5 +1,3 @@
-export interface IRegister {
-    name: string
-    email:string
-    password: string
-}
+import { RegisterSchema } from "@/validations/validateRegisterForm";
+
+export type IRegister = Zod.infer<typeof RegisterSchema>
