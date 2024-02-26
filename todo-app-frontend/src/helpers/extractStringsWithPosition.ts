@@ -3,14 +3,15 @@ export const extractStringsWithPosition = (description: string) => {
         return null;
     }
 
-    const regex = /(\*[^.]*\.|\S+)/g;
-    const matches = description.match(regex);
+    const parts = description.split('*');
 
-    if (matches) {
-        const result = matches.map((match, index) => ({
+    const result = parts
+        .map((part, index) => ({
             position: index,
-            string: match.trim(),
-        }));
-        return result
-    }
+            string: (index > 0) ? `*${part.trim()}` : part.trim(),
+        }))
+        .filter(item => item.string !== '')
+        .sort((a, b) => a.position - b.position);
+
+    return result;
 };
