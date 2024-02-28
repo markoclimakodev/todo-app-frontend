@@ -19,6 +19,8 @@ CREATE TABLE "todos" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
+    "important" BOOLEAN NOT NULL DEFAULT false,
+    "task_type" TEXT NOT NULL DEFAULT 'todo',
 
     CONSTRAINT "todos_pkey" PRIMARY KEY ("id")
 );

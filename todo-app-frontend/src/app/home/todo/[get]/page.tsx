@@ -58,7 +58,7 @@ function Todos() {
 
 
     useEffect(() => {
-        fetchTodos();
+        // fetchTodos();
     }, [fetchTodos]);
 
     const icon = todoCategoryIcons[capitalizeTaskTypeLetter(String(search))] as IconNames
