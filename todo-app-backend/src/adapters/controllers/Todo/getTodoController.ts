@@ -8,8 +8,6 @@ export class GetTodoController {
 		const { userId } = req.body
 		const { tasktype } = req.query
 
-		console.log( tasktype )
-
 		const todos = await this.useCase.execute({
 			userId ,
 			tasktype : String( tasktype )
