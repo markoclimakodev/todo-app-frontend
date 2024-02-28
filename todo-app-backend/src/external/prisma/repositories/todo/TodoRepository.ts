@@ -4,6 +4,7 @@ import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
 import { IGetTodo } from '../../../../core/interfaces/Todo/IGetTodo'
 import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
+import { getTodosQueryHelper } from '../../helpers/queryHelper'
 
 export class TodoRepository implements ITodoRepository {
 	protected prisma : PrismaClient
@@ -30,11 +31,10 @@ export class TodoRepository implements ITodoRepository {
 	async getTodos ( params: IGetTodo ): Promise<ITodo[]> {
 		const { userId , tasktype } = params
 
+		const query = getTodosQueryHelper( userId , tasktype )
+
 		const todos = await this.prisma.todos.findMany({
-			where : {
-				userId ,
-				taskType : tasktype
-			}
+			where : query ,
 		})
 
 		return todos
