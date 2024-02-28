@@ -44,19 +44,21 @@ function Todos() {
                         queryValue: search as QueryValueType
                     })
     
-                    if(apiData?.data) {
-                        setTodos(apiData.data as ITodo[])
-                    }
                 }
-    
             } catch (error) {
                 console.error("Error fetching todos:", error);
             } 
-    
         }
         fetchTodos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [  search, token, userId ]);
+    }, [createRequest, search, token, userId]);
+    
+    useEffect(() => {
+        if (apiData?.data) {
+            setTodos(apiData.data as ITodo[]);
+        }
+    }, [apiData?.data]);
+    
+    
 
     const icon = todoCategoryIcons[capitalizeTaskTypeLetter(String(search))] as IconNames
 
