@@ -23,7 +23,7 @@ function Todos() {
 
     const search = searchParams.get('tasktype')
 
-    const { apiData, createRequest } = useFetch()
+    const { apiData, createRequest, } = useFetch()
 
     const [todos, setTodos] = useState<ITodo[]>([])
 
@@ -31,35 +31,32 @@ function Todos() {
 
     const { isOpen, toggle } = useToggle(false);
 
-
-    const fetchTodos = useCallback(async () => {
-        try {
-            if (search !== null) {
-                await createRequest({
-                    baseUrl: 'http://localhost:3002/',
-                    endpoint: 'todo/get?tasktype=',
-                    method: 'GET',
-                    resquestData: {userId},
-                    token,
-                    queryValue: search as QueryValueType
-                })
-            }
-
-            if (apiData && apiData.data) {
-                const allTodos = apiData.data as ITodo[];
-                const pendingTodos = allTodos.filter((todo) => !todo.completed);
-
-                setTodos(pendingTodos);
-            }
-        } catch (error) {
-            console.error("Error fetching todos:", error);
-        }
-    }, [apiData, createRequest, search, token, userId])
-
-
     useEffect(() => {
-        // fetchTodos();
-    }, [fetchTodos]);
+        const fetchTodos = async () => {
+            try {
+                if (search !== null) {
+                    await createRequest({
+                        baseUrl: 'http://localhost:3002/',
+                        endpoint: 'todo/get?tasktype=',
+                        method: 'GET',
+                        resquestData: {userId},
+                        token,
+                        queryValue: search as QueryValueType
+                    })
+    
+                    if(apiData?.data) {
+                        setTodos(apiData.data as ITodo[])
+                    }
+                }
+    
+            } catch (error) {
+                console.error("Error fetching todos:", error);
+            } 
+    
+        }
+        fetchTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [  search, token, userId ]);
 
     const icon = todoCategoryIcons[capitalizeTaskTypeLetter(String(search))] as IconNames
 

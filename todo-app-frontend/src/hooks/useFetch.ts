@@ -1,11 +1,12 @@
 import { ApiResponse, FetchRequestOptions, UseFetchHookReturnType } from '@/interface/hooks/UseFetch.types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 
 
 export const useFetch = (): UseFetchHookReturnType => {
     const [apiData, setApiData] = useState<ApiResponse>()
-    const createRequest = async (options: FetchRequestOptions) => {
+    
+    const createRequest = useCallback(async (options: FetchRequestOptions) => {
         const { baseUrl, method, endpoint, token, resquestData = {}, queryValue = "" } = options
         const fullEndpoint = method === 'GET' ? `${baseUrl}${endpoint}${queryValue}` : `${baseUrl}${endpoint}`;
 
@@ -27,11 +28,10 @@ export const useFetch = (): UseFetchHookReturnType => {
 
         }
         catch (error) {
-            if(error instanceof Error) setApiData({success: false, data: undefined, error: error.message})
+            if(error instanceof Error) setApiData({success: false, data: [], error: error.message})
         }
 
-    }
-
+    },[])
 
     return {apiData, createRequest}
 
