@@ -1,9 +1,8 @@
 import { Router } from 'express'
 import { loginRoutes } from './public/login.routes'
-import todoRoutes from './auth'
+import todoRoutes from './auth/todo'
 import { registerRoutes } from './public/register.routes'
-import { taskListRoutes } from './auth/createTaskList.routes'
-import { getTaskListRoutes } from './auth/getTaskList.routes'
+import taskListRoutes from './auth/user'
 
 const router = Router()
 
@@ -14,7 +13,5 @@ router.use( '/register' , registerRoutes )
 router.use( '/todo' , todoRoutes )
 
 router.use( '/tasklist' , taskListRoutes )
-
-router.use( '/gettasklist' , getTaskListRoutes )
 
 export default router
