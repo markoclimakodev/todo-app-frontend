@@ -8,8 +8,8 @@ const authenticateToken = AuthenticationMiddleware.authenticateToken
 
 taskListRoutes.use( authenticateToken )
 
-taskListRoutes.use( '/' , createTaskListRoutes )
+taskListRoutes.use( '/create' , createTaskListRoutes )
 
-taskListRoutes.use( '/' , getTaskListRoutes )
+taskListRoutes.use( '/get' , getTaskListRoutes )
 
 export default taskListRoutes
