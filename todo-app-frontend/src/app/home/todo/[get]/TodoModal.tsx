@@ -1,19 +1,19 @@
 'use client'
+
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFetch } from "@/hooks/useFetch"
 import { useAuth } from "@/hooks/useAuth"
 
 import { UpdateTodoSchema, initialUpdateTodoFormValues } from "@/validations/validateUpdateTodoForm"
-import { categories } from "./data/categories"
 import { ModalProps } from "@/interface/todo/IModal"
 import { IUpdateTodo } from "@/interface/todo/IUpdateTodo"
+import { useGetTaskList } from "@/hooks/useGetTaskList"
 
-function TodoModal({  id, openModal,closeModal,modalType,userId }: ModalProps) {
-  const { token } = useAuth()
-  
+function TodoModal({  id, openModal,closeModal,modalType }: ModalProps) {
+  const { token, userId  } = useAuth()
   const { createRequest } = useFetch()
-
+  const { taskList } = useGetTaskList()
   const { register, handleSubmit, reset } = useForm<IUpdateTodo>({
     resolver: zodResolver(UpdateTodoSchema),
     mode: 'onSubmit',
@@ -64,7 +64,7 @@ function TodoModal({  id, openModal,closeModal,modalType,userId }: ModalProps) {
         <select {...register("taskType")} className="rounded-md p-2 bg-white text-lg font-bold border-0 text-blue-500 outline-none" id="categories">
           <option value=""
           >Selecione uma categoria</option>
-          {categories.map((category) => (
+          {taskList.map((category) => (
             <option key={category} value={category}>
               {category}
             </option>
