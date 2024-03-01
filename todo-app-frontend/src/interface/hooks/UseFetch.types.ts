@@ -20,9 +20,9 @@ export interface ApiResponse {
     error?: string | undefined;
 }
 
-export type EndpoitsType = 'login' | 'register' | 'todo/get?tasktype=' | 'todo/create' | 'todo/update/' | 'todo/delete/'
+export type EndpoitsType = 'login' | 'register' | 'todo/get?tasktype=' | 'todo/create' | 'todo/update/' | 'todo/delete/' | 'tasklist/get' | 'tasklist/create'
 export type RequestDataType = IRegister | ILogin | ICreateTodo | IUpdateTodo | IDeleteTodo | IGetTodo
-export type QueryValueType = 'all' | 'casa' | 'compras' | 'criativo' | 'estudos' | 'financeiro' | 'hobbies' | 'outros' | 'pessoal' | 'profissional' | 'relacionamentos' | 'saúde e bem-estar' | 'viagens'
+export type QueryValueType = string
 export type MethodType = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 
 export type FetchRequestOptions = {
