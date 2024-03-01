@@ -55,7 +55,7 @@ export class UserRepository implements IUserRepository {
 				id : userId ,
 			} ,
 			data : {
-				taskLists : [ ...( getTaskList?.taskLists ?? [] ) , name ] ,
+				taskLists : [ ...( getTaskList?.taskLists ?? [] ) , name.toLowerCase() ] ,
 			} ,
 		})
 	}
