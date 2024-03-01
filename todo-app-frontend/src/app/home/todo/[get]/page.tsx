@@ -29,7 +29,7 @@ function Todos() {
 
     const { token,userId } = useAuth()
 
-    const { isOpen, toggle } = useToggle(false);
+    const  [ isOpen, toggle ]  = useToggle(false);
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -65,7 +65,7 @@ function Todos() {
     return (
         <>
             <header className="flex gap-3 items-center p-10 text-blue-500 font-bold text-2xl ">
-                <Icon iconname={icon } size={28} />{capitalizeTaskTypeLetter(String(search))}
+                <Icon iconname={icon || 'BookmarkCheck' } size={28} />{capitalizeTaskTypeLetter(String(search))}
                 <button 
                 className="flex font-light bg-blue-400 transition-all rounded-md text-white hover:bg-blue-500 " 
                 onClick={toggle}>
