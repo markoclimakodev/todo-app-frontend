@@ -4,6 +4,7 @@ export const todoListCategories: Record<string, string> = {
   "profissional": "Briefcase",
   "estudos": "GraduationCap",
   "concluídas": "CheckSquare",
+  "casa": "Home",
   "financeiro": "CircleDollarSign",
   "hobbies": "Laugh",
   "outros": "Shapes",

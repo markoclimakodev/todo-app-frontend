@@ -10,17 +10,32 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { ICreateTask } from '@/interface/task/ICreateTask'
 import { TaskSchema,initialCreateTaskValues } from '@/validations/validateCreateTask'
+import { useFetch } from '@/hooks/useFetch'
+import { useEffect } from 'react'
 
 function Sidebar() {
   const [isOpen, toggle] = useToggle(false);
   const [openCreateTask, toggleCreateTask] = useToggle(false);
-  const { clearAuth } = useAuth()
+  const { clearAuth, userId, token } = useAuth()
+  const { createRequest } = useFetch()
   const { taskList } = useGetTaskList()
-  const { register, handleSubmit, formState } = useForm<ICreateTask>({
+  const { register, handleSubmit } = useForm<ICreateTask>({
     resolver: zodResolver(TaskSchema),
     mode: 'onSubmit',
     defaultValues: initialCreateTaskValues
   })
+
+  const handleSubmitCreateTask = async ({name}: ICreateTask) => {
+    await createRequest({
+      baseUrl: 'http://localhost:3002/',
+      endpoint: 'tasklist/create',
+      method: 'PATCH',
+      resquestData: {name, userId},
+      token
+    })
+    toggleCreateTask()
+    window.location.reload()
+  }
 
   return (
     <nav
@@ -36,17 +51,24 @@ function Sidebar() {
         </button>
       </header>
 
-      <nav className={`flex flex-col gap-2 ${isOpen ? 'w-fit' : ' w-[200px]'}`}>
+      <nav className={`flex flex-col gap-2 max-h-[376px] overflow-auto ${isOpen ? 'w-fit overflow-hidden' : ' w-[200px]'}`}>
         {taskList.map((item) => <NavigationLink icoName={handleTaskListIcons(item)} title={item} key={item} isSidebarCollapsed={isOpen} />)}
       </nav>
       <hr />
       <section   className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit' : ' w-[200px]'}`}>
 
       {openCreateTask ? (
-        <form>
+        <form onSubmit={handleSubmit(handleSubmitCreateTask)}>
           <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
-          <input placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md'  type="text" id="task" />
-          <Icon iconname='Plus' size={24} className='transition-all cursor-pointer stroke-blue-500' />
+          <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md'  type="text" id="task" />
+          <div className='flex flex-col items-center gap-1'>
+            <button type='submit'>
+              <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
+            </button>
+            <button onClick={toggleCreateTask} type="button">
+              <Icon iconname='Ban' size={12} className='transition-all cursor-pointer stroke-red-500 hover:scale-125' />
+            </button>
+          </div>
           </label>
         </form>
       ): (
