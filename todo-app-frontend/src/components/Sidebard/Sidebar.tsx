@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form'
 import { ICreateTask } from '@/interface/task/ICreateTask'
 import { TaskSchema,initialCreateTaskValues } from '@/validations/validateCreateTask'
 import { useFetch } from '@/hooks/useFetch'
-import { useEffect } from 'react'
+import { capitalizeTaskTypeLetter } from '@/helpers/capitalizeFirstLetter'
 
 function Sidebar() {
   const [isOpen, toggle] = useToggle(false);
@@ -30,7 +30,7 @@ function Sidebar() {
       baseUrl: 'http://localhost:3002/',
       endpoint: 'tasklist/create',
       method: 'PATCH',
-      resquestData: {name, userId},
+      resquestData: {name: capitalizeTaskTypeLetter(name), userId},
       token
     })
     toggleCreateTask()
