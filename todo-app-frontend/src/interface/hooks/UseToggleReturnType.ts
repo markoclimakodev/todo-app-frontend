@@ -1,4 +1,4 @@
-export type UseToggleReturnType = {
-    isOpen: boolean;
-    toggle: () => void;
-};
+export type UseToggleReturnType = [
+    isOpen: boolean,
+    toggle: () => void,
+];

@@ -19,9 +19,9 @@ import { ITodoCardProps } from '@/interface/todo/ITodoCardProps';
 export function TodoCard({ todo }: ITodoCardProps) {
   const { id, title, description, createdAt, updatedAt } = todo
 
-  const [openTodo, setOpenTodo] = useState(false)
+  const [ openTodo, setOpenTodo ] = useState(false)
 
-  const { isOpen, toggle } = useToggle(false);
+  const [ isOpen, toggle ]  = useToggle(false);
 
   const { token } = useAuth()
 

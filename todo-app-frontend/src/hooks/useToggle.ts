@@ -8,10 +8,10 @@ export const useToggle = (initialState: boolean = false): UseToggleReturnType =>
         setIsOpen((prevIsOpen) => !prevIsOpen);
     }, []);
 
-    return {
+    return [
         isOpen,
         toggle,
-    };
+    ];
 };
 
 
