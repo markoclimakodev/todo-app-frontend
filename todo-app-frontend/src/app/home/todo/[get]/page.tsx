@@ -15,8 +15,8 @@ import { useSearchParams } from 'next/navigation';
 import { ITodo } from '@/interface/todo/ITodo';
 import { QueryValueType } from '@/interface/hooks/UseFetch.types';
 
-import { todoCategoryIcons } from './data/todoCategoryIcons';
 import TodoModal from './TodoModal';
+import { handleTaskListIcons } from '@/helpers/handleTaskListIcons';
 
 function Todos() {
     const searchParams = useSearchParams()
@@ -60,7 +60,7 @@ function Todos() {
     
     
 
-    const icon = todoCategoryIcons[capitalizeTaskTypeLetter(String(search))] as IconNames
+    const icon = handleTaskListIcons(String(search)) as IconNames
 
     return (
         <>
