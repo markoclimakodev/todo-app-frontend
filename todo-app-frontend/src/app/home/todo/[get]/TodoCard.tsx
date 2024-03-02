@@ -14,6 +14,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToggle } from '@/hooks/useToggle';
 import { motion } from 'framer-motion'
 import { ITodoCardProps } from '@/interface/todo/ITodoCardProps';
+import Transition from '@/app/transition';
 
 
 export function TodoCard({ todo }: ITodoCardProps) {
@@ -44,10 +45,9 @@ export function TodoCard({ todo }: ITodoCardProps) {
   const descriptionParts = extractStringsWithPosition(description)
 
   return (
-    <motion.section
-    initial={{y: 20, opacity: 0}}
-    animate={{y: 0, opacity: 1}}
-    transition={{ease: 'easeInOut', duration: 0.35, delay: 0.35}}
+    <Transition>
+
+    <section
     className="flex flex-col bg-white p-2 rounded-md py-5 px-8 gap-4 mt-5 hover:bg-blue-100 transition-all cursor-pointer" key={id} id={id} >
 
       < TodoModal id={id} openModal={isOpen} closeModal={toggle} modalType='update'/>
@@ -87,7 +87,9 @@ export function TodoCard({ todo }: ITodoCardProps) {
         </footer>
       </section>
 
-    </motion.section>
+    </section>
+    </Transition>
+
   )
 }
 

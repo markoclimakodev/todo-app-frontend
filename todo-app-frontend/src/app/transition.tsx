@@ -11,7 +11,7 @@ return (
     <motion.section
     initial={{y: 20, opacity: 0}}
     animate={{y: 0, opacity: 1}}
-    transition={{ease: 'easeInOut', duration: 0.55}}
+    transition={{ease: 'easeInOut', duration: 0.85}}
     >
     {children}
     </motion.section>
