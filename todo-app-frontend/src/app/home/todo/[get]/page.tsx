@@ -43,7 +43,6 @@ function Todos() {
                         token,
                         queryValue: search as QueryValueType
                     })
-    
                 }
             } catch (error) {
                 console.error("Error fetching todos:", error);
@@ -58,7 +57,29 @@ function Todos() {
         }
     }, [apiData?.data]);
     
-    
+    const handleDeleteTodo = async (todoId: string) => {
+        try {
+            await createRequest({
+                baseUrl:'http://localhost:3002/',
+                endpoint: 'todo/delete/', 
+                method: 'DELETE',
+                resquestData: { id: todoId },
+                token,
+            });
+            setTodos(prevTodos => prevTodos.filter(todo => todo.id !== todoId));
+        } catch (error) {
+            console.error("Error deleting todo:", error);
+        } finally {
+            await createRequest({
+                baseUrl: 'http://localhost:3002/',
+                endpoint: 'todo/get?tasktype=',
+                method: 'GET',
+                resquestData: {userId},
+                token,
+                queryValue: search as QueryValueType
+            })
+        }
+    };
 
     const icon = handleTaskListIcons(String(search)) as IconNames
 
@@ -77,7 +98,7 @@ function Todos() {
 
             <section className="w-full flex flex-col p-10">
                 {
-                    todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
+                    todos.map((todo) => <TodoCard key={todo.id} todo={todo} handleDeleteTodo={() => handleDeleteTodo(todo.id)} />)
                 }
             </section>
         </>

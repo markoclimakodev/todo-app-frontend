@@ -17,26 +17,12 @@ import { ITodoCardProps } from '@/interface/todo/ITodoCardProps';
 import Transition from '@/app/transition';
 
 
-export function TodoCard({ todo }: ITodoCardProps) {
+export function TodoCard({ todo, handleDeleteTodo }: ITodoCardProps) {
   const { id, title, description, createdAt, updatedAt } = todo
 
   const [ openTodo, setOpenTodo ] = useState(false)
 
   const [ isOpen, toggle ]  = useToggle(false);
-
-  const { token } = useAuth()
-
-  const { createRequest } = useFetch()
-
-  const handleDeleteTodo = async () => {
-    await createRequest({
-      baseUrl:'http://localhost:3002/',
-      endpoint: 'todo/delete/', 
-      method: 'DELETE',
-      resquestData: {id},
-      token,
-    })
-  }
 
   const handleOpenTodo = () => {
     setOpenTodo(!openTodo)
