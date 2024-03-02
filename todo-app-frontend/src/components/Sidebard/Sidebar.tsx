@@ -12,30 +12,36 @@ import { ICreateTask } from '@/interface/task/ICreateTask'
 import { TaskSchema, initialCreateTaskValues } from '@/validations/validateCreateTask'
 import { useFetch } from '@/hooks/useFetch'
 import { capitalizeTaskTypeLetter } from '@/helpers/capitalizeFirstLetter'
+import { useCallback } from 'react'
 
 function Sidebar() {
   const [isOpen, toggle] = useToggle(false);
   const [openCreateTask, toggleCreateTask] = useToggle(false);
   const { clearAuth, userId, token } = useAuth()
   const { createRequest } = useFetch()
-  const { taskList } = useGetTaskList()
+  const { taskList, fetchCategories } = useGetTaskList()
   const { register, handleSubmit } = useForm<ICreateTask>({
     resolver: zodResolver(TaskSchema),
     mode: 'onSubmit',
     defaultValues: initialCreateTaskValues
   })
 
-  const handleSubmitCreateTask = async ({ name }: ICreateTask) => {
-    await createRequest({
-      baseUrl: 'http://localhost:3002/',
-      endpoint: 'tasklist/create',
-      method: 'PATCH',
-      resquestData: { name: capitalizeTaskTypeLetter(name), userId },
-      token
-    })
-    toggleCreateTask()
-    window.location.reload()
+  const handleSubmitCreateTask = useCallback(async ({ name }: ICreateTask) => {
+    try {
+      await createRequest({
+        baseUrl: 'http://localhost:3002/',
+        endpoint: 'tasklist/create',
+        method: 'PATCH',
+        resquestData: { name: capitalizeTaskTypeLetter(name), userId },
+        token
+      })
+      toggleCreateTask()
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    } finally {
+      await fetchCategories()
   }
+  }, [createRequest, fetchCategories, toggleCreateTask, token, userId])
 
   const handleOpenCreateTask = () => {
     if (isOpen && openCreateTask) {

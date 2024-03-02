@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useFetch } from "./useFetch";
 import { useAuth } from "./useAuth";
 
@@ -6,22 +6,27 @@ export const useGetTaskList = () => {
   const { userId, token } = useAuth()
   const { apiData, createRequest, } = useFetch()
   const [taskList, setTaskList] = useState<string[]>([])
+
+  const fetchCategories = useCallback(async () => {
+      await createRequest({
+        baseUrl: 'http://localhost:3002/',
+        endpoint: 'tasklist/get',
+        method: 'GET',
+        resquestData: {userId},
+        token
+      })
+  }, [createRequest, token, userId])
+
   useEffect(() => {
     const fetchTodos = async () => {
         try {
-            await createRequest({
-              baseUrl: 'http://localhost:3002/',
-              endpoint: 'tasklist/get',
-              method: 'GET',
-              resquestData: {userId},
-              token
-            })
+            await fetchCategories()
         } catch (error) {
             console.error("Error fetching todos:", error);
         } 
     }
     fetchTodos();
-}, [createRequest, token, userId]);
+}, [fetchCategories]);
 
 useEffect(() => {
     if (apiData?.data) {
@@ -29,5 +34,5 @@ useEffect(() => {
     }
 }, [apiData?.data]);
 
-  return {taskList}
+  return {taskList, fetchCategories}
 }
