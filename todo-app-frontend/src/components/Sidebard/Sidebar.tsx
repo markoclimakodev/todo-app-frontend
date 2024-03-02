@@ -73,7 +73,7 @@ function Sidebar() {
           </form>
         ) : (
           <button onClick={toggleCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
-            <Icon iconname='Plus' size={24} className='transition-all border-2' />
+            <Icon iconname='Plus' size={24} className='transition-all' />
             {!isOpen && <span className='hover:text-xl transition-all '>
               Nova Lista
             </span>}
