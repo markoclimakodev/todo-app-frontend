@@ -57,7 +57,7 @@ function Sidebar() {
       <hr />
       <section className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'}`}>
 
-        {openCreateTask ? (
+        {openCreateTask && !isOpen ? (
           <form onSubmit={handleSubmit(handleSubmitCreateTask)}>
             <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
               <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
