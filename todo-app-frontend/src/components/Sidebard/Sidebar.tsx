@@ -37,6 +37,14 @@ function Sidebar() {
     window.location.reload()
   }
 
+  const handleOpenCreateTask = () => {
+    if (isOpen && openCreateTask) {
+      toggle()
+      toggleCreateTask()
+    }
+    toggleCreateTask()
+  }
+
   return (
     <nav
       className={` p-10  shadow-2xl text-gray-700 flex flex-col gap-8 text-base font-light relative transition-px duration-500 
@@ -72,7 +80,7 @@ function Sidebar() {
             </label>
           </form>
         ) : (
-          <button onClick={toggleCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
+          <button onClick={handleOpenCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
             <Icon iconname='Plus' size={24} className='transition-all' />
             {!isOpen && <span className='hover:text-xl transition-all '>
               Nova Lista
