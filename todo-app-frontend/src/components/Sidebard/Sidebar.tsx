@@ -51,7 +51,7 @@ function Sidebar() {
         </button>
       </header>
 
-      <nav className={`flex flex-col gap-2 max-h-[376px] overflow-auto ${isOpen ? 'w-fit overflow-hidden' : ' w-[200px]'}`}>
+      <nav className={`flex flex-col gap-2 max-h-[376px] overflow-auto ${isOpen ? 'w-fit overflow-hidden' : ' w-[300px]'}`}>
         {taskList.map((item) => <NavigationLink icoName={handleTaskListIcons(item)} title={item} key={item} isSidebarCollapsed={isOpen} />)}
       </nav>
       <hr />
