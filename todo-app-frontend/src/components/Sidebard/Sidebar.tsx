@@ -9,7 +9,7 @@ import { useGetTaskList } from '@/hooks/useGetTaskList'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { ICreateTask } from '@/interface/task/ICreateTask'
-import { TaskSchema,initialCreateTaskValues } from '@/validations/validateCreateTask'
+import { TaskSchema, initialCreateTaskValues } from '@/validations/validateCreateTask'
 import { useFetch } from '@/hooks/useFetch'
 import { capitalizeTaskTypeLetter } from '@/helpers/capitalizeFirstLetter'
 
@@ -25,12 +25,12 @@ function Sidebar() {
     defaultValues: initialCreateTaskValues
   })
 
-  const handleSubmitCreateTask = async ({name}: ICreateTask) => {
+  const handleSubmitCreateTask = async ({ name }: ICreateTask) => {
     await createRequest({
       baseUrl: 'http://localhost:3002/',
       endpoint: 'tasklist/create',
       method: 'PATCH',
-      resquestData: {name: capitalizeTaskTypeLetter(name), userId},
+      resquestData: { name: capitalizeTaskTypeLetter(name), userId },
       token
     })
     toggleCreateTask()
@@ -55,44 +55,44 @@ function Sidebar() {
         {taskList.map((item) => <NavigationLink icoName={handleTaskListIcons(item)} title={item} key={item} isSidebarCollapsed={isOpen} />)}
       </nav>
       <hr />
-      <section   className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit' : ' w-[200px]'}`}>
+      <section className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'}`}>
 
-      {openCreateTask ? (
-        <form onSubmit={handleSubmit(handleSubmitCreateTask)}>
-          <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
-          <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md'  type="text" id="task" />
-          <div className='flex flex-col items-center gap-1'>
-            <button type='submit'>
-              <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
-            </button>
-            <button onClick={toggleCreateTask} type="button">
-              <Icon iconname='Ban' size={12} className='transition-all cursor-pointer stroke-red-500 hover:scale-125' />
-            </button>
-          </div>
-          </label>
-        </form>
-      ): (
-        <button onClick={toggleCreateTask} className='flex gap-4 text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
-        <Icon iconname='Plus' size={24} className='transition-all' />
-        <span className='hover:text-xl transition-all'>
-          {isOpen ? '' : 'Nova Lista'}
-        </span>
-      </button>
-      )}
+        {openCreateTask ? (
+          <form onSubmit={handleSubmit(handleSubmitCreateTask)}>
+            <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
+              <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+              <div className='flex flex-col items-center gap-1'>
+                <button type='submit'>
+                  <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
+                </button>
+                <button onClick={toggleCreateTask} type="button">
+                  <Icon iconname='Ban' size={12} className='transition-all cursor-pointer stroke-red-500 hover:scale-125' />
+                </button>
+              </div>
+            </label>
+          </form>
+        ) : (
+          <button onClick={toggleCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
+            <Icon iconname='Plus' size={24} className='transition-all border-2' />
+            {!isOpen && <span className='hover:text-xl transition-all '>
+              Nova Lista
+            </span>}
+          </button>
+        )}
 
-      <button className='flex gap-4  hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '
-      onClick={clearAuth}
-      >
-        <Icon iconname='LogOut' size={24} className='transition-all' />
+        <button className={`flex gap-4  hover:bg-blue-100 p-4 rounded-md transition-all h-14 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'} `}
+          onClick={clearAuth}
+        >
+          <Icon iconname='LogOut' size={24} className='transition-all' />
 
-        <span className='hover:text-xl transition-all'>
-          {isOpen ? '' : 'Sair'}
-        </span>
+          {!isOpen && <span className='hover:text-xl transition-all '>
+              Sair
+            </span>}
 
-      </button>
-      
+        </button>
+
       </section>
-  
+
     </nav>
   )
 }
