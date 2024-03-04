@@ -5,6 +5,7 @@ import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
 import { IGetTodo } from '../../../../core/interfaces/Todo/IGetTodo'
 import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
 import { getTodosQueryHelper } from '../../helpers/queryHelper'
+import { updateTodosQueryHelper } from '../../helpers/updateQueryHelper'
 
 export class TodoRepository implements ITodoRepository {
 	protected prisma : PrismaClient
@@ -41,18 +42,19 @@ export class TodoRepository implements ITodoRepository {
 	}
 
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {
-		const { id , title , description , taskType } = params
+		const { id , title , description , taskType , updateType } = params
 
-		await this.prisma.todos.update({
-			where : {
-				id : id
-			} ,
+		const query = updateTodosQueryHelper({
+			id ,
 			data : {
 				title ,
 				description ,
-				taskType ,
+				taskType
 			} ,
+			updateType ,
 		})
+
+		await this.prisma.todos.update( query )
 	}
 
 	async deleteTodo ( id: string ): Promise<void> {
