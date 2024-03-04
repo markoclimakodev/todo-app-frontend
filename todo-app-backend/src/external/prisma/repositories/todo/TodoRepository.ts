@@ -4,8 +4,8 @@ import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
 import { IGetTodo } from '../../../../core/interfaces/Todo/IGetTodo'
 import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
-import { getTodosQueryHelper } from '../../helpers/queryHelper'
-import { updateTodosQueryHelper } from '../../helpers/updateQueryHelper'
+import { generateGetQuery } from '../../helpers/generateGetQuery'
+import { generateUpdateQuery } from '../../helpers/generateUpdateQuery'
 
 export class TodoRepository implements ITodoRepository {
 	protected prisma : PrismaClient
@@ -32,7 +32,7 @@ export class TodoRepository implements ITodoRepository {
 	async getTodos ( params: IGetTodo ): Promise<ITodo[]> {
 		const { userId , tasktype } = params
 
-		const query = getTodosQueryHelper( userId , tasktype )
+		const query = generateGetQuery( userId , tasktype )
 
 		const todos = await this.prisma.todos.findMany({
 			where : query ,
@@ -44,7 +44,7 @@ export class TodoRepository implements ITodoRepository {
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {
 		const { id , title , description , taskType , updateType } = params
 
-		const query = updateTodosQueryHelper({
+		const query = generateUpdateQuery({
 			id ,
 			data : {
 				title ,

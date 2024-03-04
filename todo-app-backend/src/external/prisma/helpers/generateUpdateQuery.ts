@@ -11,7 +11,7 @@ interface UpdateQuery {
 interface UpdateQueryParams {
 	id: string , updateType: string , data: Partial<ITodo>
 }
-export const updateTodosQueryHelper = ({ id , data , updateType }: UpdateQueryParams ): UpdateQuery => {
+export const generateUpdateQuery = ({ id , data , updateType }: UpdateQueryParams ): UpdateQuery => {
 	const { title , description , taskType } = data
 	let query: UpdateQuery
 

@@ -4,7 +4,7 @@ interface IGetTodoQuery {
     important?: boolean
     taskType?: string
 }
-export const getTodosQueryHelper = ( userId: string , tasktype: string ): IGetTodoQuery => {
+export const generateGetQuery = ( userId: string , tasktype: string ): IGetTodoQuery => {
 	let query: IGetTodoQuery
 
 	switch ( tasktype ) {
