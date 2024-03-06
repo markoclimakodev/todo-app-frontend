@@ -5,7 +5,7 @@ import { ILogin , ILoginResponse } from '../../interfaces/User/ILogin'
 import { IUserRepository } from '../../repositories/user/IUserRepository'
 import { UseCase } from '../../useCases/useCase'
 
-export class LoginService implements UseCase<ILogin , ILoginResponse | null> {
+export class Login implements UseCase<ILogin , ILoginResponse | null> {
 	constructor ( private readonly userRepository: IUserRepository ) {}
 	async execute ( loginData: ILogin ): Promise<ILoginResponse | null> {
 		const { email , password } = loginData

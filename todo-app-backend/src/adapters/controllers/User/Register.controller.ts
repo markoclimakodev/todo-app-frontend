@@ -1,8 +1,8 @@
-import { RegisterService } from '../../../core/services/User/RegisterService'
 import { Request , Response } from 'express'
+import { Register } from '../../../core/services/User'
 
 export class RegisterController {
-	constructor ( private useCase: RegisterService ) {}
+	constructor ( private useCase: Register ) {}
 
 	public async register ( req: Request , res: Response ) {
 		const registerData = req.body

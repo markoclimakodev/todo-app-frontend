@@ -2,7 +2,7 @@ import { ICreateTodo } from '../../interfaces/Todo/ICreateTodo'
 import { ITodoRepository } from '../../repositories/todo/ITodoRepository'
 import { UseCase } from '../../useCases/useCase'
 
-export class CreateTodoService implements UseCase<ICreateTodo , void> {
+export class CreateTodo implements UseCase<ICreateTodo , void> {
 	constructor ( private readonly todoRepository: ITodoRepository ) {}
 
 	async execute ( params: ICreateTodo ): Promise<void> {

@@ -1,9 +1,9 @@
 import { Router , Request , Response } from 'express'
-import { GetTodosService } from '../../../../core/services/Todo/getTodosService'
-import { GetTodosController } from '../../../controllers/Todo/getTodosController'
+import { GetTodos } from '../../../../core/services/Todo'
 import { todosRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
+import { GetTodosController } from '../../../controllers/Todo'
 
-const getTodosService = new GetTodosService( todosRepository )
+const getTodosService = new GetTodos( todosRepository )
 const getTodosController = new GetTodosController( getTodosService )
 const getTodosRoutes = Router()
 

@@ -3,7 +3,7 @@ import { IRegister } from '../../interfaces/User/IRegister'
 import { IUserRepository } from '../../repositories/user/IUserRepository'
 import { UseCase } from '../../useCases/useCase'
 
-export class RegisterService implements UseCase<IRegister , void> {
+export class Register implements UseCase<IRegister , void> {
 	constructor ( private readonly userRepository: IUserRepository ) {}
 
 	async execute ( registerData: IRegister ): Promise<void> {

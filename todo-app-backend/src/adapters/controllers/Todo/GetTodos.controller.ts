@@ -1,8 +1,8 @@
 import { Request , Response } from 'express'
-import { GetTodosService } from '../../../core/services/Todo/getTodosService'
+import { GetTodos } from '../../../core/services/Todo'
 
 export class GetTodosController {
-	constructor ( private useCase: GetTodosService ) {}
+	constructor ( private useCase: GetTodos ) {}
 
 	public async getTodos ( req: Request , res: Response ) {
 		const { userId } = req.body
