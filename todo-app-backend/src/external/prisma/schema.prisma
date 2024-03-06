@@ -7,29 +7,51 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
     id        String   @id @default(uuid())
     name      String
     email     String   @unique
     password  String
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @updatedAt @map(name: "updated_at")
-    Todos     Todos[]
-    taskLists String[]
+    Todos     Todo[]
+
     @@map("users")
+    @@index([id])
 }
 
-model Todos {
-    id          String   @id @default(uuid())
-    title       String
-    description String
-    userId      String   @map(name: "user_id")
-    user        Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt   DateTime @default(now()) @map(name: "created_at")
-    updatedAt   DateTime @updatedAt @map(name: "updated_at")
-    completed   Boolean  @default(false)
-    important   Boolean  @default(false)
-    taskType    String   @default("todo")  @map(name: "task_type")
+model Category {
+    id           String         @id @default(uuid())
+    name         String         @unique
+    createdAt    DateTime       @default(now()) @map(name: "created_at")
+    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+    TodoCategory TodoCategory[]
+
+    @@map("categories")
+    @@index([name])
+}
+
+model Todo {
+    id           String         @id @default(uuid())
+    title        String
+    description  String
+    userId       String         @map(name: "user_id")
+    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt    DateTime       @default(now()) @map(name: "created_at")
+    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+    TodoCategory TodoCategory[]
 
     @@map("todos")
+}
+
+model TodoCategory {
+    id         String   @id @default(uuid())
+    todoId     String   @map(name: "todo_id")
+    categoryId String   @map(name: "category_id")
+    todo       Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    createdAt  DateTime @default(now()) @map(name: "created_at")
+    updatedAt  DateTime @updatedAt @map(name: "updated_at")
+
+    @@map("todoCategories")
 }
