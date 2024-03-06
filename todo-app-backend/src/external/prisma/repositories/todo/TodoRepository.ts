@@ -4,7 +4,7 @@ import { ITodoRepository } from '../../../../core/repositories/todo/ITodoReposit
 import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
 import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 import { IGetTodos } from '../../../../core/interfaces/Todo/IGetTodos'
-import { generateGetTodosQuery } from '../../helpers/generateGetTodosQuery'
+import { TodoFormatHelper } from '../../helpers/formatTodos'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient
@@ -48,11 +48,25 @@ export class TodosRepository implements ITodoRepository {
 			}
 		})
 
-		const query = generateGetTodosQuery( userId , categoryName , category )
+		const todos = await this.prisma.todo.findMany({
+			where : {
+				userId ,
+				TodoCategory : category ? {
+					some : {
+						categoryId : category.id
+					}
+				} : undefined
+			} ,
+			include : {
+				TodoCategory : {
+					select : {
+						category : true
+					}
+				}
+			}
+		})
 
-		const todos = await this.prisma.todo.findMany( query as any )
-
-		return todos
+		return TodoFormatHelper.format( todos )
 	}
 }
 
