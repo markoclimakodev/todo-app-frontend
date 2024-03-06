@@ -5,7 +5,4 @@ export interface ITodo {
     userId : string
     createdAt : Date
     updatedAt: Date
-    completed: boolean
-    important: boolean
-    taskType: string
 }
