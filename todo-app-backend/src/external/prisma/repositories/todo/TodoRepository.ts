@@ -4,7 +4,7 @@ import { ITodoRepository } from '../../../../core/repositories/todo/ITodoReposit
 import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
 import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 import { IGetTodos } from '../../../../core/interfaces/Todo/IGetTodos'
-import { TodoFormatHelper } from '../../helpers/formatTodos'
+import { TodoFormatHelper } from '../../helpers/TodoFormatHelper'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient

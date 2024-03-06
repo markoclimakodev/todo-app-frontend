@@ -5,4 +5,5 @@ export interface ITodo {
     userId : string
     createdAt : Date
     updatedAt: Date
+    category: string | null
 }
