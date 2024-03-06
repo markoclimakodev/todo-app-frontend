@@ -6,13 +6,13 @@ export class CreateTodoService implements UseCase<ICreateTodo , void> {
 	constructor ( private readonly todoRepository: ITodoRepository ) {}
 
 	async execute ( params: ICreateTodo ): Promise<void> {
-		const { userId , title , description , taskType } = params
+		const { userId , title , description , categoryName } = params
 
 		await this.todoRepository.createTodo({
 			userId ,
 			title ,
 			description ,
-			taskType
+			categoryName
 		})
 	}
 }

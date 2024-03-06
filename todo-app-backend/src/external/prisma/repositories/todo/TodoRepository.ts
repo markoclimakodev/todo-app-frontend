@@ -1,69 +1,59 @@
 import { PrismaClient } from '@prisma/client'
 import { ITodoRepository } from '../../../../core/repositories/todo/ITodoRepository'
-import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
-import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
-import { IGetTodo } from '../../../../core/interfaces/Todo/IGetTodo'
-import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
-import { generateGetQuery } from '../../helpers/generateGetQuery'
-import { generateUpdateQuery } from '../../helpers/generateUpdateQuery'
 
-export class TodoRepository implements ITodoRepository {
-	protected prisma : PrismaClient
+import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
+import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
+import { IGetTodos } from '../../../../core/interfaces/Todo/IGetTodos'
+import { generateGetTodosQuery } from '../../helpers/generateGetTodosQuery'
+
+export class TodosRepository implements ITodoRepository {
+	protected prisma: PrismaClient
 	constructor () {
 		this.prisma = new PrismaClient()
 	}
-	async createTodo ( params: ICreateTodo ): Promise<void> {
-		const { userId , title , description , taskType } = params
 
-		await this.prisma.todos.create({
+	async createTodo ( params: ICreateTodo ): Promise<void> {
+		const { title , description , userId , categoryName } = params
+
+		const category = await this.prisma.category.findUnique({
+			where : {
+				name : categoryName
+			}
+		})
+
+		const todo = await this.prisma.todo.create({
 			data : {
 				title ,
 				description ,
-				taskType ,
-				user : {
-					connect : {
-						id : userId ,
-					} ,
-				} ,
-			} ,
+				userId ,
+			}
 		})
+
+		if ( category ) {
+			await this.prisma.todoCategory.create({
+				data : {
+					categoryId : category.id ,
+					todoId     : todo.id
+				}
+			})
+		}
 	}
 
-	async getTodos ( params: IGetTodo ): Promise<ITodo[]> {
-		const { userId , tasktype } = params
+	async getTodos ( params: IGetTodos ): Promise<ITodo[]> {
+		const { userId , categoryName } = params
 
-		const query = generateGetQuery( userId , tasktype )
-
-		const todos = await this.prisma.todos.findMany({
-			where : query ,
+		const category = await this.prisma.category.findUnique({
+			where : {
+				name : categoryName
+			}
 		})
+
+		const query = generateGetTodosQuery( userId , categoryName , category )
+
+		const todos = await this.prisma.todo.findMany( query as any )
 
 		return todos
 	}
-
-	async updateTodo ( params: IUpdateTodo ): Promise<void> {
-		const { id , title , description , taskType , updateType } = params
-
-		const query = generateUpdateQuery({
-			id ,
-			data : {
-				title ,
-				description ,
-				taskType
-			} ,
-			updateType ,
-		})
-
-		await this.prisma.todos.update( query )
-	}
-
-	async deleteTodo ( id: string ): Promise<void> {
-		await this.prisma.todos.delete({
-			where : {
-				id
-			}
-		})
-	}
 }
 
-export const todoRepository = new TodoRepository()
+export const todosRepository = new TodosRepository()
