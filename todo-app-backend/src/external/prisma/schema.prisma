@@ -46,7 +46,7 @@ model Todo {
 
 model TodoCategory {
     id         String   @id @default(uuid())
-    todoId     String   @map(name: "todo_id")
+    todoId     String   @map(name: "todo_id") @unique
     categoryId String   @map(name: "category_id")
     todo       Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
     category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
