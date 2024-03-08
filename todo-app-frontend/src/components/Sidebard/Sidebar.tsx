@@ -30,7 +30,7 @@ function Sidebar() {
     try {
       await createRequest({
         baseUrl: 'http://localhost:3002/',
-        endpoint: 'tasklist/create',
+        endpoint: 'category/create',
         method: 'PATCH',
         resquestData: { name: capitalizeTaskTypeLetter(name), userId },
         token

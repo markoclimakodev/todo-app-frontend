@@ -37,7 +37,7 @@ function Todos() {
                 if (search !== null) {
                     await createRequest({
                         baseUrl: 'http://localhost:3002/',
-                        endpoint: 'todo/get?tasktype=',
+                        endpoint: 'todo/get?categoryName=',
                         method: 'GET',
                         resquestData: {userId},
                         token,
@@ -72,7 +72,7 @@ function Todos() {
         } finally {
             await createRequest({
                 baseUrl: 'http://localhost:3002/',
-                endpoint: 'todo/get?tasktype=',
+                endpoint: 'todo/get?categoryName=',
                 method: 'GET',
                 resquestData: {userId},
                 token,

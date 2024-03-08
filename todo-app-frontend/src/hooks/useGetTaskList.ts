@@ -10,7 +10,7 @@ export const useGetTaskList = () => {
   const fetchCategories = useCallback(async () => {
       await createRequest({
         baseUrl: 'http://localhost:3002/',
-        endpoint: 'tasklist/get',
+        endpoint: 'category/get',
         method: 'GET',
         resquestData: {userId},
         token

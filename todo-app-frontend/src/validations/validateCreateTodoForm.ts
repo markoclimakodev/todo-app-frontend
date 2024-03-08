@@ -3,12 +3,12 @@ import { z } from 'zod'
 export const initialCreateTodoFormValues = {
     title: '',
     description: '',
-    taskType: 'casa'
+    categoryName: 'casa'
 }
 
 export const CreateTodoSchema = z.object({
     title: z.string().min(4),
     description: z.string().min(8),
-    taskType: z.string(),
+    categoryName: z.string(),
     userId: z.string()
 })
