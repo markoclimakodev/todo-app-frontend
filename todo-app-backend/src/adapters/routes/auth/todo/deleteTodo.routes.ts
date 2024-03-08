@@ -1,9 +1,9 @@
 import { Router , Request , Response } from 'express'
-import { todoRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
-import { DeleteTodoService } from '../../../../core/services/Todo/deleteTodoService'
-import { DeleteTodoController } from '../../../controllers/Todo/deleteTodoController'
+import { DeleteTodo } from '../../../../core/services/Todo'
+import { DeleteTodoController } from '../../../controllers/Todo'
+import { todosRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
 
-const deleteTodoService = new DeleteTodoService( todoRepository )
+const deleteTodoService = new DeleteTodo( todosRepository )
 const deleteTodoController = new DeleteTodoController( deleteTodoService )
 const deleteTodoRoutes = Router()
 

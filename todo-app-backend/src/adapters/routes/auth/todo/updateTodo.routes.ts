@@ -1,9 +1,9 @@
 import { Router , Request , Response } from 'express'
-import { todoRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
-import { UpdateTodoService } from '../../../../core/services/Todo/updateTodoService'
-import { UpdateTodoController } from '../../../controllers/Todo/updateTodoController'
+import { UpdateTodo } from '../../../../core/services/Todo'
+import { UpdateTodoController } from '../../../controllers/Todo'
+import { todosRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
 
-const updateTodoService = new UpdateTodoService( todoRepository )
+const updateTodoService = new UpdateTodo( todosRepository )
 const updateTodoController = new UpdateTodoController( updateTodoService )
 const updateTodoRoutes = Router()
 
