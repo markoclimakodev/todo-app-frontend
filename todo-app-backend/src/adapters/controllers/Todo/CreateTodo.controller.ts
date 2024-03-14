@@ -5,13 +5,13 @@ export class CreateTodoController {
 	constructor ( private useCase: CreateTodo ) {}
 
 	public async createTodo ( req: Request , res: Response ) {
-		const { title , description , categoryName , userId } = req.body
+		const { title , description , category , userId } = req.body
 
 		await this.useCase.execute({
 			userId ,
 			title ,
 			description ,
-			categoryName
+			category
 		})
 
 		res.status( 201 ).end()

@@ -15,11 +15,11 @@ export class TodosRepository implements ITodoRepository {
 	}
 
 	async createTodo ( params: ICreateTodo ): Promise<void> {
-		const { title , description , userId , categoryName } = params
+		const { title , description , userId , category } = params
 
-		const category = await this.prisma.category.findUnique({
+		const existingCategory = await this.prisma.category.findUnique({
 			where : {
-				name : categoryName
+				name : category
 			}
 		})
 
@@ -31,10 +31,10 @@ export class TodosRepository implements ITodoRepository {
 			}
 		})
 
-		if ( category ) {
+		if ( existingCategory ) {
 			await this.prisma.todoCategory.create({
 				data : {
-					categoryId : category.id ,
+					categoryId : existingCategory.id ,
 					todoId     : todo.id
 				}
 			})
