@@ -14,6 +14,7 @@ import { categoryState } from '@/store/atoms/categoryState'
 import { getCategories, createCategory } from '@/api/categoryActions'
 import useNavigateTo from '@/hooks/useNavigateTo'
 
+
 function Sidebar() {
   const [isOpen, toggle] = useToggle(false);
   const [openCreateCategory, toggleCreateCategory] = useToggle(false);
@@ -48,7 +49,7 @@ function Sidebar() {
   const handleSubmitCreateCategory = async ({name}:ICreateCategory) => {
     await createCategory(name);
 
-    const updatedCategories = await getCategories( );
+    const updatedCategories = await getCategories();
     setCategories(updatedCategories);
 
     reset();
@@ -74,7 +75,7 @@ function Sidebar() {
       </header>
 
       <nav className={`flex flex-col gap-2 max-h-[376px] overflow-auto ${isOpen ? 'w-fit overflow-hidden' : ' w-[300px]'}`}>
-        {categories.map((category) => <NavigationLink icoName={handleCategoryIcons(category.name)} title={category.name} key={category.id} isSidebarCollapsed={isOpen} />)}
+        {categories.map((category) => <NavigationLink id={category.id} icoName={handleCategoryIcons(category.name)} title={category.name} key={category.id} isSidebarCollapsed={isOpen} />)}
       </nav> 
       <hr />
       <section className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'}`}>
@@ -82,7 +83,7 @@ function Sidebar() {
         {openCreateCategory && !isOpen ? (
           <form onSubmit={handleSubmit(handleSubmitCreateCategory)} >
             <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
-              <input {...register('name')}  placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+              <input {...register('name')}  placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
               <div className='flex flex-col items-center gap-1'>
                 <button type='submit'>
                   <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
@@ -96,7 +97,7 @@ function Sidebar() {
         ) : (
           <button onClick={handleOpenCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
             <Icon iconname='Plus' size={24} className='transition-all' />
-            {!isOpen && <span className='hover:text-xl transition-all '>
+            {!isOpen && <span className='hover:text-th transition-all '>
               Nova Lista
             </span>}
           </button>
