@@ -1,7 +1,4 @@
 import * as LucideIcons from 'lucide-react';
-// import * as MaterialIcons from 'react-icons/md';
-
-// type IconNames = keyof typeof MaterialIcons;
 
 export type IconNames = keyof typeof LucideIcons;
 
