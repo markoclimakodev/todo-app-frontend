@@ -14,7 +14,8 @@
     "p:generate": "npx prisma generate --schema=src/external/prisma/schema.prisma",
     "p:migrate": "npx prisma migrate dev --schema=src/external/prisma/schema.prisma",
     "p:reset": "npx prisma migrate reset --schema=src/external/prisma/schema.prisma --force",
-    "p:seed": "npm run p:reset && npx ts-node src/external/prisma/seed/seed.ts"
+    "p:seed": "npm run p:reset && npx ts-node src/external/prisma/seed/seed.ts",
+    "p:studio": "npx prisma studio --schema=./src/external/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "eslint": "^8.56.0",
-    "prisma": "^5.9.1",
+    "prisma": "^5.11.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsup": "^8.0.2",
@@ -35,7 +36,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.9.1",
+    "@prisma/client": "^5.11.0",
     "@types/express": "^4.17.21",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
