@@ -39,6 +39,10 @@ function Todos() {
 
 	const [isOpen, toggle] = useToggle(false);
 
+	const restrictedCategories = search !== 'importantes' && search !== 'todas'
+
+	const welcomeText = restrictedCategories ? 'Que tal dar o pontapé inicial?' : 'Que tal criar uma nova lista de tarefas?'
+
 	const icon = handleCategoryIcons(String(search)) as IconNames
 
 	return (
@@ -64,19 +68,21 @@ function Todos() {
 					todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
 				) : (
 					<section className='flex flex-col gap-2 items-center justify-center flex-1 h-full'>
-						<p className='text-2xl text-gray-700'>Ops! Essa lista ainda está vazia. Que tal dar o pontapé inicial?</p>
+						<p className='text-2xl text-gray-700'>
+							Ops! Essa lista ainda está vazia. {welcomeText}
+						</p>
+					{ restrictedCategories && (
 						<button
 							className=" w-fit flex p-2 font-semibold bg-blue-400 transition-all rounded-md text-white hover:bg-blue-500 "
 							onClick={toggle}
 						>
 							Adicionar tarefa
 						</button>
+					)}
 					</section>
 				)}
 			</section>
 		</>
-
-
 	)
 }
 
