@@ -26,6 +26,8 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
 
   const isCreateModal = modalType === 'create'
 
+  const nonRestrictedCategories = categories.filter((category) => category.name !== 'todas' && category.name !== 'importantes')
+
   const handleTodoReload = async () => {
     if (search) {
       const todos = await getTodos(search)
@@ -59,7 +61,7 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
           <input
             placeholder="Título"
             {...register('title')}
-            className="rounded-md shadow-md p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 bg-white placeholder:font-bold"
+            className="rounded-md shadow-md p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 bg-white"
             type="text"
             id="title"
           />
@@ -69,14 +71,14 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
           <textarea
             placeholder="Descrição"
             {...register('description')}
-            className="rounded-md shadow-md h-full w-full p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 placeholder:font-bold bg-white"
+            className="rounded-md shadow-md h-full w-full p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 bg-white"
             id="description"
           />
         </label>
         <label htmlFor="categories" className=" text-lg  font-bold text-blue-500">Escolha uma categoria:</label>
         <select
           {...register("category")}
-          className="rounded-md p-2 bg-white text-lg font-bold border-0 text-blue-500 outline-none" id="categories">
+          className="rounded-md p-2 bg-white text-lg border-0 text-blue-500 outline-none" id="categories">
           <option value=""
           >Selecione uma categoria</option>
           {categories.map((category) => (
