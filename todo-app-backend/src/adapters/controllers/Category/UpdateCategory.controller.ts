@@ -9,7 +9,7 @@ export class UpdateCategoryController {
 
 		await this.useCase.execute({
 			name ,
-			id
+			id ,
 		})
 
 		res.status( 204 ).end()

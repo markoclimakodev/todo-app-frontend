@@ -10,7 +10,7 @@ export class UpdateCategory implements UseCase<IUpdateCategory , void> {
 
 		await this.categoryRepository.updateCategory({
 			name ,
-			id
+			id ,
 		})
 	}
 }

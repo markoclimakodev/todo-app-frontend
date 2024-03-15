@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { PrismaClient } from '@prisma/client'
 import { ICategoryRepository } from '../../../../core/repositories/category/ICategoryRepository'
 import { ICategory } from '../../../../core/interfaces/category/ICategory'
@@ -12,51 +13,85 @@ export class CategoryRepository implements ICategoryRepository {
 	}
 
 	async createCategory ( param: ICategory ): Promise<void> {
-		const { name } = param
-		const category = await this.prisma.category.findUnique({
+		const { name , userId } = param
+		const existingUserCategory = await this.prisma.userCategory.findFirst({
 			where : {
-				name
-			}
+				userId ,
+				category : {
+					name ,
+				} ,
+			} ,
 		})
 
-		if ( !category ) {
-			await this.prisma.category.create({
+		if ( !existingUserCategory ) {
+			await this.prisma.userCategory.create({
 				data : {
-					name
-				}
+					category : {
+						connectOrCreate : {
+							where : {
+								name
+							} ,
+							create : {
+								name
+							} ,
+						} ,
+					} ,
+					user : {
+						connect : {
+							id : userId ,
+						} ,
+					} ,
+				} ,
 			})
 		}
 	}
 
-	async getCategories (): Promise<IGetCategoriesResponse[]> {
-		const categories = await this.prisma.category.findMany()
+	async getCategories ( userId: string ): Promise<IGetCategoriesResponse[]> {
+		const userCategories = await this.prisma.userCategory.findMany({
+			where : {
+				userId ,
+			} ,
+			include : {
+				category : true ,
+			} ,
+		})
 
-		return categories.map( ( category ) => ({
-			id   : category.id ,
-			name : category.name
+		console.log( userCategories )
+
+		return userCategories.map( ( userCategory ) => ({
+			id   : userCategory.id ,
+			name : userCategory.category.name ,
 		}) )
 	}
 
 	async updateCategory ( param: IUpdateCategory ): Promise<void> {
 		const { name , id } = param
 
-		await this.prisma.category.update({
+		const category = await this.prisma.category.findUnique({
 			where : {
-				id
-			} ,
-			data : {
 				name
 			}
 		})
+
+		if ( category ) {
+			await this.prisma.userCategory.update({
+				where : {
+					id ,
+				} ,
+				data : {
+					categoryId : category.id
+				} ,
+			})
+		}
 	}
 
 	async deleteCategory ( param: IDeleteCategory ): Promise<void> {
 		const { id } = param
 
-		await this.prisma.category.delete({
+		await this.prisma.userCategory.deleteMany({
 			where : {
 				id
-			}
+			} ,
 		})
 	}
 }

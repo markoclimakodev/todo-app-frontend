@@ -5,10 +5,11 @@ export class CreateCategoryController {
 	constructor ( private useCase: CreateCategory ) {}
 
 	async createCategory ( req: Request , res: Response ) {
-		const { name } = req.body
+		const { name , userId } = req.body
 
 		await this.useCase.execute({
-			name
+			name ,
+			userId
 		})
 
 		res.status( 201 ).end()

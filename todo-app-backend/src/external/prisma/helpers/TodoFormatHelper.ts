@@ -1,3 +1,5 @@
+import { ITodo } from '../../../core/interfaces/Todo/ITodo'
+
 interface Todo {
     id: string;
     title: string;
@@ -16,7 +18,7 @@ interface Todo {
 }
 
 export class TodoFormatHelper {
-	static format ( todos :Todo [] ) {
+	static format ( todos: Todo[] ): ITodo[] {
 		return todos.map( ( todo ) => ({
 			id          : todo.id ,
 			title       : todo.title ,

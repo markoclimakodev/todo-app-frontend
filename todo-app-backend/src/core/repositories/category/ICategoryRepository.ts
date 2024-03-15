@@ -5,7 +5,7 @@ import { IUpdateCategory } from '../../interfaces/category/IUpdateCategory'
 
 export interface ICategoryRepository {
 createCategory ( param: ICategory ):Promise<void>
-getCategories (): Promise<IGetCategoriesResponse[]>
+getCategories ( userId:string ): Promise<IGetCategoriesResponse[]>
 updateCategory( param: IUpdateCategory ):Promise<void>
 deleteCategory( param: IDeleteCategory ) : Promise<void>
 }

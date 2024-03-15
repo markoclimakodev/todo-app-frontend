@@ -50,10 +50,10 @@ export class TodosRepository implements ITodoRepository {
 			}
 		})
 
-		const todos = existingCategory && await this.prisma.todo.findMany({
+		const todos = await this.prisma.todo.findMany({
 			where : {
 				userId ,
-				TodoCategory : category ? {
+				TodoCategory : existingCategory ? {
 					some : {
 						categoryId : existingCategory.id
 					}
@@ -68,7 +68,7 @@ export class TodosRepository implements ITodoRepository {
 			}
 		})
 
-		return TodoFormatHelper.format( todos )
+		return TodoFormatHelper.format( todos || [] )
 	}
 
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {

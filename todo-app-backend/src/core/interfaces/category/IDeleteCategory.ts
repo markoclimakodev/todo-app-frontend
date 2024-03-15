@@ -1,3 +1,4 @@
 export interface IDeleteCategory {
-    id: string
+    id: string ,
+    userId: string
 }

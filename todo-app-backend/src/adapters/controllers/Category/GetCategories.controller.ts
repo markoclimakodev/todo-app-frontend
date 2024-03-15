@@ -4,8 +4,9 @@ import { GetCategories } from '../../../core/services/Category'
 export class GetCategoriesController {
 	constructor ( private useCase: GetCategories ) {}
 
-	async getCategories ( _req: Request , res: Response ) {
-		const categories = await this.useCase.execute()
+	async getCategories ( req: Request , res: Response ) {
+		const { userId } = req.body
+		const categories = await this.useCase.execute( userId )
 
 		res.status( 201 ).json( categories )
 	}
