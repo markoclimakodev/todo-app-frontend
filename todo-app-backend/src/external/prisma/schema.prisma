@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-    id        String   @id @default(uuid())
-    name      String
-    email     String   @unique
-    password  String
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
-    Todos     Todo[]
+    id           String         @id @default(uuid())
+    name         String
+    email        String         @unique
+    password     String
+    createdAt    DateTime       @default(now()) @map(name: "created_at")
+    updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+    Todos        Todo[]
+    UserCategory UserCategory[]
 
-    @@map("users")
     @@index([id])
+    @@map("users")
 }
 
 model Category {
@@ -26,9 +27,10 @@ model Category {
     createdAt    DateTime       @default(now()) @map(name: "created_at")
     updatedAt    DateTime       @updatedAt @map(name: "updated_at")
     TodoCategory TodoCategory[]
+    UserCategory UserCategory[]
 
-    @@map("categories")
     @@index([name])
+    @@map("categories")
 }
 
 model Todo {
@@ -46,7 +48,7 @@ model Todo {
 
 model TodoCategory {
     id         String   @id @default(uuid())
-    todoId     String   @map(name: "todo_id") @unique
+    todoId     String   @unique @map(name: "todo_id")
     categoryId String   @map(name: "category_id")
     todo       Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
     category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
@@ -54,4 +56,16 @@ model TodoCategory {
     updatedAt  DateTime @updatedAt @map(name: "updated_at")
 
     @@map("todoCategories")
+}
+
+model UserCategory {
+    id         String   @id @default(uuid())
+    userId     String   @map(name: "user_id")
+    categoryId String   @map(name: "category_id")
+    user       User     @relation(fields: [userId], references: [id])
+    category   Category @relation(fields: [categoryId], references: [id])
+    createdAt  DateTime @default(now()) @map(name: "created_at")
+    updatedAt  DateTime @updatedAt @map(name: "updated_at")
+
+    @@map("userCategories")
 }
