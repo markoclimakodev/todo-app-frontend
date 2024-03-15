@@ -1,12 +1,12 @@
 'use client'
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import {  RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
+import { RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import signInSVG from '../../../public/sign-in.svg'
-import { useFetch } from "@/hooks/useFetch";
 import useNavigateTo from "@/hooks/useNavigateTo";
 import { IRegister } from "@/interface/IRegister";
+import { userRegister } from "@/api/userActions";
 
 
 function Register() {
@@ -17,16 +17,8 @@ function Register() {
   })
   const navigateTo = useNavigateTo();
 
-
-  const { createRequest } = useFetch()
-
   const handleRegister = async ({ name, email, password }: IRegister) => {
-    await createRequest({
-      baseUrl: 'http://localhost:3002/',
-      endpoint: 'register',
-      resquestData: { name, email, password },
-      method: 'POST',
-    })
+    await userRegister({ name, email, password })
     navigateTo(`/login`);
   };
 

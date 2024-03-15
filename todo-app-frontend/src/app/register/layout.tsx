@@ -1,6 +1,6 @@
+import Transition from "@/app/transition";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Transition from "../transition";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['300', '400', '500', '700', '900'] });
 

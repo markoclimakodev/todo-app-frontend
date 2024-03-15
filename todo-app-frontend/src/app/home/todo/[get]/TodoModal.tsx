@@ -1,47 +1,60 @@
 'use client'
-
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useFetch } from "@/hooks/useFetch"
-import { useAuth } from "@/hooks/useAuth"
-
-import { UpdateTodoSchema, initialUpdateTodoFormValues } from "@/validations/validateUpdateTodoForm"
+import { createTodo, getTodos, updateTodo } from "@/api/todoActions"
+import { categoryState } from "@/store/atoms/categoryState"
+import { todoState } from "@/store/atoms/todoState"
+import { ICreateTodo } from "@/interface/todo/ICreateTodo"
 import { ModalProps } from "@/interface/todo/IModal"
 import { IUpdateTodo } from "@/interface/todo/IUpdateTodo"
-import { useGetTaskList } from "@/hooks/useGetTaskList"
+import { CreateTodoSchema, createTodoValues } from "@/validations/validateCreateTodoForm"
+import { UpdateTodoSchema, updateTodoValues } from "@/validations/validateUpdateTodoForm"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useSearchParams } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { useRecoilState } from "recoil"
 
-function TodoModal({  id, openModal,closeModal,modalType }: ModalProps) {
-  const { token, userId  } = useAuth()
-  const { createRequest } = useFetch()
-  const { taskList } = useGetTaskList()
-  const { register, handleSubmit, reset } = useForm<IUpdateTodo>({
-    resolver: zodResolver(UpdateTodoSchema),
+
+function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
+  const [categories,] = useRecoilState(categoryState)
+  const [_, setTodos] = useRecoilState(todoState)
+  const searchParams = useSearchParams()
+  const search = searchParams.get('category')
+  const { handleSubmit, register, reset, } = useForm({
     mode: 'onSubmit',
-    defaultValues: initialUpdateTodoFormValues
+    defaultValues: createTodoValues || updateTodoValues,
+    resolver: zodResolver(CreateTodoSchema || UpdateTodoSchema)
   })
 
   const isCreateModal = modalType === 'create'
 
-  const handleRequest = async ({ title, description, taskType }: IUpdateTodo) => {
-    const resquestData = isCreateModal ?  { title, description, taskType, userId} :  { title, description, taskType, id }
-    const endpoint = isCreateModal  ? 'todo/create' : 'todo/update/'
-    const method = isCreateModal  ? 'POST' : 'PATCH'
-    await createRequest({
-      baseUrl: 'http://localhost:3002/',
-      endpoint,
-      resquestData,
-      method,
-      token,
-    })
+  const handleTodoReload = async () => {
+    if (search) {
+      const todos = await getTodos(search)
+      setTodos(todos)
+    }
+  }
 
+  const handleCreateTodo = async ({ title, description, category }: ICreateTodo) => {
+    await createTodo({ title, description, category })
+    handleTodoReload()
     reset()
   }
 
+  const handleUpdateTodo = async ({ title, description, category }: IUpdateTodo) => {
+    if (id) {
+      await updateTodo({ title, description, category, id })
+      handleTodoReload()
+    reset()
+    }
+  }
+
+  const handleRequest = isCreateModal ? handleCreateTodo : handleUpdateTodo
+
   return (
     <section
-    className={openModal ? 'fixed z-10 flex items-center justify-center top-0 left-0 bg-black bg-opacity-80 gap-4 w-screen h-screen' : 'hidden'}>
-
-      <form onSubmit={handleSubmit(handleRequest)} className="flex flex-col gap-4 w-2/5 bg-slate-200 rounded-2xl p-12 h-2/3">
+      className={openModal ? 'fixed z-10 flex items-center justify-center top-0 left-0 bg-black bg-opacity-80 gap-4 w-screen h-screen' : 'hidden'}>
+      <form
+        onSubmit={handleSubmit(handleRequest)}
+        className="flex flex-col gap-4 w-2/5 bg-slate-200 rounded-2xl p-12 h-2/3">
         <label className="rounded-md text-lg outline-none text-blue-500" htmlFor="title">
           <input
             placeholder="Título"
@@ -61,17 +74,19 @@ function TodoModal({  id, openModal,closeModal,modalType }: ModalProps) {
           />
         </label>
         <label htmlFor="categories" className=" text-lg  font-bold text-blue-500">Escolha uma categoria:</label>
-        <select {...register("taskType")} className="rounded-md p-2 bg-white text-lg font-bold border-0 text-blue-500 outline-none" id="categories">
+        <select
+          {...register("category")}
+          className="rounded-md p-2 bg-white text-lg font-bold border-0 text-blue-500 outline-none" id="categories">
           <option value=""
           >Selecione uma categoria</option>
-          {taskList.map((category) => (
-            <option key={category} value={category}>
-              {category}
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
             </option>
           ))}
         </select>
         <button onClick={closeModal} type="submit" className="bg-emerald-500 font-bold transition-all shadow-md hover:bg-emerald-800 p-2 rounded-md text-white mt-2">
-          { isCreateModal ? ' Criar tarefa': ' Atualizar tarefa'}
+          {isCreateModal ? ' Criar tarefa' : ' Atualizar tarefa'}
         </button>
         <button onClick={closeModal} className="bg-red-500 font-bold transition-all shadow-md hover:bg-red-700 p-2 rounded-md text-white mt-2">
           Cancelar

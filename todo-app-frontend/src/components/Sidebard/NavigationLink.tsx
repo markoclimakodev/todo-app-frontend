@@ -12,12 +12,15 @@ interface NavigationLinkProps {
 function NavigationLink({ title, icoName, isSidebarCollapsed }: NavigationLinkProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const search = searchParams.get("tasktype");
+  const search = searchParams.get("category");
   
   const isSelected = title.toLowerCase() === search?.toLowerCase();
 
   const handleNavigate = () => {
-    router.push(`/home/todo/get?tasktype=${title.toLocaleLowerCase()}`);
+    if(title === 'todas') {
+    router.push('/home/todo/get?category=');
+    }
+    router.push(`/home/todo/get?category=${title.toLocaleLowerCase()}`);
   };
 
   return (

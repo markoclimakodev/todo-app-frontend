@@ -1,9 +1,8 @@
 export interface  ITodo {
-    id: string,
-    title: string,
-    description: string,
-    createdAt: Date,
-    updatedAt: Date, 
-    completed: boolean
-    taskType: string
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  category: string;
   }

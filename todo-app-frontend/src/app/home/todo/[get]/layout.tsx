@@ -19,9 +19,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={roboto.className}>
                 <Transition>
-                <main className="flex">
+                <main className="flex ">
                     <Sidebar />
-                    <section className="flex flex-col bg-slate-100  w-full h-screen overflow-auto">
+                    <section className="flex flex-col bg-slate-100  w-full h-screen overflow-auto p-3 ">
                         {children}
                     </section>
                 </main>

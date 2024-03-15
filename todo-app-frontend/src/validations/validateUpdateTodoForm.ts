@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const initialUpdateTodoFormValues = {
+export const updateTodoValues = {
     title: '',
     description: '',
     category: ''

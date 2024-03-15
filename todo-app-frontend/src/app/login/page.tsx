@@ -1,39 +1,23 @@
 'use client'
-import { useAuth } from '@/hooks/useAuth'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react';
-import { useFetch } from '@/hooks/useFetch';
 import { ILogin } from '@/interface/ILogin';
 import { LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
+import { userLogin } from '@/api/userActions';
+import useNavigateTo from '@/hooks/useNavigateTo';
 
 function Login() {
-  const { saveAuth } = useAuth()
+
   const { register, handleSubmit, formState } = useForm<ILogin>({
     resolver: zodResolver(LoginSchema),
     mode: 'onSubmit',
     defaultValues: initialLoginFormValues
   })
-
-  const { apiData, createRequest } = useFetch()
-
-  useEffect(() => {
-    if (apiData?.data && 'authResponse' in apiData.data) {
-      const { data } = apiData;
-      const { authResponse } = data;
-      const { token, userId } = authResponse;
-      saveAuth(token, userId);
-    }
-  }, [apiData, saveAuth]);
+  const navigateTo = useNavigateTo()
 
   const handleLogin = async ({ email, password }: ILogin) => {
-    await createRequest({
-      baseUrl: 'http://localhost:3002/',
-      endpoint: 'login',
-      resquestData: { email, password },
-      method: 'POST',
-      token: '',
-    })
+    await userLogin({email,password})
+    navigateTo('home/todo/get?category=todas')
   };
 
   return (

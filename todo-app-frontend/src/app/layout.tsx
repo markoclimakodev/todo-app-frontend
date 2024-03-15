@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
 import "./globals.css";
+import RecoilContextProvider from "../lib/recoilContext";
 
 const archivo = Archivo({ subsets: ["latin"], weight: ['400', '600'] });
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={archivo.className}>
+        <RecoilContextProvider>
           {children}
+        </RecoilContextProvider>
       </body>
     </html>
   );

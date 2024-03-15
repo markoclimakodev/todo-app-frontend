@@ -1,55 +1,63 @@
 'use client'
-
 import NavigationLink from './NavigationLink'
 import Icon from '../Icon'
 import { useToggle } from '@/hooks/useToggle'
-import { useAuth } from '@/hooks/useAuth'
-import { handleTaskListIcons } from '@/helpers/handleTaskListIcons'
-import { useGetTaskList } from '@/hooks/useGetTaskList'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { clearAuth } from '@/api/auth'
+import { handleCategoryIcons } from '@/helpers/handleCategoryIcons'
 import { useForm } from 'react-hook-form'
-import { ICreateTask } from '@/interface/task/ICreateTask'
-import { TaskSchema, initialCreateTaskValues } from '@/validations/validateCreateTask'
-import { useFetch } from '@/hooks/useFetch'
-import { capitalizeTaskTypeLetter } from '@/helpers/capitalizeFirstLetter'
-import { useCallback } from 'react'
+import { CategorySchema, initialCreateCategory } from '@/validations/validateCreateCategory'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ICreateCategory } from '@/interface/category/ICreateCategory'
+import { useCallback, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
+import { categoryState } from '@/store/atoms/categoryState'
+import { getCategories, createCategory } from '@/api/categoryActions'
+import useNavigateTo from '@/hooks/useNavigateTo'
 
 function Sidebar() {
   const [isOpen, toggle] = useToggle(false);
-  const [openCreateTask, toggleCreateTask] = useToggle(false);
-  const { clearAuth, userId, token } = useAuth()
-  const { createRequest } = useFetch()
-  const { taskList, fetchCategories } = useGetTaskList()
-  const { register, handleSubmit } = useForm<ICreateTask>({
-    resolver: zodResolver(TaskSchema),
+  const [openCreateCategory, toggleCreateCategory] = useToggle(false);
+  const [categories, setCategories] = useRecoilState(categoryState)
+  const {handleSubmit, register, reset} = useForm({
     mode: 'onSubmit',
-    defaultValues: initialCreateTaskValues
+    defaultValues: initialCreateCategory,
+    resolver: zodResolver(CategorySchema)
   })
 
-  const handleSubmitCreateTask = useCallback(async ({ name }: ICreateTask) => {
-    try {
-      await createRequest({
-        baseUrl: 'http://localhost:3002/',
-        endpoint: 'category/create',
-        method: 'PATCH',
-        resquestData: { name: capitalizeTaskTypeLetter(name), userId },
-        token
-      })
-      toggleCreateTask()
-    } catch (error) {
-      console.error("Error deleting todo:", error);
-    } finally {
-      await fetchCategories()
-  }
-  }, [createRequest, fetchCategories, toggleCreateTask, token, userId])
+  const navigateTo = useNavigateTo()
 
   const handleOpenCreateTask = () => {
-    if (isOpen && openCreateTask) {
+    if (isOpen && openCreateCategory) {
       toggle()
-      toggleCreateTask()
+      toggleCreateCategory()
     }
-    toggleCreateTask()
+    toggleCreateCategory()
   }
+
+  const handleLogout = () => {
+    clearAuth()
+    navigateTo('/login')
+  }
+
+  const fetchCategories = useCallback( async () => {
+    const categoriesResponse = await getCategories()
+    setCategories(categoriesResponse)
+  }, [setCategories])
+
+
+  const handleSubmitCreateCategory = async ({name}:ICreateCategory) => {
+    await createCategory(name);
+
+    const updatedCategories = await getCategories( );
+    setCategories(updatedCategories);
+
+    reset();
+    toggleCreateCategory();
+  }
+
+  useEffect(()=> {
+    fetchCategories()
+  },[fetchCategories])
 
   return (
     <nav
@@ -66,20 +74,20 @@ function Sidebar() {
       </header>
 
       <nav className={`flex flex-col gap-2 max-h-[376px] overflow-auto ${isOpen ? 'w-fit overflow-hidden' : ' w-[300px]'}`}>
-        {taskList.map((item) => <NavigationLink icoName={handleTaskListIcons(item)} title={item} key={item} isSidebarCollapsed={isOpen} />)}
-      </nav>
+        {categories.map((category) => <NavigationLink icoName={handleCategoryIcons(category.name)} title={category.name} key={category.id} isSidebarCollapsed={isOpen} />)}
+      </nav> 
       <hr />
       <section className={`flex flex-col justify-between flex-1 gap-2 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'}`}>
 
-        {openCreateTask && !isOpen ? (
-          <form onSubmit={handleSubmit(handleSubmitCreateTask)}>
+        {openCreateCategory && !isOpen ? (
+          <form onSubmit={handleSubmit(handleSubmitCreateCategory)} >
             <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
-              <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+              <input {...register('name')}  placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
               <div className='flex flex-col items-center gap-1'>
                 <button type='submit'>
                   <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
                 </button>
-                <button onClick={toggleCreateTask} type="button">
+                <button onClick={toggleCreateCategory} type="button">
                   <Icon iconname='Ban' size={12} className='transition-all cursor-pointer stroke-red-500 hover:scale-125' />
                 </button>
               </div>
@@ -95,7 +103,7 @@ function Sidebar() {
         )}
 
         <button className={`flex gap-4  hover:bg-blue-100 p-4 rounded-md transition-all h-14 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'} `}
-          onClick={clearAuth}
+          onClick={handleLogout}
         >
           <Icon iconname='LogOut' size={24} className='transition-all' />
 
