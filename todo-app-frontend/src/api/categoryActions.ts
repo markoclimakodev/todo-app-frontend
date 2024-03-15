@@ -38,3 +38,36 @@ export async function createCategory(name: string ): Promise<void> {
         throw new Error("Error creating category");
     }
 }
+
+export async function updateCategory(id: string, name: string ): Promise<void> {
+    const response = await fetch('http://localhost:3002/category/update', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+            name: name.toLocaleLowerCase(),
+            id 
+            }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error updating category");
+    }
+}
+
+export async function deleteCategory(id: string, ): Promise<void> {
+    const response = await fetch('http://localhost:3002/category/delete', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Error deleting category');
+    }
+}
