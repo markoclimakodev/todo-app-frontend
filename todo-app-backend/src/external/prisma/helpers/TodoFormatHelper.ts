@@ -21,7 +21,6 @@ export class TodoFormatHelper {
 			id          : todo.id ,
 			title       : todo.title ,
 			description : todo.description ,
-			userId      : todo.userId ,
 			createdAt   : todo.createdAt ,
 			updatedAt   : todo.updatedAt ,
 			category    : todo.TodoCategory[0]?.category?.name || null ,

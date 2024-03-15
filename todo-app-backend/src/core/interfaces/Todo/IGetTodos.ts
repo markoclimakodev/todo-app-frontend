@@ -1,4 +1,4 @@
 export interface IGetTodos {
     userId: string
-    categoryName: string
+    category: string
 }

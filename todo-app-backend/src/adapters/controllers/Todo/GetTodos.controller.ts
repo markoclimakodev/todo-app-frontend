@@ -6,10 +6,10 @@ export class GetTodosController {
 
 	public async getTodos ( req: Request , res: Response ) {
 		const { userId } = req.body
-		const { categoryName } = req.query
+		const { category } = req.query
 		const todos = await this.useCase.execute({
 			userId ,
-			categoryName : String( categoryName )
+			category : String( category )
 		})
 
 		res.status( 200 ).json( todos )

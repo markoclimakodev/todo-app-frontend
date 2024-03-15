@@ -42,20 +42,20 @@ export class TodosRepository implements ITodoRepository {
 	}
 
 	async getTodos ( params: IGetTodos ): Promise<ITodo[]> {
-		const { userId , categoryName } = params
+		const { userId , category } = params
 
-		const category = await this.prisma.category.findUnique({
+		const existingCategory = await this.prisma.category.findUnique({
 			where : {
-				name : categoryName
+				name : category
 			}
 		})
 
-		const todos = await this.prisma.todo.findMany({
+		const todos = existingCategory && await this.prisma.todo.findMany({
 			where : {
 				userId ,
 				TodoCategory : category ? {
 					some : {
-						categoryId : category.id
+						categoryId : existingCategory.id
 					}
 				} : undefined
 			} ,
