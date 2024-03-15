@@ -1,4 +1,4 @@
-export const capitalizeTaskTypeLetter = (taskType:string) => {
-    return taskType.charAt(0).toUpperCase() + taskType.slice(1);
+export const capitalizeTaskTypeLetter = (name:string) => {
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
   

@@ -65,22 +65,28 @@ export class CategoryRepository implements ICategoryRepository {
 	async updateCategory ( param: IUpdateCategory ): Promise<void> {
 		const { name , id } = param
 
-		const category = await this.prisma.category.findUnique({
+		let category = await this.prisma.category.findUnique({
 			where : {
 				name
 			}
 		})
 
-		if ( category ) {
-			await this.prisma.userCategory.update({
-				where : {
-					id ,
-				} ,
+		if ( !category ) {
+			category = await this.prisma.category.create({
 				data : {
-					categoryId : category.id
-				} ,
+					name
+				}
 			})
 		}
+
+		await this.prisma.userCategory.update({
+			where : {
+				id
+			} ,
+			data : {
+				categoryId : category.id
+			} ,
+		})
 	}
 
 	async deleteCategory ( param: IDeleteCategory ): Promise<void> {
