@@ -56,8 +56,6 @@ export class CategoryRepository implements ICategoryRepository {
 			} ,
 		})
 
-		console.log( userCategories )
-
 		return userCategories.map( ( userCategory ) => ({
 			id   : userCategory.id ,
 			name : userCategory.category.name ,
