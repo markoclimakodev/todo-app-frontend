@@ -92,6 +92,32 @@ export class CategoryRepository implements ICategoryRepository {
 	async deleteCategory ( param: IDeleteCategory ): Promise<void> {
 		const { id } = param
 
+		const existingCategory = await this.prisma.userCategory.findUnique({
+			where : {
+				id
+			}
+		})
+
+		if ( existingCategory ) {
+			const filteredTodos = await this.prisma.todoCategory.findMany({
+				where : {
+					categoryId : existingCategory.categoryId
+				}
+			})
+
+			filteredTodos.map( async ( item ) => {
+				await this.prisma.todo.deleteMany({
+					where : {
+						TodoCategory : {
+							every : {
+								categoryId : item.categoryId
+							}
+						}
+					}
+				})
+			})
+		}
+
 		await this.prisma.userCategory.deleteMany({
 			where : {
 				id
