@@ -97,7 +97,7 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
       {openUpdateCategory && (
         <form onSubmit={handleSubmit(handleUpdateCategory)} >
           <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md w-[200px]}`} htmlFor="task">
-            <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 font-bold items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+            <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
             <div className='flex flex-col items-center gap-1'>
               <button type='submit'>
                 <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
