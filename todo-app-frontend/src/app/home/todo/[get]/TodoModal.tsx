@@ -81,7 +81,7 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
           className="rounded-md p-2 bg-white text-lg border-0 text-blue-500 outline-none" id="categories">
           <option value=""
           >Selecione uma categoria</option>
-          {categories.map((category) => (
+          {nonRestrictedCategories.map((category) => (
             <option key={category.id} value={category.name}>
               {category.name}
             </option>
