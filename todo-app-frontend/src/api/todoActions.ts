@@ -35,6 +35,21 @@ export async function getTodos( search: string, ): Promise<ITodo[]> {
     return data as ITodo[];
 }
 
+export async function getImportantsTodos(): Promise<ITodo[]> {
+    const response = await fetch(`http://localhost:3002/todo?important=true`, {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Error fetching todos');
+    }
+
+    const data = await response.json();
+    return data as ITodo[];
+}
+
 type UpdateTodo = {
     id: string,
     title: string,
@@ -49,6 +64,26 @@ export async function updateTodo({id,title,description,category}:UpdateTodo): Pr
             Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ id, title, description, category }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error updating todo");
+    }
+}
+
+export type AddImportant = {
+    id: string,
+    important: boolean
+}
+
+export async function addImportant({id, important}: AddImportant): Promise<void> {
+    const response = await fetch('http://localhost:3002/todo/important', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, important }),
     });
 
     if (!response.ok) {

@@ -12,7 +12,7 @@ import { useToggle } from '@/hooks/useToggle';
 import Transition from '@/app/transition';
 import { ITodo } from '@/interface/todo/ITodo';
 import { useSearchParams } from 'next/navigation';
-import { deleteTodo, getTodos } from '@/api/todoActions';
+import { addImportant, deleteTodo, getImportantsTodos, getTodos } from '@/api/todoActions';
 import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
 
@@ -33,9 +33,25 @@ export function TodoCard({ todo }: TodoCardProps) {
 
   const handleTodoReload = async () => {
     if (search) {
-      const todos = await getTodos(search)
+      const todos = search === "importantes" ? await getImportantsTodos() : await getTodos(search)
       setTodos(todos)
     }
+  }
+
+  const handleAddImportant = async () => {
+    let newImportantStatus;
+    if (todo.important === true) {
+        newImportantStatus = false;
+        handleTodoReload() // Se a tarefa já é importante, vamos remover da lista
+    } else {
+        newImportantStatus = true;
+        handleTodoReload() // Se a tarefa não é importante, vamos adicionar à lista
+    }
+
+    const updatedTodo = { id: todo.id, important: newImportantStatus };
+
+    await addImportant(updatedTodo);
+    handleTodoReload()
   }
 
   const handleDeleteTodo = async () => {
@@ -67,8 +83,8 @@ export function TodoCard({ todo }: TodoCardProps) {
               <Icon iconname='FilePenLine' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
 
             </button>
-            <button>
-              <Icon iconname='Star' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
+            <button onClick={handleAddImportant}>
+              <Icon iconname='Star' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.important === true ? 'fill-blue-500' : ''}`} />
             </button>
             <button onClick={handleDeleteTodo}>
               <Icon iconname='Trash2' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
