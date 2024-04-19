@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToggle } from "@/hooks/useToggle";
 import useNavigateTo from "@/hooks/useNavigateTo";
+import { getImportantsTodos, getTodos } from "@/api/todoActions";
+import { todoState } from "@/store/atoms/todoState";
 
 interface NavigationLinkProps {
   title: string;
@@ -23,6 +25,7 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
   const router = useRouter();
   const searchParams = useSearchParams();
   const navigateTo = useNavigateTo()
+  const [__, setTodos] = useRecoilState(todoState)
   const search = searchParams.get("category");
   const [focusedCategory, togglefocusedCategory] = useToggle(false);
   const [openUpdateCategory, toggleUpdateCategory] = useToggle(false);
@@ -44,6 +47,13 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
     router.push(`/home/todo/get?category=${title.toLocaleLowerCase()}`);
   };
 
+  const handleTodoReload = async () => {
+    if (search) {
+      const todos = search === "importantes" ? await getImportantsTodos() : await getTodos(search)
+      setTodos(todos)
+    }
+  }
+
   const handleUpdateCategory = async ({ name }: IUpdateCategory) => {
     await updateCategory(id, name)
 
@@ -56,10 +66,11 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
 
   const handleDeleteCategory = async () => {
     await deleteCategory(id)
-
+    
     const updatedCategories = await getCategories();
     setCategories(updatedCategories);
-
+    
+    handleTodoReload()
     navigateTo('?category=todas')
   }
 
