@@ -1,12 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-import { ITodoRepository } from '../../../../core/repositories/todo/ITodoRepository'
 
-import { ICreateTodo } from '../../../../core/interfaces/Todo/ICreateTodo'
-import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
-import { IGetTodos } from '../../../../core/interfaces/Todo/IGetTodos'
 import { TodoFormatHelper } from '../../helpers/TodoFormatHelper'
-import { IUpdateTodo } from '../../../../core/interfaces/Todo/IUpdateTodo'
-import { IDeleteTodo } from '../../../../core/interfaces/Todo/IDeleteTodo'
+import { ITodoRepository } from '../../../../../core/repositories/todo/ITodoRepository'
+import { ICreateTodo } from '../../../../../core/interfaces/Todo/ICreateTodo'
+import { IDeleteTodo } from '../../../../../core/interfaces/Todo/IDeleteTodo'
+import { IGetTodos } from '../../../../../core/interfaces/Todo/IGetTodos'
+import { ITodo } from '../../../../../core/interfaces/Todo/ITodo'
+import { IUpdateTodo } from '../../../../../core/interfaces/Todo/IUpdateTodo'
+import { IAddImportant } from '../../../../../core/interfaces/Todo/IAddImportant'
+import { IGetImportantsTodos } from '../../../../../core/interfaces/Todo/IGetImportantsTodos'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient
@@ -71,6 +73,26 @@ export class TodosRepository implements ITodoRepository {
 		return TodoFormatHelper.format( todos || [] )
 	}
 
+	async getImportantsTodos ( params: IGetImportantsTodos ): Promise<ITodo[]> {
+		const { id , important } = params
+
+		const todos = await this.prisma.todo.findMany({
+			where : {
+				id ,
+				important
+			} ,
+			include : {
+				TodoCategory : {
+					select : {
+						category : true
+					}
+				}
+			}
+		})
+
+		return TodoFormatHelper.format( todos || [] )
+	}
+
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {
 		const { title , description , category , id } = params
 		const categoryExists = await this.prisma.category.findUnique({
@@ -96,6 +118,19 @@ export class TodosRepository implements ITodoRepository {
 						}
 					}
 				}
+			}
+		})
+	}
+
+	async addImportant ( params: IAddImportant ): Promise<void> {
+		const { id , important } = params
+
+		await this.prisma.todo.update({
+			where : {
+				id
+			} ,
+			data : {
+				important
 			}
 		})
 	}

@@ -1,7 +1,7 @@
 import { Router , Request , Response } from 'express'
 import { CreateTodo } from '../../../../core/services/Todo'
-import { todosRepository } from '../../../../external/prisma/repositories/todo/TodoRepository'
 import { CreateTodoController } from '../../../controllers/Todo'
+import { todosRepository } from '../../../database/prisma/repositories/todo/TodoRepository'
 
 const createTodoService = new CreateTodo( todosRepository )
 const createTodoController = new CreateTodoController( createTodoService )

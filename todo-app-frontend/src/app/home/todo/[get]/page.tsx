@@ -15,20 +15,21 @@ import TodoModal from './TodoModal';
 import { handleCategoryIcons } from '@/helpers/handleCategoryIcons';
 import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
-import { getTodos } from '@/api/todoActions';
+import { getImportantsTodos, getTodos } from '@/api/todoActions';
 import { auth } from '@/api/auth';
 
 
 function Todos() {
 	const searchParams = useSearchParams()
 	const search = searchParams.get('category')
+	
 	const { userId } = auth()
 	const [todos, setTodos] = useRecoilState(todoState)
 
 	useEffect(() => {
 		const fetchTodos = async () => {
 			if (search) {
-				const todos = await getTodos(search)
+				const todos = search === "importantes" ? await getImportantsTodos() : await getTodos(search)
 				setTodos(todos)
 			}
 		}

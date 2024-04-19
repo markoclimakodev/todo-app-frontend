@@ -37,6 +37,7 @@ model Todo {
     id           String         @id @default(uuid())
     title        String
     description  String
+    important    Boolean        @default(false)
     userId       String         @map(name: "user_id")
     user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
     createdAt    DateTime       @default(now()) @map(name: "created_at")

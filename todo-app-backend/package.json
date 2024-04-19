@@ -11,11 +11,11 @@
     "lint:fix": "eslint --fix . --ext .ts",
     "compose:up": "docker-compose up -d",
     "compose:down": "docker-compose down --remove-orphans",
-    "p:generate": "npx prisma generate --schema=src/external/prisma/schema.prisma",
-    "p:migrate": "npx prisma migrate dev --schema=src/external/prisma/schema.prisma",
-    "p:reset": "npx prisma migrate reset --schema=src/external/prisma/schema.prisma --force",
-    "p:seed": "npm run p:reset && npx ts-node src/external/prisma/seed/seed.ts",
-    "p:studio": "npx prisma studio --schema=./src/external/prisma/schema.prisma"
+    "p:generate": "npx prisma generate --schema=src/adapters/database/prisma/schema.prisma",
+    "p:migrate": "npx prisma migrate dev --schema=src/adapters/database/prisma/schema.prisma",
+    "p:reset": "npx prisma migrate reset --schema=src/adapters/database/prisma/schema.prisma --force",
+    "p:seed": "npm run p:reset && npx ts-node src/adapters/database/prisma/seed/seed.ts",
+    "p:studio": "npx prisma studio --schema=./src/adapters/database/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",

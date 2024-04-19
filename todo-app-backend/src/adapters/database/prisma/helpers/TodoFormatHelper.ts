@@ -1,9 +1,10 @@
-import { ITodo } from '../../../core/interfaces/Todo/ITodo'
+import { ITodo } from '../../../../core/interfaces/Todo/ITodo'
 
 interface Todo {
     id: string;
     title: string;
     description: string;
+    important: boolean;
     userId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -23,6 +24,7 @@ export class TodoFormatHelper {
 			id          : todo.id ,
 			title       : todo.title ,
 			description : todo.description ,
+			important   : todo.important ,
 			createdAt   : todo.createdAt ,
 			updatedAt   : todo.updatedAt ,
 			category    : todo.TodoCategory[0]?.category?.name || null ,

@@ -1,10 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import { PrismaClient } from '@prisma/client'
-import { ICategoryRepository } from '../../../../core/repositories/category/ICategoryRepository'
-import { ICategory } from '../../../../core/interfaces/category/ICategory'
-import { IUpdateCategory } from '../../../../core/interfaces/category/IUpdateCategory'
-import { IGetCategoriesResponse } from '../../../../core/interfaces/category/IGetCategoriesResponse'
-import { IDeleteCategory } from '../../../../core/interfaces/category/IDeleteCategory'
+import { ICategory } from '../../../../../core/interfaces/category/ICategory'
+import { IDeleteCategory } from '../../../../../core/interfaces/category/IDeleteCategory'
+import { IGetCategoriesResponse } from '../../../../../core/interfaces/category/IGetCategoriesResponse'
+import { IUpdateCategory } from '../../../../../core/interfaces/category/IUpdateCategory'
+import { ICategoryRepository } from '../../../../../core/repositories/category/ICategoryRepository'
 
 export class CategoryRepository implements ICategoryRepository {
 	protected prisma: PrismaClient

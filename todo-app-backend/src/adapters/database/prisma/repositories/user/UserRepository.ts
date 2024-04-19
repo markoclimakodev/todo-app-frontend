@@ -1,8 +1,8 @@
 /* eslint-disable max-lines-per-function */
 import { PrismaClient } from '@prisma/client'
-import { IUser } from '../../../../core/interfaces/User/IUser'
-import { IUserRepository } from '../../../../core/repositories/user/IUserRepository'
-import { IRegister } from '../../../../core/interfaces/User/IRegister'
+import { IUserRepository } from '../../../../../core/repositories/user/IUserRepository'
+import { IRegister } from '../../../../../core/interfaces/User/IRegister'
+import { IUser } from '../../../../../core/interfaces/User/IUser'
 
 export class UserRepository implements IUserRepository {
 	protected prisma: PrismaClient

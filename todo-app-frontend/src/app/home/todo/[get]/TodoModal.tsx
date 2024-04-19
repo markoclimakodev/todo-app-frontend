@@ -90,7 +90,7 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
         <button onClick={closeModal} type="submit" className="bg-emerald-500 font-bold transition-all shadow-md hover:bg-emerald-800 p-2 rounded-md text-white mt-2">
           {isCreateModal ? ' Criar tarefa' : ' Atualizar tarefa'}
         </button>
-        <button onClick={closeModal} className="bg-red-500 font-bold transition-all shadow-md hover:bg-red-700 p-2 rounded-md text-white mt-2">
+        <button type="reset" onClick={closeModal} className="bg-red-500 font-bold transition-all shadow-md hover:bg-red-700 p-2 rounded-md text-white mt-2">
           Cancelar
         </button>
       </form>
