@@ -1,4 +1,4 @@
-import { PasswordHash } from '../../../../utils/passwordHash'
+import { PasswordHash } from '../../../../../utils/passwordHash'
 
 export const users = {
 	id       : '5ad558d3-12af-4852-9243-d5f92311b06c' ,

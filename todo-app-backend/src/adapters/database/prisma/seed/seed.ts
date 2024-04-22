@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { PrismaClient } from '../../../../node_modules/.prisma/client/index'
+import { PrismaClient } from '@prisma/client'
 import { users } from './data/users.seed'
 
 const prisma = new PrismaClient()
