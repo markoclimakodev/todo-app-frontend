@@ -11,9 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { useRecoilState } from "recoil"
+import { themeState } from "@/store/atoms/themeState"
 
 
 function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
+  const [theme, __] = useRecoilState(themeState)
   const [categories,] = useRecoilState(categoryState)
   const [_, setTodos] = useRecoilState(todoState)
   const searchParams = useSearchParams()
@@ -56,30 +58,30 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
       className={openModal ? 'fixed z-10 flex items-center justify-center top-0 left-0 bg-black bg-opacity-80 gap-4 w-screen h-screen' : 'hidden'}>
       <form
         onSubmit={handleSubmit(handleRequest)}
-        className="flex flex-col gap-4 w-2/5 bg-slate-200 rounded-2xl p-12 h-2/3">
-        <label className="rounded-md text-lg outline-none text-blue-500" htmlFor="title">
+        className={`flex flex-col gap-4 w-2/5 ${theme.theme === "dark" ? "bg-zinc-900 text-white" : "bg-blue-50 text-zinc-700"} rounded-2xl p-12 h-2/3`}>
+        <label className="rounded-md text-lg outline-none" htmlFor="title">
           <input
             placeholder="Título"
             {...register('title')}
-            className="rounded-md shadow-md p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 bg-white"
+            className={`rounded-md p-2 text-lg outline-none ${theme.theme === "dark" ? "bg-zinc-900 text-zinc-400" : "text-blue-500 placeholder:text-blue-500 bg-transparent"}`}
             type="text"
             id="title"
           />
         </label>
 
-        <label className="rounded-md text-lg flex-1 outline-none text-blue-500" htmlFor="description">
+        <label className="rounded-md text-lg flex-1 outline-none" htmlFor="description">
           <textarea
             placeholder="Descrição"
             {...register('description')}
-            className="rounded-md shadow-md h-full w-full p-2 text-lg outline-none text-blue-500 placeholder:text-blue-500 bg-white"
+            className={`rounded-md h-full w-full p-2 text-lg outline-none ${theme.theme === "dark" ? "bg-zinc-900 text-zinc-400" : "text-blue-500 placeholder:text-blue-500 bg-transparent"}`}
             id="description"
           />
         </label>
-        <label htmlFor="categories" className=" text-lg  font-bold text-blue-500">Escolha uma categoria:</label>
+        <label htmlFor="categories" className={`text-lg  font-bold ${theme.theme === "dark" ? "text-zinc-400" : "text-blue-500"}`}>Escolha uma categoria:</label>
         <select
           {...register("category")}
-          className="rounded-md p-2 bg-white text-lg border-0 text-blue-500 outline-none" id="categories">
-          <option value=""
+          className={`rounded-md p-2 text-lg border-0 ${theme.theme === "dark" ? "text-zinc-400 bg-zinc-900" : "text-blue-500 bg-transparent"} outline-none`} id="categories">
+          <option className={`${theme.theme === "dark" ? "text-zinc-400" : "text-blue-500"}`}
           >Selecione uma categoria</option>
           {nonRestrictedCategories.map((category) => (
             <option key={category.id} value={category.name}>

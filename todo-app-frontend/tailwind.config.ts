@@ -12,7 +12,10 @@ const config: Config = {
       backgroundImage: {
         'sign-up-bg': "url(/signupbg.png)",
         'login-up-bg': "url(/loginbg.svg)",
-
+      },
+      backgroundColor: {
+        'dark': 'rgb(25,25,25)',
+        'light': 'bg-slate-100'
       },
     },
   },

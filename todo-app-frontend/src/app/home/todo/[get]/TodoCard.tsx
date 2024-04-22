@@ -15,17 +15,19 @@ import { useSearchParams } from 'next/navigation';
 import { addImportant, deleteTodo, getImportantsTodos, getTodos } from '@/api/todoActions';
 import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
+import { themeState } from '@/store/atoms/themeState';
 
 type TodoCardProps = {
   todo: ITodo
 }
 
 export function TodoCard({ todo }: TodoCardProps) {
+  const [theme, __] = useRecoilState(themeState)
+  const [_, setTodos] = useRecoilState(todoState)
   const [openTodo, setOpenTodo] = useState(false)
   const [isOpen, toggle] = useToggle(false);
   const searchParams = useSearchParams()
   const search = searchParams.get('category')
-  const [_, setTodos] = useRecoilState(todoState)
 
   const handleOpenTodo = () => {
     setOpenTodo(!openTodo)
@@ -42,10 +44,10 @@ export function TodoCard({ todo }: TodoCardProps) {
     let newImportantStatus;
     if (todo.important === true) {
         newImportantStatus = false;
-        handleTodoReload() // Se a tarefa já é importante, vamos remover da lista
+        handleTodoReload()
     } else {
         newImportantStatus = true;
-        handleTodoReload() // Se a tarefa não é importante, vamos adicionar à lista
+        handleTodoReload()
     }
 
     const updatedTodo = { id: todo.id, important: newImportantStatus };
@@ -65,29 +67,29 @@ export function TodoCard({ todo }: TodoCardProps) {
     <Transition>
 
       <section
-        className="flex flex-col bg-white p-2 rounded-md py-5 px-8 gap-4 mt-5 hover:bg-blue-100 transition-all cursor-pointer" key={todo.id} id={todo.id} >
+        className={`flex flex-col ${theme.theme === "dark" ? "bg-zinc-800 text-white hover:bg-zinc-600" : "bg-blue-50 hover:bg-blue-100 text-zinc-700"} p-2 rounded-md py-5 px-8 gap-4 mt-5 cursor-pointer`} key={todo.id} id={todo.id} >
 
         < TodoModal id={todo.id} openModal={isOpen} closeModal={toggle} modalType='update' />
 
-        <section className="text-lg text-gray-700 flex w-full justify-between pl-1 ">
+        <section className="text-lg flex w-full justify-between pl-1 ">
 
           <section className="flex items-center w-full gap-2" onClick={handleOpenTodo}>
-            <Icon iconname="Bookmark" className="fill-[#374151]" size={20} />
+            <Icon iconname="Bookmark" className={`${theme.theme === "dark" ? "fill-white text-white" : "fill-blue-500 text-blue-500"}`} size={20} />
 
             <span className="cursor-pointer">{todo.title}</span>
           </section>
 
-          <section className="flex items-center gap-2">
+          <section className={`flex items-center gap-2 ${theme.theme === "dark" ? "fill-zinc-200 text-zinc-200" : "fill-blue-500 text-blue-500"}`}>
 
             <button onClick={toggle}>
-              <Icon iconname='FilePenLine' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
+              <Icon iconname='FilePenLine' title="Adicionar à lista de importantes" size={20} className="cursor-pointer hover:scale-150 transition-all" />
 
             </button>
             <button onClick={handleAddImportant}>
-              <Icon iconname='Star' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.important === true ? 'fill-blue-500' : ''}`} />
+              <Icon iconname='Star' title="Adicionar à lista de importantes" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.important === true && theme.theme === "dark" && 'fill-white text-white'} ${todo.important === true && theme.theme === "light" && 'fill-blue-500 text-blue-500'}`} />
             </button>
             <button onClick={handleDeleteTodo}>
-              <Icon iconname='Trash2' title="Adicionar à lista de importantes" color="rgb(59 130 246)" size={20} className="cursor-pointer hover:scale-150 transition-all" />
+              <Icon iconname='Trash2' title="Adicionar à lista de importantes" size={20} className="cursor-pointer hover:scale-150 transition-all" />
 
             </button>
 
@@ -98,7 +100,7 @@ export function TodoCard({ todo }: TodoCardProps) {
         <section className={openTodo ? 'transition ease-out duration-300 transform flex flex-col gap-4' : 'hidden'}>
 
           <TodoDescription descriptionParts={descriptionParts} description={todo.description} />
-          <footer className="px-3  pt-3 flex w-fit flex-col text-[10px] text-gray-600 text-start">
+          <footer className="px-3  pt-3 flex w-fit flex-col text-[10px] text-start">
             <span >Criado em: {formatDateTime(String(todo.createdAt))}</span>
             <span>Atualizado em: {formatDateTime(String(todo.updatedAt))}</span>
           </footer>

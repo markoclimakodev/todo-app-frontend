@@ -13,12 +13,14 @@ import { useRecoilState } from 'recoil'
 import { categoryState } from '@/store/atoms/categoryState'
 import { getCategories, createCategory } from '@/api/categoryActions'
 import useNavigateTo from '@/hooks/useNavigateTo'
+import { themeState } from '@/store/atoms/themeState'
 
 
 function Sidebar() {
+  const [theme, _] = useRecoilState(themeState)
+  const [categories, setCategories] = useRecoilState(categoryState)
   const [isOpen, toggle] = useToggle(false);
   const [openCreateCategory, toggleCreateCategory] = useToggle(false);
-  const [categories, setCategories] = useRecoilState(categoryState)
   const {handleSubmit, register, reset} = useForm({
     mode: 'onSubmit',
     defaultValues: initialCreateCategory,
@@ -68,9 +70,9 @@ function Sidebar() {
     >
 
       <header className={`flex items-center ${isOpen ? '' : 'justify-between  pl-4'}`}>
-        {isOpen ? '' : <p className='text-lg'>Minhas listas</p>}
+        {isOpen ? '' : <p className={`text-lg ${theme.theme === "dark" ? "text-white" : "text-gray-700"} transition-all duration-1000`}>Minhas listas</p>}
         <button onClick={toggle} type='button'>
-          <Icon iconname={isOpen ? 'ChevronsRight' : 'ChevronsLeft'} size={20} className='cursor-pointer hover:scale-125 transition-all' />
+          <Icon iconname={isOpen ? 'ChevronsRight' : 'ChevronsLeft'} size={20} className={`cursor-pointer hover:scale-125 ${theme.theme === "dark" ? "text-white" : "text-black"} transition-all duration-1000`} />
         </button>
       </header>
 
@@ -83,7 +85,7 @@ function Sidebar() {
         {openCreateCategory && !isOpen ? (
           <form onSubmit={handleSubmit(handleSubmitCreateCategory)} >
             <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md ${isOpen ? 'hidden' : ' w-[200px]'}`} htmlFor="task">
-              <input {...register('name')}  placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+              <input {...register('name')}  placeholder='Nome da lista' className={`${theme.theme === "dark" ? "text-white hover:bg-zinc-800 placeholder:text-white" : "text-gray-700 hover:bg-blue-50 placeholder:text-blue-500"} bg-transparent w-full items-center transition-all h-14 outline-none rounded-md`} type="text" id="task" />
               <div className='flex flex-col items-center gap-1'>
                 <button type='submit'>
                   <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
@@ -95,20 +97,20 @@ function Sidebar() {
             </label>
           </form>
         ) : (
-          <button onClick={handleOpenCreateTask} className='flex gap-4  text-blue-500 hover:bg-blue-100 p-4 rounded-md  items-center transition-all h-14 '>
-            <Icon iconname='Plus' size={24} className='transition-all' />
-            {!isOpen && <span className='hover:text-th transition-all '>
+          <button onClick={handleOpenCreateTask} className={`flex gap-4 p-4 rounded-md items-center h-14 ${theme.theme === "dark" ? "text-white hover:bg-zinc-800" : "text-gray-700 hover:bg-blue-50"} transition-all`}>
+            <Icon iconname='Plus' size={24} />
+            {!isOpen && <span>
               Nova Lista
             </span>}
           </button>
         )}
 
-        <button className={`flex gap-4  hover:bg-blue-100 p-4 rounded-md transition-all h-14 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'} `}
+        <button className={`flex gap-4 ${theme.theme === "dark" ? "text-white hover:bg-zinc-800" : "text-gray-700 hover:bg-blue-50"} p-4 rounded-md transition-all h-14 ${isOpen ? 'w-fit items-center  ' : ' w-[200px]'} `}
           onClick={handleLogout}
         >
           <Icon iconname='LogOut' size={24} className='transition-all' />
 
-          {!isOpen && <span className='hover:text-xl transition-all '>
+          {!isOpen && <span className='hover:text-xl transition-all'>
               Sair
             </span>}
 

@@ -5,10 +5,10 @@ function TodoDescription({ descriptionParts, description }: ITodoDescription) {
         <>
             {descriptionParts ? (
                 descriptionParts.map((desc, index) => (
-                    <section key={index} className="px-3 w-2/3 text-gray-700">
+                    <section key={index} className="px-3 w-2/3">
                         {desc.string.includes('*')  ? (
                             <ul className="px-10 w-2/3 list-disc">
-                                <li className="mt-0 text-gray-700">{desc.string.replace('*', '')}</li>
+                                <li className="mt-0">{desc.string.replace('*', '')}</li>
                             </ul>
                         ) : (
                             desc.string
@@ -16,7 +16,7 @@ function TodoDescription({ descriptionParts, description }: ITodoDescription) {
                     </section>
                 ))
             ) : (
-                <p className="px-3 w-2/3 text-gray-700">{description}</p>
+                <p className="px-3 w-2/3">{description}</p>
             )}
         </>
     );

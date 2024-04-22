@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Icon, { IconNames } from '@/components/Icon';
 import { TodoCard } from './TodoCard';
@@ -17,11 +17,13 @@ import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
 import { getImportantsTodos, getTodos } from '@/api/todoActions';
 import { auth } from '@/api/auth';
+import { themeState } from '@/store/atoms/themeState';
 
 
 function Todos() {
 	const searchParams = useSearchParams()
 	const search = searchParams.get('category')
+	const [theme, setTheme] = useRecoilState(themeState)
 	
 	const { userId } = auth()
 	const [todos, setTodos] = useRecoilState(todoState)
@@ -36,7 +38,12 @@ function Todos() {
 		fetchTodos()
 	}, [search, setTodos])
 
-
+	const handleTheme = () => {
+		if (theme.theme === "dark") {
+			return setTheme({theme: 'light'})
+		}
+		setTheme({theme: 'dark'})
+	}
 
 	const [isOpen, toggle] = useToggle(false);
 
@@ -48,17 +55,22 @@ function Todos() {
 
 	return (
 		<>
-			<header className="flex gap-3 items-center p-10 text-blue-500 font-bold text-2xl ">
-				<Icon iconname={icon || 'BookmarkCheck'} size={28} />{capitalizeTaskTypeLetter(String(search))}
-				{todos.length === 0 ? (
-					''
-				) : (
-					<button
-						className="flex font-light bg-blue-400 transition-all rounded-md text-white hover:bg-blue-500 "
-						onClick={toggle}>
-						<Icon iconname="Plus" size={24} title="Clique para adicionar uma tarefa" />
-					</button>
-				)}
+			<header className="flex justify-between p-10 font-bold text-2xl ">
+				<div className={`flex gap-3 items-center ${theme.theme === "dark" ? "text-white" : "text-blue-500"} transition-all`}>
+					<Icon iconname={icon || 'BookmarkCheck'} size={28} />{capitalizeTaskTypeLetter(String(search))}
+					{todos.length === 0 ? (
+						''
+					) : (
+						<button
+							className={`flex font-light ${theme.theme === "dark" ? "bg-zinc-700 hover:bg-zinc-500" : "bg-blue-400 hover:bg-blue-600"} transition-all rounded-md text-white`}
+							onClick={toggle}>
+							<Icon iconname="Plus" size={24} title="Clique para adicionar uma tarefa" />
+						</button>
+					)}
+				</div>
+				<button onClick={handleTheme} className={`hover:scale-150 ${theme.theme === "dark" ? "text-white" : "text-blue-500"} transition-all`}>
+					<Icon iconname={theme.theme === "dark" ? "Sun" : "Moon"} size={24}/>
+				</button>
 			</header>
 
 			<TodoModal openModal={isOpen} closeModal={toggle} modalType='create' userId={userId} />
@@ -69,12 +81,13 @@ function Todos() {
 					todos.map((todo) => <TodoCard key={todo.id} todo={todo} />)
 				) : (
 					<section className='flex flex-col gap-2 items-center justify-center flex-1 h-full'>
-						<p className='text-2xl text-gray-700'>
-							Ops! Essa lista ainda está vazia. {welcomeText}
+						<p className={`text-2xl ${theme.theme === "dark" ? "text-zinc-400" : "text-blue-500"} transition-all`}>
+							{search === "importantes" && `Você ainda não adicionou nenhuma tarefa na lista de importantes.`}
+							{search !== "importantes" && `Ops! Essa lista ainda está vazia. ${welcomeText}`}
 						</p>
 					{ restrictedCategories && (
 						<button
-							className=" w-fit flex p-2 font-semibold bg-blue-400 transition-all rounded-md text-white hover:bg-blue-500 "
+							className={`w-fit flex p-2 font-semibold text-white ${theme.theme === "dark" ? "bg-zinc-700 hover:bg-zinc-500" : "bg-blue-400 hover:bg-blue-500"} transition-all rounded-md`}
 							onClick={toggle}
 						>
 							Adicionar tarefa

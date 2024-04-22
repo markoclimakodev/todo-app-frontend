@@ -6,7 +6,7 @@ import RecoilContextProvider from "../lib/recoilContext";
 const archivo = Archivo({ subsets: ["latin"], weight: ['400', '600'] });
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "Todo App",
   description: "Welcome to your best Todo List",
 };
 

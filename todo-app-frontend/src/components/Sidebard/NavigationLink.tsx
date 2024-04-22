@@ -13,6 +13,7 @@ import { useToggle } from "@/hooks/useToggle";
 import useNavigateTo from "@/hooks/useNavigateTo";
 import { getImportantsTodos, getTodos } from "@/api/todoActions";
 import { todoState } from "@/store/atoms/todoState";
+import { themeState } from "@/store/atoms/themeState";
 
 interface NavigationLinkProps {
   title: string;
@@ -22,14 +23,15 @@ interface NavigationLinkProps {
 }
 
 function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLinkProps) {
+  const [theme, _] = useRecoilState(themeState)
+  const [__, setCategories] = useRecoilState(categoryState)
+  const [___, setTodos] = useRecoilState(todoState)
   const router = useRouter();
   const searchParams = useSearchParams();
   const navigateTo = useNavigateTo()
-  const [__, setTodos] = useRecoilState(todoState)
   const search = searchParams.get("category");
   const [focusedCategory, togglefocusedCategory] = useToggle(false);
   const [openUpdateCategory, toggleUpdateCategory] = useToggle(false);
-  const [_, setCategories] = useRecoilState(categoryState)
   const { handleSubmit, register, reset } = useForm({
     mode: 'onSubmit',
     defaultValues: initialCreateCategory,
@@ -75,9 +77,9 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
   }
 
   return (
-    <>
+    <>                                                                                       
       {!openUpdateCategory && (
-        <section className={`flex items-center justify-between rounded-md hover:bg-slate-100 ${isSelected ? "text-blue-500 bg-blue-50" : "text-gray-700"}`}>
+        <section className={`flex items-center justify-between rounded-md ${theme.theme === "dark" ? "hover:bg-zinc-800 text-white" : "hover:bg-slate-100"}  ${isSelected && theme.theme === "dark" && "text-white bg-zinc-800"} ${isSelected && theme.theme === "light" && "text-gray-700 bg-blue-50"}`}>
           <button
             onClick={handleNavigate}
             type="button"
@@ -108,7 +110,7 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
       {openUpdateCategory && (
         <form onSubmit={handleSubmit(handleUpdateCategory)} >
           <label className={`flex gap-4 items-center px-3 border rounded-md border-blue-300 shadow-md w-[200px]}`} htmlFor="task">
-            <input {...register('name')} placeholder='Nome da lista' className='text-blue-500 w-full placeholder:text-blue-500 items-center transition-all h-14 outline-none rounded-md' type="text" id="task" />
+            <input {...register('name')} placeholder='Nome da lista' className={`${theme.theme === "dark" ? "text-white placeholder:text-white" : "text-blue-500 placeholder:text-blue-500"} w-full bg-transparent items-center transition-all h-14 outline-none rounded-md`} type="text" id="task" />
             <div className='flex flex-col items-center gap-1'>
               <button type='submit'>
                 <Icon iconname='Plus' size={17} className='transition-all cursor-pointer stroke-blue-500 hover:scale-125' />
