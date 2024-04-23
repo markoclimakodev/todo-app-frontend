@@ -49,6 +49,10 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
     router.push(`/home/todo/get?category=${title.toLocaleLowerCase()}`);
   };
 
+  const handleCategoriesReload = async (name: string) => {
+    router.push(`/home/todo/get?category=${name.toLocaleLowerCase()}`);
+}
+
   const handleTodoReload = async () => {
     if (search) {
       const todos = search === "importantes" ? await getImportantsTodos() : await getTodos(search)
@@ -61,8 +65,9 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
 
     const updatedCategories = await getCategories();
     setCategories(updatedCategories);
-
+    
     reset();
+    handleCategoriesReload(name)
     toggleUpdateCategory()
   }
 

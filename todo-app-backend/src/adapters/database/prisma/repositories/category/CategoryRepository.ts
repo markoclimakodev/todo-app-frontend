@@ -71,10 +71,16 @@ export class CategoryRepository implements ICategoryRepository {
 			}
 		})
 
+		const userCategory = await this.prisma.userCategory.findUnique({
+			where : {
+				id
+			}
+		})
+
 		if ( cateogryAlreadyExists ) {
 			await this.prisma.userCategory.update({
 				where : {
-					id
+					id ,
 				} ,
 				data : {
 					categoryId : cateogryAlreadyExists.id
@@ -83,7 +89,7 @@ export class CategoryRepository implements ICategoryRepository {
 
 			await this.prisma.todoCategory.updateMany({
 				where : {
-					categoryId : id
+					categoryId : userCategory?.categoryId
 				} ,
 				data : {
 					categoryId : cateogryAlreadyExists.id
@@ -101,7 +107,7 @@ export class CategoryRepository implements ICategoryRepository {
 
 			await this.prisma.userCategory.update({
 				where : {
-					id
+					id ,
 				} ,
 				data : {
 					categoryId : newCategory.id
@@ -117,7 +123,7 @@ export class CategoryRepository implements ICategoryRepository {
 
 		await this.prisma.todoCategory.updateMany({
 			where : {
-				categoryId : cateogryAlreadyExists?.id
+				categoryId : userCategory?.categoryId
 			} ,
 			data : {
 				categoryId : getNewCategory?.id
