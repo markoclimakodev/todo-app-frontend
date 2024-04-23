@@ -65,27 +65,63 @@ export class CategoryRepository implements ICategoryRepository {
 	async updateCategory ( param: IUpdateCategory ): Promise<void> {
 		const { name , id } = param
 
-		let category = await this.prisma.category.findUnique({
+		const cateogryAlreadyExists = await this.prisma.category.findUnique({
 			where : {
 				name
 			}
 		})
 
-		if ( !category ) {
-			category = await this.prisma.category.create({
+		if ( cateogryAlreadyExists ) {
+			await this.prisma.userCategory.update({
+				where : {
+					id
+				} ,
+				data : {
+					categoryId : cateogryAlreadyExists.id
+				}
+			})
+
+			await this.prisma.todoCategory.updateMany({
+				where : {
+					categoryId : id
+				} ,
+				data : {
+					categoryId : cateogryAlreadyExists.id
+				}
+
+			})
+		}
+
+		if ( !cateogryAlreadyExists ) {
+			const newCategory = await this.prisma.category.create({
 				data : {
 					name
+				} ,
+			})
+
+			await this.prisma.userCategory.update({
+				where : {
+					id
+				} ,
+				data : {
+					categoryId : newCategory.id
 				}
 			})
 		}
 
-		await this.prisma.userCategory.update({
+		const getNewCategory = await this.prisma.category.findUnique({
 			where : {
-				id
+				name
+			}
+		})
+
+		await this.prisma.todoCategory.updateMany({
+			where : {
+				categoryId : cateogryAlreadyExists?.id
 			} ,
 			data : {
-				categoryId : category.id
-			} ,
+				categoryId : getNewCategory?.id
+			}
 		})
 	}
 

@@ -43,7 +43,8 @@ model Todo {
     createdAt    DateTime       @default(now()) @map(name: "created_at")
     updatedAt    DateTime       @updatedAt @map(name: "updated_at")
     TodoCategory TodoCategory[]
-
+    
+    @@index([id])
     @@map("todos")
 }
 
@@ -56,6 +57,7 @@ model TodoCategory {
     createdAt  DateTime @default(now()) @map(name: "created_at")
     updatedAt  DateTime @updatedAt @map(name: "updated_at")
 
+    @@index([todoId, categoryId])
     @@map("todoCategories")
 }
 
@@ -68,5 +70,6 @@ model UserCategory {
     createdAt  DateTime @default(now()) @map(name: "created_at")
     updatedAt  DateTime @updatedAt @map(name: "updated_at")
 
+    @@index([categoryId])
     @@map("userCategories")
 }
