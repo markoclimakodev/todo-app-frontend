@@ -16,7 +16,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "sweetalert2": "^11.10.8"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.3.4",
