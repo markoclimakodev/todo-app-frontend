@@ -1,4 +1,5 @@
 'use client'
+
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { RegisterSchema, initialRegisterFormValues } from "@/validations/validateRegisterForm";
@@ -84,7 +85,7 @@ function Register() {
         </form>
 
         {formState.errors && (
-          <p className='text-sm text-red-400 mt-4'>{
+          <p className='text-sm text-red-400 flex justify-center mt-4'>{
             formState.errors.password?.message ||
             formState.errors.email?.message ||
             formState.errors.name?.message}

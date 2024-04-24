@@ -1,10 +1,12 @@
 'use client'
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ILogin } from '@/interface/ILogin';
 import { LoginSchema, initialLoginFormValues } from '@/validations/validateLoginForm';
 import { userLogin } from '@/api/userActions';
 import useNavigateTo from '@/hooks/useNavigateTo';
+import { useState } from 'react';
 
 function Login() {
 
@@ -13,11 +15,16 @@ function Login() {
     mode: 'onSubmit',
     defaultValues: initialLoginFormValues
   })
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const navigateTo = useNavigateTo()
 
   const handleLogin = async ({ email, password }: ILogin) => {
-    await userLogin({email,password})
-    navigateTo('home/todo/get?category=todas')
+    try {
+      await userLogin({ email, password });
+      navigateTo('home/todo/get?category=todas');
+    } catch (error) {
+      setErrorMessage('Email ou senha inválidos.');
+    }
   };
 
   return (
@@ -54,13 +61,13 @@ function Login() {
 
           <button
             disabled={!formState.isValid}
-            className='font-semibold mt-12 shadow-lg text-white hover:bg-emerald-700 transition-all bg-emerald-600 py-4 px-8 rounded-md w-full disabled:bg-emerald-300 '
+            className='font-semibold mt-12 shadow-lg text-white hover:bg-emerald-900 transition-all bg-emerald-700 py-4 px-8 rounded-md w-full disabled:bg-emerald-400 '
             type="submit">
             Entrar na conta
           </button>
 
-          {formState.errors && (
-            <p className='text-sm text-red-400 mt-4'>{formState.errors.password?.message || formState.errors.email?.message}</p>
+          {errorMessage && (
+            <p className='text-sm text-red-400 mt-4'>{errorMessage}</p>
           )}
 
           <div className='flex mt-14 gap-1'>
