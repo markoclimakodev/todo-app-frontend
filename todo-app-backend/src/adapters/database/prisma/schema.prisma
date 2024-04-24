@@ -38,12 +38,13 @@ model Todo {
     title        String
     description  String
     important    Boolean        @default(false)
+    completed    Boolean        @default(false)
     userId       String         @map(name: "user_id")
     user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
     createdAt    DateTime       @default(now()) @map(name: "created_at")
     updatedAt    DateTime       @updatedAt @map(name: "updated_at")
     TodoCategory TodoCategory[]
-    
+
     @@index([id])
     @@map("todos")
 }

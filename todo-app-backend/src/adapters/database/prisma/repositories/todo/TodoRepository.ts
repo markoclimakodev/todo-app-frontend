@@ -9,6 +9,7 @@ import { ITodo } from '../../../../../core/interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../../../../core/interfaces/Todo/IUpdateTodo'
 import { IAddImportant } from '../../../../../core/interfaces/Todo/IAddImportant'
 import { IGetImportantsTodos } from '../../../../../core/interfaces/Todo/IGetImportantsTodos'
+import { IGetCompletedTodos } from '../../../../../core/interfaces/Todo/IGetCompletedTodos'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient
@@ -78,8 +79,28 @@ export class TodosRepository implements ITodoRepository {
 
 		const todos = await this.prisma.todo.findMany({
 			where : {
-				id ,
+				userId : id ,
 				important
+			} ,
+			include : {
+				TodoCategory : {
+					select : {
+						category : true
+					}
+				}
+			}
+		})
+
+		return TodoFormatHelper.format( todos || [] )
+	}
+
+	async getCompletedTodos ( params: IGetCompletedTodos ): Promise<ITodo[]> {
+		const { id , completed } = params
+
+		const todos = await this.prisma.todo.findMany({
+			where : {
+				userId : id ,
+				completed
 			} ,
 			include : {
 				TodoCategory : {

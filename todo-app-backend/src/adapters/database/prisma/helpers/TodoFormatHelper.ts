@@ -5,6 +5,7 @@ interface Todo {
     title: string;
     description: string;
     important: boolean;
+    completed: boolean;
     userId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -25,6 +26,7 @@ export class TodoFormatHelper {
 			title       : todo.title ,
 			description : todo.description ,
 			important   : todo.important ,
+			completed   : todo.completed ,
 			createdAt   : todo.createdAt ,
 			updatedAt   : todo.updatedAt ,
 			category    : todo.TodoCategory[0]?.category?.name || null ,
