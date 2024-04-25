@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
 
 	async registerUser ( registerData: IRegister ): Promise<void> {
 		const { name , email , password } = registerData
-		const defaultUserCategories = [ 'todas' , 'importantes' ]
+		const defaultUserCategories = [ 'todas' , 'importantes' , 'concluídas' ]
 
 		const user = await this.prisma.user.create({
 			data : {

@@ -5,7 +5,7 @@ import { users } from './data/users.seed'
 const prisma = new PrismaClient()
 
 async function seeedDatabase () {
-	const defaultUserCategories = [ 'todas' , 'importantes' ]
+	const defaultUserCategories = [ 'todas' , 'importantes' , 'concluídas' ]
 	try {
 		const createUsers = await prisma.user.create({
 			data : users
