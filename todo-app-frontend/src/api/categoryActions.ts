@@ -39,7 +39,7 @@ export async function createCategory(name: string ): Promise<void> {
     }
 }
 
-export async function updateCategory(id: string, name: string ): Promise<void> {
+export async function updateCategory(userCategoryId: string, name: string ): Promise<void> {
     const response = await fetch('http://localhost:3002/category/update', {
         method: 'PATCH',
         headers: {
@@ -48,7 +48,7 @@ export async function updateCategory(id: string, name: string ): Promise<void> {
         },
         body: JSON.stringify({ 
             name: name.toLocaleLowerCase(),
-            id 
+            userCategoryId 
             }),
     });
 
