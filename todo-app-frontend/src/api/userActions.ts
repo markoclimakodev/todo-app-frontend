@@ -19,7 +19,7 @@ export async function userLogin({ email, password }: ILogin): Promise<void> {
     }
 
     const data = await response.json() as ILoginResponse;
-    const { token, userId } = data.authResponse;
+    const { token, userId } = data;
 
     saveAuth({ token, userId });
 }
