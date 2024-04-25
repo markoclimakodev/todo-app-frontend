@@ -18,10 +18,18 @@ export const todoListCategories: Record<string, string> = {
   "outros": "Shapes",
   "pessoal": "BookUser",
   "relacionamentos": "Handshake",
-  "criativos": "Sparkles",
-  "saúde e bem-estar": "HeartPulse",
+  "criatividade": "Sparkles",
+  "saúde": "HeartPulse",
   "viagens": "PlaneTakeoff",
   "livros": "LibraryBig",
+  "comida": "Apple",
+  "objetivos": "Target",
+  "movies": "MonitorPlay",
+  "filmes": "MonitorPlay",
+  "series": "MonitorPlay",
+  "music": "Music",
+  "musicas": "Music",
+
 }
 
 export const handleCategoryIcons = (icon: string) => {
