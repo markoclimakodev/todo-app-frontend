@@ -8,8 +8,7 @@ import { IGetTodos } from '../../../../../core/interfaces/Todo/IGetTodos'
 import { ITodo } from '../../../../../core/interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../../../../core/interfaces/Todo/IUpdateTodo'
 import { IAddImportant } from '../../../../../core/interfaces/Todo/IAddImportant'
-import { IGetImportantsTodos } from '../../../../../core/interfaces/Todo/IGetImportantsTodos'
-import { IGetCompletedTodos } from '../../../../../core/interfaces/Todo/IGetCompletedTodos'
+import { IGetTodoStatus } from '../../../../../core/interfaces/Todo/IGetTodoStatus'
 import { IGetTodoById } from '../../../../../core/interfaces/Todo/IGetTodoById'
 
 export class TodosRepository implements ITodoRepository {
@@ -75,7 +74,7 @@ export class TodosRepository implements ITodoRepository {
 		return TodoFormatHelper.format( todos || [] )
 	}
 
-	async getImportantsTodos ( params: IGetImportantsTodos ): Promise<ITodo[]> {
+	async getImportantsTodos ( params: IGetTodoStatus ): Promise<ITodo[]> {
 		const { userId } = params
 
 		const todos = await this.prisma.todo.findMany({
@@ -95,7 +94,7 @@ export class TodosRepository implements ITodoRepository {
 		return TodoFormatHelper.format( todos || [] )
 	}
 
-	async getCompletedTodos ( params: IGetCompletedTodos ): Promise<ITodo[]> {
+	async getCompletedTodos ( params: IGetTodoStatus ): Promise<ITodo[]> {
 		const { userId } = params
 
 		const todos = await this.prisma.todo.findMany({
