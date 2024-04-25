@@ -6,6 +6,7 @@ import { IGetTodoById } from '../../interfaces/Todo/IGetTodoById'
 import { IGetTodos } from '../../interfaces/Todo/IGetTodos'
 import { ITodo } from '../../interfaces/Todo/ITodo'
 import { IUpdateTodo } from '../../interfaces/Todo/IUpdateTodo'
+import { IAddCompleted } from '../../interfaces/Todo/IAddCompleted'
 
 export interface ITodoRepository {
     createTodo( params: ICreateTodo ): Promise<void>
@@ -15,5 +16,6 @@ export interface ITodoRepository {
     getTodoById( params: IGetTodoById ): Promise<ITodo>
     updateTodo( params: IUpdateTodo ): Promise<void>
     addImportant( params: IAddImportant ): Promise<void>
+    addCompleted( params: IAddCompleted ): Promise<void>
     deleteTodo( params: IDeleteTodo ) :Promise<void>
 }

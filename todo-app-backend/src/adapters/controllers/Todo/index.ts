@@ -5,6 +5,7 @@ import { GetCompletedTodosController } from './GetCompletedTodos.controller'
 import { GetTodoByIdController } from './GetTodoById.controller'
 import { UpdateTodoController } from './UpdateTodo.controller'
 import { AddImportantController } from './AddImportant.controller'
+import { AddCompletedController } from './AddCompleted.controller'
 import { DeleteTodoController } from './DeleteTodo.controller'
 
 export {
@@ -15,5 +16,6 @@ export {
 	GetTodoByIdController ,
 	UpdateTodoController ,
 	AddImportantController ,
+	AddCompletedController ,
 	DeleteTodoController
 }

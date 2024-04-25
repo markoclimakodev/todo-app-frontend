@@ -5,6 +5,7 @@ import { GetCompletedTodos } from './GetCompletedTodos.service'
 import { GetTodoById } from './GetTodoById.service'
 import { UpdateTodo } from './UpdateTodo.service'
 import { AddImportant } from './AddImportant.service'
+import { AddCompleted } from './AddCompleted.service'
 import { DeleteTodo } from './DeleteTodo.service'
 
 export {
@@ -15,5 +16,6 @@ export {
 	GetTodoById ,
 	UpdateTodo ,
 	AddImportant ,
+	AddCompleted ,
 	DeleteTodo
 }

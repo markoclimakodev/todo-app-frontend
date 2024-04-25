@@ -10,6 +10,7 @@ import { IUpdateTodo } from '../../../../../core/interfaces/Todo/IUpdateTodo'
 import { IAddImportant } from '../../../../../core/interfaces/Todo/IAddImportant'
 import { IGetTodoStatus } from '../../../../../core/interfaces/Todo/IGetTodoStatus'
 import { IGetTodoById } from '../../../../../core/interfaces/Todo/IGetTodoById'
+import { IAddCompleted } from '../../../../../core/interfaces/Todo/IAddCompleted'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient
@@ -174,6 +175,19 @@ export class TodosRepository implements ITodoRepository {
 			} ,
 			data : {
 				important
+			}
+		})
+	}
+
+	async addCompleted ( params: IAddCompleted ): Promise<void> {
+		const { id , completed } = params
+
+		await this.prisma.todo.update({
+			where : {
+				id
+			} ,
+			data : {
+				completed
 			}
 		})
 	}
