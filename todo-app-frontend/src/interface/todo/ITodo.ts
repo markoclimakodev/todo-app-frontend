@@ -3,6 +3,7 @@ export interface ITodo {
   title: string;
   description: string;
   important: boolean;
+  completed: boolean;
   createdAt: string;
   updatedAt: string;
   category: string;

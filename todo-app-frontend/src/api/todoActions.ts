@@ -50,6 +50,21 @@ export async function getImportantsTodos(): Promise<ITodo[]> {
     return data as ITodo[];
 }
 
+export async function getCompletedTodos(): Promise<ITodo[]> {
+    const response = await fetch(`http://localhost:3002/todo/completed`, {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Error fetching todos');
+    }
+
+    const data = await response.json();
+    return data as ITodo[];
+}
+
 export async function getTodoById(todoId:string): Promise<ITodo> {
     const response = await fetch(`http://localhost:3002/todo/todo-id/${todoId}`, {
         headers: {
@@ -99,6 +114,26 @@ export async function addImportant({id, important}: AddImportant): Promise<void>
             Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ id, important }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error updating todo");
+    }
+}
+
+export type AddCompleted = {
+    id: string,
+    completed: boolean
+}
+
+export async function addCompleted({id, completed}: AddCompleted): Promise<void> {
+    const response = await fetch('http://localhost:3002/todo/completed', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, completed }),
     });
 
     if (!response.ok) {

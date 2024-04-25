@@ -40,7 +40,7 @@ function NavigationLink({ title, icoName, isSidebarCollapsed, id }: NavigationLi
 
   const isSelected = title.toLowerCase() === search?.toLowerCase();
 
-  const isRestrictedCategories = title.toLowerCase() === 'todas' || title.toLowerCase() === 'importantes'
+  const isRestrictedCategories = title.toLowerCase() === 'todas' || title.toLowerCase() === 'importantes' || title.toLowerCase() === "concluídas"
 
   const handleNavigate = () => {
     if (title === 'todas') {

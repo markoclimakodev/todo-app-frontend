@@ -17,9 +17,9 @@ export async function getCategories(): Promise<ICategory[]> {
     }
 
     const data = await response.json();
-    const orgizedCategories = organizeCategories(data)
+    const organizedCategories = organizeCategories(data)
     
-    return orgizedCategories as ICategory[];
+    return organizedCategories as ICategory[];
 }
 
 export async function createCategory(name: string ): Promise<void> {

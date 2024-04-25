@@ -12,7 +12,7 @@ import { useToggle } from '@/hooks/useToggle';
 import Transition from '@/app/transition';
 import { ITodo } from '@/interface/todo/ITodo';
 import { useSearchParams } from 'next/navigation';
-import { addImportant, deleteTodo, getImportantsTodos, getTodos } from '@/api/todoActions';
+import { addCompleted, addImportant, deleteTodo, getImportantsTodos, getTodos } from '@/api/todoActions';
 import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
 import { themeState } from '@/store/atoms/themeState';
@@ -56,6 +56,22 @@ export function TodoCard({ todo }: TodoCardProps) {
     handleTodoReload()
   }
 
+  const handleAddCompleted = async () => {
+    let newCompletedStatus;
+    if (todo.completed === true) {
+        newCompletedStatus = false;
+        handleTodoReload()
+    } else {
+        newCompletedStatus = true;
+        handleTodoReload()
+    }
+
+    const completedTodo = { id: todo.id, completed: newCompletedStatus };
+
+    await addCompleted(completedTodo)
+    handleTodoReload()
+  }
+
   const handleDeleteTodo = async () => {
     await deleteTodo(todo.id)
     handleTodoReload()
@@ -86,11 +102,13 @@ export function TodoCard({ todo }: TodoCardProps) {
 
             </button>
             <button onClick={handleAddImportant}>
-              <Icon iconname='Star' title="Adicionar à lista de importantes" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.important === true && theme.theme === "dark" && 'fill-white text-white'} ${todo.important === true && theme.theme === "light" && 'fill-blue-500 text-blue-500'}`} />
+              <Icon iconname='AlertCircle' title="Adicionar à lista de importantes" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.important === true && theme.theme === "dark" && 'text-red-500'} ${todo.important === true && theme.theme === "light" && 'text-red-500'}`} />
+            </button>
+            <button onClick={handleAddCompleted}>
+              <Icon iconname='CheckSquare' title="Adicionar à lista de concluídas" size={20} className={`cursor-pointer hover:scale-150 transition-all ${todo.completed === true && theme.theme === "dark" && 'text-green-500'} ${todo.completed === true && theme.theme === "light" && 'text-green-500'}`} />
             </button>
             <button onClick={handleDeleteTodo}>
               <Icon iconname='Trash2' title="Adicionar à lista de importantes" size={20} className="cursor-pointer hover:scale-150 transition-all" />
-
             </button>
 
           </section>

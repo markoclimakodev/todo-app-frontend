@@ -4,6 +4,7 @@ export const organizeCategories = (categories: ICategory[]) => {
     const organizedCategories: ICategory[] = [];
     let allIndex = 0;
     let importantIndex = 0;
+    let completedIndex = 0;
 
     categories.forEach((category, index) => {
         if (category.name === 'todas') {
@@ -11,6 +12,10 @@ export const organizeCategories = (categories: ICategory[]) => {
         }
         if (category.name === 'importantes') {
             importantIndex = index
+        }
+
+        if (category.name === 'concluídas') {
+            completedIndex = index
         }
     });
 
@@ -22,8 +27,12 @@ export const organizeCategories = (categories: ICategory[]) => {
         organizedCategories.push(categories[importantIndex]);
     }
 
+    if (completedIndex !== -1) {
+        organizedCategories.push(categories[completedIndex])
+    }
+
     const restCategories = categories.filter((_category, index) => {
-        return index !== allIndex && index !== importantIndex;
+        return index !== allIndex && index !== importantIndex && index !== completedIndex;
     });
 
     const sortedCategories = restCategories.sort((categoryA, categoryB) => {

@@ -1,9 +1,9 @@
 export const todoListCategories: Record<string, string> = {
   "todas": "LayoutList",
-  "importantes": "Star",
+  "importantes": "AlertCircle",
+  "concluídas": "CheckSquare",
   "profissional": "Briefcase",
   "estudos": "GraduationCap",
-  "concluídas": "CheckSquare",
   "casa": "Home",
   "academia": "Dumbbell",
   "esportes": "Bike",

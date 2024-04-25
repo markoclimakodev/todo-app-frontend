@@ -27,7 +27,7 @@ function Sidebar() {
     defaultValues: initialCreateCategory,
     resolver: zodResolver(CategorySchema)
   })
-
+  
   const navigateTo = useNavigateTo()
 
   const handleOpenCreateTask = () => {

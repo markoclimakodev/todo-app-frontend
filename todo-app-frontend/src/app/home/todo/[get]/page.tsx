@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import Icon, { IconNames } from '@/components/Icon';
 import { TodoCard } from './TodoCard';
@@ -10,14 +10,14 @@ import { capitalizeTaskTypeLetter } from '@/helpers/capitalizeFirstLetter';
 import { useToggle } from '@/hooks/useToggle';
 import { useSearchParams } from 'next/navigation';
 
-
 import TodoModal from './TodoModal';
 import { handleCategoryIcons } from '@/helpers/handleCategoryIcons';
 import { todoState } from '@/store/atoms/todoState';
 import { useRecoilState } from 'recoil';
-import { getImportantsTodos, getTodos } from '@/api/todoActions';
+import { getCompletedTodos, getImportantsTodos, getTodos } from '@/api/todoActions';
 import { auth } from '@/api/auth';
 import { themeState } from '@/store/atoms/themeState';
+import { Theme } from '@/interface/ITheme';
 
 
 function Todos() {
@@ -30,26 +30,58 @@ function Todos() {
 
 	useEffect(() => {
 		const fetchTodos = async () => {
-			if (search) {
-				const todos = search === "importantes" ? await getImportantsTodos() : await getTodos(search)
-				setTodos(todos)
-			}
+		switch (search) {
+			case 'importantes':
+				const importantTodos = await getImportantsTodos()
+				return setTodos(importantTodos)
+			case 'concluídas':
+				const completedTodos = await getCompletedTodos()
+				return setTodos(completedTodos)
+			default:
+				const todos = await getTodos(String(search))		
+				return setTodos(todos)
+		}
 		}
 		fetchTodos()
-	}, [search, setTodos])
+
+		let theme:Theme = "dark"
+		const storedTheme = localStorage.getItem('theme') as Theme;
+
+		if (storedTheme) {
+			theme = storedTheme
+			setTheme({theme})
+		}
+
+	}, [search, setTheme, setTodos])
 
 	const handleTheme = () => {
 		if (theme.theme === "dark") {
+			localStorage.setItem('theme', 'light')
 			return setTheme({theme: 'light'})
 		}
+		localStorage.setItem('theme', 'dark')
 		setTheme({theme: 'dark'})
 	}
 
 	const [isOpen, toggle] = useToggle(false);
 
-	const restrictedCategories = search !== 'importantes' && search !== 'todas'
+	const restrictedCategories = search !== 'importantes' && search !== 'todas' && search !== 'concluídas'
 
-	const welcomeText = restrictedCategories ? 'Que tal dar o pontapé inicial?' : 'Que tal criar uma nova lista de tarefas?'
+	const welcomeText = () => {
+		switch (search) {
+			case 'importantes':
+				return 'Até agora, não há tarefas marcadas como importantes na sua lista.'
+			
+			case 'todas':
+				return 'Para organizar suas tarefas, comece criando uma lista e em seguida, acrescente novas tarefas.'
+				
+			case 'concluídas':
+				return 'Até o momento, não há tarefas concluídas na sua lista.'
+				
+			default:
+					return 'Que tal adicionar uma tarefa à sua lista?'
+		}
+	}
 
 	const icon = handleCategoryIcons(String(search)) as IconNames
 
@@ -82,8 +114,7 @@ function Todos() {
 				) : (
 					<section className='flex flex-col gap-2 items-center justify-center flex-1 h-full'>
 						<p className={`text-2xl ${theme.theme === "dark" ? "text-zinc-400" : "text-blue-500"} transition-all`}>
-							{search === "importantes" && `Você ainda não adicionou nenhuma tarefa na lista de importantes.`}
-							{search !== "importantes" && `Ops! Essa lista ainda está vazia. ${welcomeText}`}
+							{`${welcomeText()}`}
 						</p>
 					{ restrictedCategories && (
 						<button

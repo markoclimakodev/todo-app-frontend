@@ -62,11 +62,10 @@ function TodoModal({ id, openModal, closeModal, modalType }: ModalProps) {
   const handleTodoReload = async () => {
     if (search) {
       const todos = await getTodos(search)
-      setTodos(todos)
+      return setTodos(todos)
     }
     const importantTodos = await getImportantsTodos()
     setTodos(importantTodos)
-
   }
 
   const handleCreateTodo = async ({ title, description, category }: ICreateTodo) => {
