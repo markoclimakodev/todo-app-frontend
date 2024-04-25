@@ -32,4 +32,17 @@ export class TodoFormatHelper {
 			category    : todo.TodoCategory[0]?.category?.name || null ,
 		}) )
 	}
+
+	static formatOne ( todo: Todo ): ITodo {
+		return ({
+			id          : todo.id ,
+			title       : todo.title ,
+			description : todo.description ,
+			important   : todo.important ,
+			completed   : todo.completed ,
+			createdAt   : todo.createdAt ,
+			updatedAt   : todo.updatedAt ,
+			category    : todo.TodoCategory[0]?.category?.name || null ,
+		})
+	}
 }

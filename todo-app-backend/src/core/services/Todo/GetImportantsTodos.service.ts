@@ -7,11 +7,10 @@ export class GetImportantsTodos implements UseCase<IGetImportantsTodos , ITodo[]
 	constructor ( private readonly todoRepository: ITodoRepository ) {}
 
 	async execute ( params: IGetImportantsTodos ): Promise<ITodo[]> {
-		const { id , important } = params
+		const { userId } = params
 
 		return await this.todoRepository.getImportantsTodos({
-			id ,
-			important
+			userId
 		})
 	}
 }

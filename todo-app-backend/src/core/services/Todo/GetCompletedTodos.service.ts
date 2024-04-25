@@ -7,11 +7,11 @@ export class GetCompletedTodos implements UseCase<IGetCompletedTodos , ITodo[]> 
 	constructor ( private readonly todoRepository: ITodoRepository ) {}
 
 	async execute ( params: IGetCompletedTodos ): Promise<ITodo[]> {
-		const { id , completed } = params
+		const { userId } = params
 
 		return await this.todoRepository.getCompletedTodos({
-			id ,
-			completed
+			userId
+
 		})
 	}
 }

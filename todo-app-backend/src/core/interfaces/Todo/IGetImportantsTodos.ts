@@ -1,4 +1,3 @@
 export interface IGetImportantsTodos {
-  id: string ,
-  important: boolean
+  userId: string
 }

@@ -8,8 +8,11 @@ export class LoginController {
 		const loginData = req.body
 		const authResponse = await this.useCase.execute( loginData )
 
-		res.status( 200 ).json({
-			authResponse
-		})
+		if ( authResponse ) {
+			res.status( 200 ).json({
+				token  : authResponse.token ,
+				userId : authResponse.userId
+			})
+		}
 	}
 }

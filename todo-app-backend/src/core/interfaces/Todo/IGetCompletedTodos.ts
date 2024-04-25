@@ -1,4 +1,3 @@
 export interface IGetCompletedTodos {
-  id: string ,
-  completed: boolean
+  userId: string ,
 }
