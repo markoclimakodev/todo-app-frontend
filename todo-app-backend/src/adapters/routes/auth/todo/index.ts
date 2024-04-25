@@ -4,10 +4,9 @@ import { createTodoRoutes } from './createTodo.routes'
 import { getTodosRoutes } from './getTodos.routes'
 import { updateTodoRoutes } from './updateTodo.routes'
 import { deleteTodoRoutes } from './deleteTodo.routes'
-import { addImportantRoutes } from './addImportant.routes'
-import { getImportantsTodosRoutes } from './getImportantsTodos.routes'
-import { getCompletedTodosRoutes } from './getCompletedTodos.routes'
+import { importantsTodosRoutes } from './importantsTodos.routes'
 import { getTodoByIdRoutes } from './getTodoById.routes'
+import { completedTodosRoutes } from './completedTodos.routes'
 
 const todoRoutes = Router()
 const authenticateToken = AuthenticationMiddleware.authenticateToken
@@ -18,16 +17,14 @@ todoRoutes.use( '/create' , createTodoRoutes )
 
 todoRoutes.use( '/get' , getTodosRoutes )
 
-todoRoutes.use( '/important' , getImportantsTodosRoutes )
+todoRoutes.use( '/update' , updateTodoRoutes )
 
-todoRoutes.use( '/completed' , getCompletedTodosRoutes )
+todoRoutes.use( '/delete' , deleteTodoRoutes )
 
 todoRoutes.use( '/todo-id' , getTodoByIdRoutes )
 
-todoRoutes.use( '/update' , updateTodoRoutes )
+todoRoutes.use( '/important' , importantsTodosRoutes )
 
-todoRoutes.use( '/important' , addImportantRoutes )
-
-todoRoutes.use( '/delete' , deleteTodoRoutes )
+todoRoutes.use( '/completed' , completedTodosRoutes )
 
 export default todoRoutes
