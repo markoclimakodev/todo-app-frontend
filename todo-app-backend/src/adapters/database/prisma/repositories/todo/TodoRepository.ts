@@ -10,6 +10,7 @@ import { IUpdateTodo } from '../../../../../core/interfaces/Todo/IUpdateTodo'
 import { IAddImportant } from '../../../../../core/interfaces/Todo/IAddImportant'
 import { IGetImportantsTodos } from '../../../../../core/interfaces/Todo/IGetImportantsTodos'
 import { IGetCompletedTodos } from '../../../../../core/interfaces/Todo/IGetCompletedTodos'
+import { IGetTodoById } from '../../../../../core/interfaces/Todo/IGetTodoById'
 
 export class TodosRepository implements ITodoRepository {
 	protected prisma: PrismaClient
@@ -30,7 +31,7 @@ export class TodosRepository implements ITodoRepository {
 			data : {
 				title ,
 				description ,
-				userId ,
+				userId
 			}
 		})
 
@@ -75,12 +76,12 @@ export class TodosRepository implements ITodoRepository {
 	}
 
 	async getImportantsTodos ( params: IGetImportantsTodos ): Promise<ITodo[]> {
-		const { id , important } = params
+		const { userId } = params
 
 		const todos = await this.prisma.todo.findMany({
 			where : {
-				userId : id ,
-				important
+				userId ,
+				important : true
 			} ,
 			include : {
 				TodoCategory : {
@@ -95,12 +96,12 @@ export class TodosRepository implements ITodoRepository {
 	}
 
 	async getCompletedTodos ( params: IGetCompletedTodos ): Promise<ITodo[]> {
-		const { id , completed } = params
+		const { userId } = params
 
 		const todos = await this.prisma.todo.findMany({
 			where : {
-				userId : id ,
-				completed
+				userId ,
+				completed : true
 			} ,
 			include : {
 				TodoCategory : {
@@ -112,6 +113,28 @@ export class TodosRepository implements ITodoRepository {
 		})
 
 		return TodoFormatHelper.format( todos || [] )
+	}
+
+	async getTodoById ( params: IGetTodoById ): Promise<ITodo> {
+		const { todoId } = params
+		const todo = await this.prisma.todo.findUnique({
+			where : {
+				id : todoId
+			} ,
+			include : {
+				TodoCategory : {
+					select : {
+						category : true
+					}
+				}
+			}
+		})
+
+		if ( !todo ) {
+			throw new Error( 'Todo not found' )
+		}
+
+		return TodoFormatHelper.formatOne( todo )
 	}
 
 	async updateTodo ( params: IUpdateTodo ): Promise<void> {
