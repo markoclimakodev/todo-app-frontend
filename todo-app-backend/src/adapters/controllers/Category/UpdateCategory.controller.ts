@@ -5,11 +5,11 @@ export class UpdateCategoryController {
 	constructor ( private useCase: UpdateCategory ) {}
 
 	async updateCategory ( req: Request , res: Response ) {
-		const { name , id } = req.body
+		const { name , userCategoryId } = req.body
 
 		await this.useCase.execute({
 			name ,
-			id ,
+			userCategoryId ,
 		})
 
 		res.status( 204 ).end()

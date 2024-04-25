@@ -6,11 +6,11 @@ export class UpdateCategory implements UseCase<IUpdateCategory , void> {
 	constructor ( private readonly categoryRepository: ICategoryRepository ) {}
 
 	async execute ( param: IUpdateCategory ): Promise<void> {
-		const { name , id } = param
+		const { name , userCategoryId } = param
 
 		await this.categoryRepository.updateCategory({
 			name ,
-			id ,
+			userCategoryId ,
 		})
 	}
 }
