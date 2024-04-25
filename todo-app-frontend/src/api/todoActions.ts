@@ -36,7 +36,7 @@ export async function getTodos( search: string, ): Promise<ITodo[]> {
 }
 
 export async function getImportantsTodos(): Promise<ITodo[]> {
-    const response = await fetch(`http://localhost:3002/todo?important=true`, {
+    const response = await fetch(`http://localhost:3002/todo/important`, {
         headers: {
             Authorization: `Bearer ${token}`, 
         },
@@ -48,6 +48,21 @@ export async function getImportantsTodos(): Promise<ITodo[]> {
 
     const data = await response.json();
     return data as ITodo[];
+}
+
+export async function getTodoById(todoId:string): Promise<ITodo> {
+    const response = await fetch(`http://localhost:3002/todo/todo-id/${todoId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Error fetching todos');
+    }
+
+    const data = await response.json();
+    return data as ITodo;
 }
 
 type UpdateTodo = {
