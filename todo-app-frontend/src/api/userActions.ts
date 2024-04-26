@@ -2,11 +2,11 @@ import { ILogin } from "@/interface/ILogin";
 import { ILoginResponse } from "@/interface/user/ILoginResponse";
 import { saveAuth } from "./auth";
 import { IRegister } from "@/interface/IRegister";
-
+import { API_URL } from "./apiURL";
 
 export async function userLogin({ email, password }: ILogin): Promise<void> {
 
-    const response = await fetch(`http://localhost:3002/user/login`, {
+    const response = await fetch(`${API_URL}/user/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export async function userLogin({ email, password }: ILogin): Promise<void> {
 
 export async function userRegister({ name,email, password }: IRegister): Promise<void> {
 
-    const response = await fetch(`http://localhost:3002/user/register`, {
+    const response = await fetch(`${API_URL}/user/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

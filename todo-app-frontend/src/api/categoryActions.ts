@@ -1,12 +1,13 @@
 import { ICategory } from "@/interface/category/ICategory";
 import { auth } from "./auth";
 import { organizeCategories } from "@/helpers/organizeCategories";
+import { API_URL } from "./apiURL";
 
 const {token, userId} = auth()
 
 
 export async function getCategories(): Promise<ICategory[]> {
-    const response = await fetch('http://localhost:3002/category/get', {
+    const response = await fetch(`${API_URL}/category/get`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -23,7 +24,7 @@ export async function getCategories(): Promise<ICategory[]> {
 }
 
 export async function createCategory(name: string ): Promise<void> {
-    const response = await fetch('http://localhost:3002/category/create', {
+    const response = await fetch(`${API_URL}/category/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ export async function createCategory(name: string ): Promise<void> {
 }
 
 export async function updateCategory(userCategoryId: string, name: string ): Promise<void> {
-    const response = await fetch('http://localhost:3002/category/update', {
+    const response = await fetch(`${API_URL}/category/update`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ export async function updateCategory(userCategoryId: string, name: string ): Pro
 }
 
 export async function deleteCategory(id: string, ): Promise<void> {
-    const response = await fetch('http://localhost:3002/category/delete', {
+    const response = await fetch(`${API_URL}/category/delete`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
