@@ -145,17 +145,19 @@ export class CategoryRepository implements ICategoryRepository {
 				}
 			})
 
-			filteredTodos.map( async ( item ) => {
-				await this.prisma.todo.deleteMany({
-					where : {
-						TodoCategory : {
-							every : {
-								categoryId : item.categoryId
+			if ( filteredTodos ) {
+				filteredTodos.forEach( async ( item ) => {
+					await this.prisma.todo.deleteMany({
+						where : {
+							TodoCategory : {
+								every : {
+									categoryId : item.categoryId
+								}
 							}
 						}
-					}
+					})
 				})
-			})
+			}
 		}
 
 		await this.prisma.userCategory.deleteMany({
