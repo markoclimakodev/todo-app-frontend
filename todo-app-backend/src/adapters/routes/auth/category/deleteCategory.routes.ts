@@ -1,7 +1,7 @@
 import { Router , Request , Response } from 'express'
 import { DeleteCategory } from '../../../../core/services/Category'
 import { DeleteCategoryController } from '../../../controllers/Category/DeleteCategory.controller'
-import { categoryRepository } from '../../../database/prisma/repositories/userCategory/CategoryRepository'
+import { categoryRepository } from '../../../database/prisma/repositories/category/CategoryRepository'
 
 const deleteCategoryRoutes = Router()
 
