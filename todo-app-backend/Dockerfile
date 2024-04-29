@@ -10,8 +10,6 @@ COPY package*.json ./
 RUN npm install
 # Install dependencies.
 
-RUN npx prisma generate --schema=src/adapters/database/prisma/schema.prisma
-
 COPY . .
 # Copy application files.
 

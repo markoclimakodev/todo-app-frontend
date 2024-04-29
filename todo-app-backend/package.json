@@ -4,7 +4,8 @@
   "description": "",
   "main": "build/server.js",
   "scripts": {
-    "start": "node build/server.js",
+    "build": "tsc",
+    "start": "tsc  && node build/server.js",
     "start:dev": "tsx --watch src/server.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts",
@@ -14,8 +15,7 @@
     "p:migrate": "npx prisma migrate dev --schema=src/adapters/database/prisma/schema.prisma",
     "p:reset": "npx prisma migrate reset --schema=src/adapters/database/prisma/schema.prisma --force",
     "p:seed": "npm run p:reset && npx ts-node src/adapters/database/prisma/seed/seed.ts",
-    "p:studio": "npx prisma studio --schema=./src/adapters/database/prisma/schema.prisma",
-    "build": "npm run p:generate && npm run p:migrate && tsc"
+    "p:studio": "npx prisma studio --schema=./src/adapters/database/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
