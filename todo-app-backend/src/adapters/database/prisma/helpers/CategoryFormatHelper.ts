@@ -15,8 +15,8 @@ interface Category {
 }
 
 export class CategoryFormatHelper {
-	static format ( UserCategory: Category[] ): IGetCategoriesResponse[] {
-		return UserCategory.map( ( category ) => ({
+	static format ( userCategory: Category[] ): IGetCategoriesResponse[] {
+		return userCategory.map( ( category ) => ({
 			id   : category.id ,
 			name : category.category.name ,
 		}) )

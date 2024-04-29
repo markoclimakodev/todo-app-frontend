@@ -139,25 +139,21 @@ export class CategoryRepository implements ICategoryRepository {
 		})
 
 		if ( existingCategory ) {
-			const filteredTodos = await this.prisma.todoCategory.findMany({
+			const filteredTodos = await this.prisma.todoCategory.findFirst({
 				where : {
 					categoryId : existingCategory.categoryId
 				}
 			})
 
-			if ( filteredTodos ) {
-				filteredTodos.forEach( async ( item ) => {
-					await this.prisma.todo.deleteMany({
-						where : {
-							TodoCategory : {
-								every : {
-									categoryId : item.categoryId
-								}
-							}
+			await this.prisma.todo.deleteMany({
+				where : {
+					TodoCategory : {
+						every : {
+							categoryId : filteredTodos?.categoryId
 						}
-					})
-				})
-			}
+					}
+				}
+			})
 		}
 
 		await this.prisma.userCategory.deleteMany({
