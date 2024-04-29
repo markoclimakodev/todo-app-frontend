@@ -16,5 +16,5 @@ COPY . .
 EXPOSE 3001
 # Expose port 3001.
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start"]
 # Start application in dev mode.
