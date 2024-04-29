@@ -1,7 +1,7 @@
 import { Router , Request , Response } from 'express'
 import { GetCategories } from '../../../../core/services/Category/GetCategories.service'
 import { GetCategoriesController } from '../../../controllers/Category'
-import { categoryRepository } from '../../../database/prisma/repositories/category/CategoryRepository'
+import { categoryRepository } from '../../../database/prisma/repositories/userCategory/CategoryRepository'
 
 const getCategoriesRoutes = Router()
 

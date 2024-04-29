@@ -1,7 +1,7 @@
 import { Router , Request , Response } from 'express'
 import { CreateCategoryController } from '../../../controllers/Category'
 import { CreateCategory } from '../../../../core/services/Category/CreateCategory.service'
-import { categoryRepository } from '../../../database/prisma/repositories/category/CategoryRepository'
+import { categoryRepository } from '../../../database/prisma/repositories/userCategory/CategoryRepository'
 
 const createCategoryRoutes = Router()
 
