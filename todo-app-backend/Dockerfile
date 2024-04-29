@@ -16,5 +16,7 @@ COPY . .
 EXPOSE 3001
 # Expose port 3001.
 
-CMD ["node", "build/server.js"]
-# Start application in dev mode.
+RUN npm build
+
+CMD ["npm", "start"]
+# Start application in production mode.
