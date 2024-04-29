@@ -10,13 +10,13 @@ COPY package*.json ./
 RUN npm install
 # Install dependencies.
 
+RUN npx prisma generate --schema=src/adapters/database/prisma/schema.prisma
+
 COPY . .
 # Copy application files.
 
 EXPOSE 3001
 # Expose port 3001.
-
-RUN npm build
 
 CMD ["npm", "start"]
 # Start application in production mode.
