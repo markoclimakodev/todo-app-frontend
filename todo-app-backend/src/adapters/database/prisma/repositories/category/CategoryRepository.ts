@@ -5,6 +5,7 @@ import { IDeleteCategory } from '../../../../../core/interfaces/category/IDelete
 import { IGetCategoriesResponse } from '../../../../../core/interfaces/category/IGetCategoriesResponse'
 import { IUpdateCategory } from '../../../../../core/interfaces/category/IUpdateCategory'
 import { ICategoryRepository } from '../../../../../core/repositories/category/ICategoryRepository'
+import { CategoryFormatHelper } from '../../helpers/CategoryFormatHelper'
 
 export class CategoryRepository implements ICategoryRepository {
 	protected prisma: PrismaClient
@@ -56,10 +57,7 @@ export class CategoryRepository implements ICategoryRepository {
 			} ,
 		})
 
-		return userCategories.map( ( userCategory ) => ({
-			id   : userCategory.id ,
-			name : userCategory.category.name ,
-		}) )
+		return CategoryFormatHelper.format( userCategories )
 	}
 
 	async updateCategory ( param: IUpdateCategory ): Promise<void> {
